@@ -1,27 +1,20 @@
+import { Outlet } from "react-router";
 import "./App.css";
+import Footer from "./components/layouts/footer/Footer";
+import Header from "./components/layouts/header/Header";
+import DesktopNav from "./components/navigation/desktopNav/DesktopNav";
+import MobileNav from "./components/navigation/mobileNav/MobileNav";
 
 function App() {
   return (
     <>
-      <header>
-        <h1>Header</h1>
-      </header>
-
+      <MobileNav />
+      <DesktopNav />
+      <Header />
       <main>
-        <h2>Main</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio cumque
-          esse, repellat tenetur mollitia illum neque accusantium minima ipsum
-          voluptatum reiciendis reprehenderit at eligendi corporis. Officiis ex
-          accusantium non praesentium odio ducimus, suscipit rerum nisi
-          perferendis, mollitia, voluptate eaque consequatur assumenda veniam.
-          Est, dignissimos ducimus incidunt accusamus officia pariatur fugit.
-        </p>
+        <Outlet />
       </main>
-
-      <footer>
-        <span>Footer</span>
-      </footer>
+      <Footer />
     </>
   );
 }
