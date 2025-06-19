@@ -1,39 +1,22 @@
--- create table user (
---   id int unsigned primary key auto_increment not null,
---   email varchar(255) not null unique,
---   password varchar(255) not null
--- );
-
--- create table item (
---   id int unsigned primary key auto_increment not null,
---   title varchar(255) not null,
---   user_id int unsigned not null,
---   foreign key(user_id) references user(id)
--- );
-
--- insert into user(id, email, password)
--- values
---   (1, "jdoe@mail.com", "123456");
-
--- insert into item(id, title, user_id)
--- values
---   (1, "Stuff", 1),
---   (2, "Doodads", 1);
-
-
 CREATE TABLE user (
-    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    username VARCHAR(100) UNIQUE NOT NULL,
-    image VARCHAR(250),
-    password VARCHAR(250) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    is_major BOOLEAN NOT NULL,
-    zip_code INT,
-    country VARCHAR(100) NOT NULL,
-    last_active DATE NOT NULL, 
-    is_premium BOOLEAN NOT NULL,
-    is_admin BOOLEAN NOT NULL
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  username VARCHAR(100) UNIQUE NOT NULL,
+  image VARCHAR(250),
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(250) NOT NULL,
+  is_major BOOLEAN NOT NULL,
+  zip_code INT,
+  country VARCHAR(100) NOT NULL,
+  last_active DATE NOT NULL, 
+  is_premium BOOLEAN DEFAULT FALSE,
+  is_admin BOOLEAN DEFAULT FALSE
 );
+
+INSERT INTO user (username, email, password, is_major, country, last_active, is_premium, is_admin)
+  VALUES 
+    ("Michel Compte", "michel.compte@gmail.com","$argon2i$v=19$m=16,t=2,p=1$RE1QbFNZMlR2aWhVU094SQ$WreuRjApcTLM1lJZnUEOgQ", true, "France", "2025-06-19", false, false),
+    ("Jean Premium", "jean.premium@gmail.com","$argon2i$v=19$m=16,t=2,p=1$cUJaWUkzYmVmanhiSXUxWQ$kVaZ6+UC/hNsZ3Snd0iMSw", true, "France", "2025-06-19", true, false),
+    ("Denis Admin", "denis.admin@gmail.com","$argon2i$v=19$m=16,t=2,p=1$WHRvNXhhNGNGT3lNbnR6Ng$XRmjrazKwAdqmGTfmKhAvg", true, "France", "2025-05-15", true, true);
 
 CREATE TABLE recipe(
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -44,11 +27,31 @@ CREATE TABLE recipe(
   guest_number INT NOT NULL,
   nutrition_average DECIMAL(3,2), 
   eco_average DECIMAL(3,2),
+  duration TIME,
   user_id INT NULL,
   CONSTRAINT fk_user_recipe
    FOREIGN KEY (user_id)
    REFERENCES user(id)
    ON DELETE SET NULL
+);
+
+CREATE TABLE eco_score (
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  is_meat BOOLEAN,
+  is_fish BOOLEAN,
+  is_vegetable BOOLEAN,
+  january BOOLEAN,
+  february BOOLEAN,
+  march BOOLEAN,
+  april BOOLEAN,
+  may BOOLEAN,
+  june BOOLEAN,
+  july BOOLEAN,
+  august BOOLEAN,
+  september BOOLEAN,
+  october BOOLEAN,
+  november BOOLEAN,
+  december BOOLEAN
 );
 
 CREATE TABLE ingredient (
@@ -63,12 +66,12 @@ CREATE TABLE ingredient (
   CONSTRAINT fk_ingredient_eco_score
     FOREIGN KEY (eco_score_id) 
     REFERENCES eco_score(id)
-    ON DELETE CASCADE 
+    ON DELETE CASCADE
 );
 
 CREATE TABLE food_preference (
-  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  name VARCHAR(100) NOT NULL
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    name VARCHAR(100) NOT NULL
 );
  
 CREATE TABLE instruction (
@@ -83,28 +86,11 @@ CREATE TABLE instruction (
 );
 
 CREATE TABLE unit (
-  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  name VARCHAR(100) NOT NULL
+   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+   name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE eco_score (
-    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    is_meat BOOLEAN,
-    is_fish BOOLEAN,
-    is_vegetable BOOLEAN,
-    january BOOLEAN,
-    february BOOLEAN,
-    march BOOLEAN,
-    april BOOLEAN,
-    may BOOLEAN,
-    june BOOLEAN,
-    july BOOLEAN,
-    august BOOLEAN,
-    september BOOLEAN,
-    october BOOLEAN,
-    november BOOLEAN,
-    december BOOLEAN
-);
+
 
 CREATE TABLE chosen (
   user_id INT NOT NULL,
