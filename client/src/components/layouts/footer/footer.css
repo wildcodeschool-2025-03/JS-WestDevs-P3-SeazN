@@ -10,21 +10,20 @@
     display: flex;
     align-items: center;
     gap: 1.5rem;
-  }
 
-  a {
-    color: white;
-    font-size: 0.85rem;
-    text-decoration: none;
+    a {
+      color: white;
+      font-size: 0.85rem;
+      text-decoration: none;
 
-    &:hover {
-      text-decoration: underline;
+      &:hover {
+        text-decoration: underline;
+      }
     }
-  }
 
-  .github-logo {
-    width: 20px;
-    height: 20px;
-    filter: brightness(100);
+    .github-icon {
+      width: 20px;
+      height: 20px;
+    }
   }
 }

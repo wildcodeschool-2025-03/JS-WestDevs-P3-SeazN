@@ -1,18 +1,18 @@
 import "./footer.css";
+import { Link } from "react-router";
+import { GithubIcon } from "../../ui/Icons/Icons";
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-right">
-        <a href="/contact">Nous contacter</a>
-        <a href="/mentions-legales">Mentions légales</a>
-        <a href="/cgu">CGU</a>
+        <Link to="/contact">Nous contacter</Link>
+        <Link to="/mentions-legales">Mentions légales</Link>
+        <Link to="/cgu">CGU</Link>
 
-        <img
-          src="/icones-logo/github-mark-white.svg"
-          alt="GitHub"
-          className="github-logo"
-        />
+        <Link to="https://github.com/wildcodeschool-2025-03/JS-WestDevs-P3-SeazN.git">
+          <GithubIcon className="github-icon" />
+        </Link>
       </div>
     </footer>
   );
