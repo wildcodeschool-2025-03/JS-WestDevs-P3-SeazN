@@ -1,0 +1,28 @@
+.header {
+  background-color: #7f976c;
+  height: 60px;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  .header-right {
+    display: flex;
+    gap: 1rem;
+
+    button {
+      background-color: white;
+      padding: 0.5rem 1rem;
+      color: #7f976c;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      border-style: none;
+
+      &:hover {
+        background-color: #fffdfdcc;
+      }
+    }
+  }
+}
