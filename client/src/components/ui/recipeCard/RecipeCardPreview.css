@@ -1,0 +1,25 @@
+.recipe-card-preview {
+  height: 15rem;
+  width: 15rem;
+  padding: 5px;
+  transition: 0.150s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid red;
+
+  .img-wrapper {
+    object-fit: contain;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+
+    img {
+      height: 100%;
+
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+}
