@@ -1,0 +1,29 @@
+.footer {
+  background-color: #7f976c;
+  height: 60px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 1.5rem;
+
+  .footer-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    a {
+      color: white;
+      font-size: 0.85rem;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .github-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
