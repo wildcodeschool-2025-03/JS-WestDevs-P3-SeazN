@@ -1,9 +1,8 @@
 import RecipeCardDetailed from "./RecipeCardDetailed";
 import RecipeCardMini from "./RecipeCardMini";
-import RecipeCardPreview from "./RecipeCardPreview";
+import RecipeCardRect from "./RecipeCardRect";
+import RecipeCardSquare from "./RecipeCardSquare";
 import type { RecipeCardProps } from "./data/recipeCardType";
-
-
 
 const RecipeCard = ({ variant, recipe }: RecipeCardProps) => {
   /* 
@@ -20,8 +19,10 @@ const RecipeCard = ({ variant, recipe }: RecipeCardProps) => {
   switch (variant) {
     case "mini":
       return <RecipeCardMini recipe={recipe} />;
-    case "preview":
-      return <RecipeCardPreview recipe={recipe} />;
+    case "square":
+      return <RecipeCardSquare recipe={recipe} />;
+    case "rect":
+      return <RecipeCardRect recipe={recipe} />;
     case "detailed":
       return <RecipeCardDetailed recipe={recipe} />;
     default:

@@ -40,7 +40,7 @@ export interface RecipeDetailed {
 }
 
 export interface RecipeCardBase {
-  variant: "mini" | "preview";
+  variant: "mini" | "square" | "rect";
   recipe: RecipeBase;
 }
 
