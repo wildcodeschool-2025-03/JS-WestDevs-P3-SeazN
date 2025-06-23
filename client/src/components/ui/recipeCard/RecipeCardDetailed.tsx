@@ -3,7 +3,7 @@ import "./RecipeCardDetailed.css"
 
 const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
   return (
-    <section className=".recipe-card-detailed">
+    <section className="recipe-card-detailed">
       <div>
         <div className="global">
           <figure>
