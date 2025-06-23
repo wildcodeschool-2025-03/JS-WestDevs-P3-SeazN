@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useNavigate } from "react-router";
+import "../login/Login.css";
 
 interface LoginResponse {
   email: string;
@@ -53,17 +54,17 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div className="login_container">
       <h2>Se connecter</h2>
       <form className="login-form" onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={loading} />
-        <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required disabled={loading} />
+        <input type="email" placeholder="Entrez votre e-mail" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={loading} />
+        <input type="password" placeholder="Entrez votre mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required disabled={loading} />
         <button type="submit" disabled={loading}>
           {loading ? "Connexion..." : "Connexion"}
         </button>
         {errorMessage && <p className="error">{errorMessage}</p>}
       </form>
-    </>
+    </div>
   );
 };
 
