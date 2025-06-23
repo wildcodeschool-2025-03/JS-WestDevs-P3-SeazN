@@ -1,20 +1,57 @@
 import { useState } from "react";
-import "./Sidebar.css";
+import { NavLink } from "react-router";
+import "./sidebar.css";
 
 const menuItems = [
-  { icon: "/icones-logo/icon-dashbords2.webp", label: "Synthèse" },
-  { icon: "/icones-logo/Icon-cuisine3.webp", label: "Ma cuisine" },
-  { icon: "/icones-logo/icon-recette2.webp", label: "Recettes" },
-  { icon: "/icones-logo/icon-produit2.webp", label: "Produits" },
-  { icon: "/icones-logo/icon-nutrition2.webp", label: "Nutrition" },
+  {
+    icon: "/icones-logo/icon-dashbords2.webp",
+    label: "Synthèse",
+    path: "/synthese",
+  },
+  {
+    icon: "/icones-logo/Icon-cuisine3.webp",
+    label: "Ma cuisine",
+    path: "/ma-cuisine",
+    subItems: [
+      { label: "Mes recettes", path: "/ma-cuisine/recettes" },
+      { label: "Frigo", path: "/ma-cuisine/frigo" },
+      { label: "Liste des courses", path: "/ma-cuisine/courses" },
+      { label: "Préférences", path: "/ma-cuisine/preferences" },
+      { label: "Plannificateur", path: "/ma-cuisine/plannificateur" },
+    ],
+  },
+  {
+    icon: "/icones-logo/icon-recette2.webp",
+    label: "Recettes",
+    path: "/recettes",
+  },
+  {
+    icon: "/icones-logo/icon-produit2.webp",
+    label: "Produits",
+    path: "/produits",
+    subItems: [
+      { label: "Légumes de saison", path: "/produits/legumes-de-saison" },
+      { label: "Analyse ingrédients", path: "/produits/analyse-ingredients" },
+    ],
+  },
+  {
+    icon: "/icones-logo/icon-nutrition2.webp",
+    label: "Nutrition",
+    path: "/nutrition",
+  },
 ];
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [openedSubmenu, setOpenedSubmenu] = useState<string | null>(null);
+
+  const toggleSubmenu = (label: string) => {
+    setOpenedSubmenu((prev) => (prev === label ? null : label));
+  };
 
   return (
-    <nav className={`sidebar ${isExpanded ? "is-expanded" : ""}`}>
-      <div className="sidebar-top">
+    <aside className={`sidebar ${isExpanded ? "is-expanded" : ""}`}>
+      <section className="sidebar-top">
         <div className="toggle-wrapper">
           <input
             type="checkbox"
@@ -24,7 +61,7 @@ const Sidebar = () => {
             hidden
           />
           <label htmlFor="toggle-checkbox" className="toggle">
-            <div className="toggle__circle" />
+            <div className="toggle-circle" />
           </label>
         </div>
 
@@ -32,27 +69,43 @@ const Sidebar = () => {
           <img
             src="/icones-logo/N vert et orange.webp"
             alt="Logo court"
-            className="logo short"
+            className="logo-short"
           />
           <img
             src="/icones-logo/logo SeazN.webp"
             alt="Logo complet"
-            className="logo full"
+            className="logo-full"
           />
         </div>
-      </div>
+      </section>
 
-      <div className="sidebar-menu">
-        {menuItems.map(({ icon, label }) => (
-          <div className="sidebar-item" key={label}>
-            <div className="menu-content">
+      <ul className="sidebar-menu">
+        {menuItems.map(({ icon, label, path, subItems }) => (
+          <li className="sidebar-item" key={label}>
+            <NavLink
+              to={path}
+              className="menu-content"
+              onClick={() => subItems && toggleSubmenu(label)}
+            >
               <img src={icon} alt={label} className="menu-icon" />
               <span className="menu-label">{label}</span>
-            </div>
-          </div>
+            </NavLink>
+
+            {subItems && openedSubmenu === label && (
+              <ul className="submenu">
+                {subItems.map(({ label, path }) => (
+                  <li className="submenu-item" key={label}>
+                    <NavLink to={path} className="submenu-link">
+                      {label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
         ))}
-      </div>
-    </nav>
+      </ul>
+    </aside>
   );
 };
 
