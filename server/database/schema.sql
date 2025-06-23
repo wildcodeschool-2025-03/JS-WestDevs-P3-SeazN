@@ -141,7 +141,7 @@ CREATE TABLE unit (
 );
 
 INSERT INTO unit (name)
-VALUES ("g"), ("cl"), ("teaspoon"), ("tablespoon"), ("");
+VALUES ("g"), ("cl"), ("cuillère(s) à café"), ("cuillère(s) à soupe"), ("pièce(s)"), ("pincée(s)"), ("portion(s)");
 
 CREATE TABLE chosen (
   user_id INT NOT NULL,
@@ -191,8 +191,8 @@ CREATE TABLE save (
 CREATE TABLE quantity (
   ingredient_id INT NOT NULL,
   recipe_id INT NOT NULL,
-  quantity INT NOT NULL,
-  unit_id INT NOT NULL, 
+  quantity INT NULL,
+  unit_id INT NULL, 
   PRIMARY KEY (ingredient_id, recipe_id),
   CONSTRAINT fk_ingredient_quantity
     FOREIGN KEY (ingredient_id)
@@ -211,29 +211,29 @@ INSERT INTO quantity (ingredient_id, recipe_id, quantity, unit_id)
 VALUES (1, 1, 200, 1),
        (2, 1, 200, 1),
        (3, 1, 100, 1),
-       (4, 1, 1, 4),
-       (5, 1, 0, 4),
-       (6, 1, 0, 4),
-       (7, 1, 1, 4),
-       (8, 1, 0, 4),
-       (9, 1, 0, 4),
+       (4, 1, 1, 5),
+       (5, 1, null, null),
+       (6, 1, null, null),
+       (7, 1, 1, 7),
+       (8, 1, null, null),
+       (9, 1, null, null),
        (10, 2, 40, 1),
        (11, 2, 140, 1),
-       (14, 2, 2, 4),
+       (14, 2, 2, null),
        (15, 2, 100, 1),
-       (8, 2, 0, 4),
-       (7, 3, 1, 4),
-       (16, 3, 2, 4),
-       (4, 3, 1, 4),
+       (8, 2, null, null),
+       (7, 3, 1, 7),
+       (16, 3, 2, 5),
+       (4, 3, 1, 5),
        (17, 3, 20, 2),
-       (18, 3, 0, 4),
-       (8, 3, 0, 4),
-       (9, 3, 0, 4),
+       (18, 3, 2, 4),
+       (8, 3, null, null),
+       (9, 3, null, null),
        (19, 3, 1000, 1),
-       (20, 3, 1, 4),
+       (20, 3, 1, 7),
        (2, 3, 300, 1),
-       (21, 3, 1, 4),
-       (13, 3, 1, 4),
+       (21, 3, 1, 5),
+       (13, 3, 1, null),
        (22, 3, 25, 2);
 
 
