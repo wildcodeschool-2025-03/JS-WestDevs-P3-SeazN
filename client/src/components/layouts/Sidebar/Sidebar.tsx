@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import "./sidebar.css";
 
@@ -45,9 +45,12 @@ const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [openedSubmenu, setOpenedSubmenu] = useState<string | null>(null);
 
-  const toggleSubmenu = (label: string) => {
+  const toggleSubmenu = (label: string) =>
     setOpenedSubmenu((prev) => (prev === label ? null : label));
-  };
+
+  useEffect(() => {
+    if (!isExpanded) setOpenedSubmenu(null);
+  }, [isExpanded]);
 
   return (
     <aside className={`sidebar ${isExpanded ? "is-expanded" : ""}`}>
@@ -81,22 +84,25 @@ const Sidebar = () => {
 
       <ul className="sidebar-menu">
         {menuItems.map(({ icon, label, path, subItems }) => (
-          <li className="sidebar-item" key={label}>
+          <li key={label}>
             <NavLink
               to={path}
+              end={!subItems}
               className="menu-content"
-              onClick={() => subItems && toggleSubmenu(label)}
+              onClick={() =>
+                subItems ? toggleSubmenu(label) : setOpenedSubmenu(null)
+              }
             >
               <img src={icon} alt={label} className="menu-icon" />
               <span className="menu-label">{label}</span>
             </NavLink>
 
-            {subItems && openedSubmenu === label && (
+            {isExpanded && subItems && openedSubmenu === label && (
               <ul className="submenu">
-                {subItems.map(({ label, path }) => (
-                  <li className="submenu-item" key={label}>
-                    <NavLink to={path} className="submenu-link">
-                      {label}
+                {subItems.map((item) => (
+                  <li key={item.label}>
+                    <NavLink to={item.path} className="submenu-link">
+                      {item.label}
                     </NavLink>
                   </li>
                 ))}
