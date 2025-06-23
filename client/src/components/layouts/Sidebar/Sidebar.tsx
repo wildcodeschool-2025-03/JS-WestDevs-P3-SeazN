@@ -88,22 +88,19 @@ const Sidebar = () => {
             <NavLink
               to={path}
               end={!subItems}
-              className="menu-content"
               onClick={() =>
                 subItems ? toggleSubmenu(label) : setOpenedSubmenu(null)
               }
             >
-              <img src={icon} alt={label} className="menu-icon" />
-              <span className="menu-label">{label}</span>
+              <img src={icon} alt={label} />
+              <span>{label}</span>
             </NavLink>
 
             {isExpanded && subItems && openedSubmenu === label && (
-              <ul className="submenu">
+              <ul>
                 {subItems.map((item) => (
                   <li key={item.label}>
-                    <NavLink to={item.path} className="submenu-link">
-                      {item.label}
-                    </NavLink>
+                    <NavLink to={item.path}>{item.label}</NavLink>
                   </li>
                 ))}
               </ul>
