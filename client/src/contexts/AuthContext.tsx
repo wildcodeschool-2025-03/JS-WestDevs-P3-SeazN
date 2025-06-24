@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 export interface User {
   email: string;
@@ -18,12 +18,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = (userData: User) => {
     setUser(userData);
-    // Optionnel : sauvegarder dans localStorage/sessionStorage pour persistance
   };
 
   const logout = () => {
     setUser(null);
-    // Optionnel : nettoyer localStorage/sessionStorage
   };
 
   return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
