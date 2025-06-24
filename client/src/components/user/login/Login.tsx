@@ -1,14 +1,8 @@
 import { useState } from "react";
-import { useAuth } from "../../../contexts/AuthContext";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../../contexts/AuthContext";
+import type { LoginResponse } from "../../../types/Auth";
 import "../login/Login.css";
-
-interface LoginResponse {
-  email: string;
-  firstName: string;
-  token?: string;
-  message?: string;
-}
 
 const Login = () => {
   const { login } = useAuth();
@@ -57,8 +51,22 @@ const Login = () => {
     <div className="login_container">
       <h2>Se connecter</h2>
       <form className="login-form" onSubmit={handleSubmit}>
-        <input type="email" placeholder="Entrez votre e-mail" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={loading} />
-        <input type="password" placeholder="Entrez votre mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required disabled={loading} />
+        <input
+          type="email"
+          placeholder="Entrez votre e-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          disabled={loading}
+        />
+        <input
+          type="password"
+          placeholder="Entrez votre mot de passe"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          disabled={loading}
+        />
         <button type="submit" disabled={loading}>
           {loading ? "Connexion..." : "Connexion"}
         </button>

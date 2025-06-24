@@ -1,10 +1,9 @@
-export interface LoginResponse {
-  token: string;
-  email: string;
-  firstName: string;
-}
+import type { LoginResponse } from "./types";
 
-export const loginApi = async (email: string, password: string): Promise<LoginResponse> => {
+export const loginApi = async (
+  email: string,
+  password: string,
+): Promise<LoginResponse> => {
   const response = await fetch("http://localhost:3310/api/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

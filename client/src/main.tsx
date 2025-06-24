@@ -17,9 +17,9 @@ import Nutrition from "./pages/nutrition/Nutrition";
 import Analysis from "./pages/products/analysis/Analysis";
 import Seasonal from "./pages/products/seasonal/Seasonal";
 import Recipes from "./pages/recipes/Recipes";
-import Login from "./components/user/login/Login";
 
 import { AuthProvider } from "./contexts/AuthContext";
+import Register from "./pages/register/Register";
 
 /* ************************************************************************* */
 
@@ -32,8 +32,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/login",
-        element: <Login />,
+        path: "/register",
+        element: <Register />,
       },
       {
         path: "/dashboard",
@@ -105,5 +105,5 @@ createRoot(rootElement).render(
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
-  </StrictMode>
+  </StrictMode>,
 );
