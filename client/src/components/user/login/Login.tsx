@@ -1,79 +1,72 @@
-import { useState } from "react";
+import { useTransition } from "react";
 import { useNavigate } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../../contexts/AuthContext";
 import type { LoginResponse } from "../../../types/Auth";
 import "../login/Login.css";
 
-const Login = () => {
+export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [isPending, startTransition] = useTransition();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  async function handleSubmit(formData: FormData) {
+    const data = Object.fromEntries(formData) as {
+      email: string;
+      password: string;
+    };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMessage(null);
-    setLoading(true);
+    startTransition(async () => {
+      try {
+        const response = await fetch("http://localhost:3310/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: data.email, password: data.password }),
+        });
 
-    try {
-      const response = await fetch("http://localhost:3310/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+        const result: LoginResponse = await response.json();
 
-      const data: LoginResponse = await response.json();
+        if (!response.ok) {
+          toast.error(result.message || "Erreur de connexion.");
+          return;
+        }
 
-      if (!response.ok) {
-        setErrorMessage(data.message || "Erreur de connexion.");
-        setLoading(false);
-        return;
+        login({
+          email: result.email,
+          firstName: result.firstName,
+        });
+
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Erreur serveur :", error);
+        toast.error("Erreur lors de la connexion.");
       }
-
-      login({
-        email: data.email,
-        firstName: data.firstName,
-      });
-
-      navigate("/dashboard");
-    } catch (error: unknown) {
-      console.error("Erreur serveur :", error);
-      setErrorMessage("Erreur lors de la connexion.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    });
+  }
 
   return (
     <div className="login_container">
       <h2>Se connecter</h2>
-      <form className="login-form" onSubmit={handleSubmit}>
+      <form action={handleSubmit} className="login-form">
         <input
           type="email"
+          name="email"
           placeholder="Entrez votre e-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
           required
-          disabled={loading}
+          disabled={isPending}
         />
         <input
           type="password"
+          name="password"
           placeholder="Entrez votre mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
           required
-          disabled={loading}
+          disabled={isPending}
         />
-        <button type="submit" disabled={loading}>
-          {loading ? "Connexion..." : "Connexion"}
+        <button type="submit" disabled={isPending}>
+          {isPending ? "Connexion en cours" : "Connexion"}
         </button>
-        {errorMessage && <p className="error">{errorMessage}</p>}
       </form>
+      <ToastContainer />
     </div>
   );
-};
-
-export default Login;
+}
