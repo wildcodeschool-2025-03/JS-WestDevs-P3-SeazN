@@ -2,21 +2,18 @@ import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
 import "./mainLayout.css";
+import type { ChildrenProps } from "../../../types/global";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-const MainLayout = ({ children }: Props) => {
+const MainLayout = ({ children }: ChildrenProps) => {
   return (
-    <aside className="layout">
+    <div className="layout">
       <Sidebar />
       <div className="layout-content">
         <Header />
         <main>{children}</main>
         <Footer />
       </div>
-    </aside>
+    </div>
   );
 };
 
