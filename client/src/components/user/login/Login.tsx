@@ -1,5 +1,6 @@
 import { useTransition } from "react";
 import { useNavigate } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../../contexts/AuthContext";
 import type { LoginResponse } from "../../../types/Auth";
 import "../login/Login.css";
@@ -10,22 +11,23 @@ export default function Login() {
   const [isPending, startTransition] = useTransition();
 
   async function handleSubmit(formData: FormData) {
-    const data = Object.fromEntries(formData);
-    const email = data.email as string;
-    const password = data.password as string;
+    const data = Object.fromEntries(formData) as {
+      email: string;
+      password: string;
+    };
 
     startTransition(async () => {
       try {
         const response = await fetch("http://localhost:3310/api/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ email: data.email, password: data.password }),
         });
 
         const result: LoginResponse = await response.json();
 
         if (!response.ok) {
-          alert(result.message || "Erreur de connexion.");
+          toast.error(result.message || "Erreur de connexion.");
           return;
         }
 
@@ -37,7 +39,7 @@ export default function Login() {
         navigate("/dashboard");
       } catch (error) {
         console.error("Erreur serveur :", error);
-        alert("Erreur lors de la connexion.");
+        toast.error("Erreur lors de la connexion.");
       }
     });
   }
@@ -61,9 +63,10 @@ export default function Login() {
           disabled={isPending}
         />
         <button type="submit" disabled={isPending}>
-          {isPending ? "Connexion..." : "Connexion"}
+          {isPending ? "Connexion en cours" : "Connexion"}
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 }
