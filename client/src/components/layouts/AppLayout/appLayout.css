@@ -1,28 +1,16 @@
-#root {
+.global_layout {
+  height: 100dvh;
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-areas: "sidebar content";
-  height: 100vh;
+  grid-template-rows: auto 1fr auto;
 
-  .layout-content {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas:
-      "header"
-      "main"
-      "footer";
-    height: 100vh;
-
-    header {
-      grid-area: header;
-    }
-
-    main {
-      grid-area: main;
-    }
-
-    footer {
-      grid-area: footer;
-    }
+  .sidebar {
+    grid-area: 1 / 1 / 4 / 2;
+  }
+  .header {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+  .footer {
+    grid-area: 3 / 2 / 4 / 3;
   }
 }
