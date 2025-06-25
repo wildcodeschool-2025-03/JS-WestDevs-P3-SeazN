@@ -7,8 +7,8 @@ function App() {
   return (
     <>
       <AppLayout>
-        <MobileNav />
         <Outlet />
+        <MobileNav />
       </AppLayout>
     </>
   );
