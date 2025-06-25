@@ -11,17 +11,13 @@ export default function Login() {
   const [isPending, startTransition] = useTransition();
 
   async function handleSubmit(formData: FormData) {
-    const data = Object.fromEntries(formData) as {
-      email: string;
-      password: string;
-    };
-
+    const data = Object.fromEntries(formData);
     startTransition(async () => {
       try {
         const response = await fetch("http://localhost:3310/api/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: data.email, password: data.password }),
+          body: JSON.stringify(data),
         });
 
         const result: LoginResponse = await response.json();

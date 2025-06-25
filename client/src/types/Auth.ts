@@ -16,6 +16,15 @@ export interface Children {
 }
 
 export interface LoginResponse {
+  username: string;
+  email: string;
+  firstName: string;
+  token?: string;
+  message?: string;
+}
+
+export interface SignUpResponse {
+  username: string;
   email: string;
   firstName: string;
   token?: string;
