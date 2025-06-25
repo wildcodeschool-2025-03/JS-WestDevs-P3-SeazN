@@ -1,20 +1,20 @@
-import Sidebar from "../Sidebar/Sidebar";
+import Sidebar from "../../navigation/Sidebar/Sidebar";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
-import "./mainLayout.css";
+import "./appLayout.css";
 import type { ChildrenProps } from "../../../types/global";
 
-const MainLayout = ({ children }: ChildrenProps) => {
+const AppLayout = ({ children }: ChildrenProps) => {
   return (
-    <div className="layout">
+    <>
       <Sidebar />
       <div className="layout-content">
         <Header />
-        <main>{children}</main>
+        {children}
         <Footer />
       </div>
-    </div>
+    </>
   );
 };
 
-export default MainLayout;
+export default AppLayout;
