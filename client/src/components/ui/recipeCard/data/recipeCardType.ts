@@ -1,4 +1,12 @@
-export type MeasureUnits = "" | "cL" | "g" | "tea spoon" | "tablespoon";
+export type MeasureUnits =
+  | "g"
+  | "cL"
+  | "cuillère(s) à café"
+  | "cuillère(s) à soupe"
+  | "pièce(s)"
+  | "pincée(s)"
+  | "portion(s)"
+  | null;
 
 export interface RecipeBase {
   id: number;
@@ -9,7 +17,7 @@ export interface RecipeBase {
 export interface RecipeIngredient {
   id: number;
   name: string;
-  quantity: number;
+  quantity: number | null;
   unit: MeasureUnits;
   is_vegan: 0 | 1;
   is_vegetarian: 0 | 1;
