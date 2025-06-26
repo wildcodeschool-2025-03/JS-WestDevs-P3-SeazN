@@ -1,16 +1,9 @@
-import { useState } from "react";
 import "./MyRecipes.css";
 
-
-
 const MyRecipes = () => {
-  const [recipeName, setRecipeName] = useState("");
-
-  const handleSubmit = (event) => event.preventDefault();
-  const MAX_LENGTH = 40
-  const handleChange = (event) => {
-    if (event.target.value.length <= MAX_LENGTH)
-    setRecipeName(event.target.value);
+  const handleSubmit = (formData: FormData) => {
+    const formObj = Object.fromEntries(formData);
+    console.log(formObj);
   };
 
   return (
@@ -22,7 +15,7 @@ const MyRecipes = () => {
         <h2>Mes recettes ajoutées</h2>
       </article>
       <article>
-        <form onSubmit={handleSubmit}>
+        <form action={handleSubmit}>
           <h2>Poster une recette</h2>
           <label htmlFor="recipeName">
             <h3>La recette</h3>
@@ -32,8 +25,6 @@ const MyRecipes = () => {
             id="recipeName"
             name="recipeName"
             placeholder="nom de la recette"
-            value={recipeName}
-            onChange={handleChange}
           />
           <h3>les catégories</h3>
           <input type="checkbox" name="végan" id="végan" />
@@ -49,6 +40,7 @@ const MyRecipes = () => {
             type="url"
             name="image"
             id="image"
+            pattern="https://.*"
             placeholder="https://example.png"
           />
           <button type="button">Ajouter</button>
@@ -57,8 +49,8 @@ const MyRecipes = () => {
           </label>
           <input
             type="number"
-            name="unit"
-            id="unit"
+            name="quantity"
+            id="quantity"
             placeholder="200"
             min="0"
           />
@@ -85,14 +77,14 @@ const MyRecipes = () => {
             id="step"
             placeholder="Saisissez la préparation de l'étape 1"
           />
-          <label htmlFor="step">
+          {/* <label htmlFor="step">
             <h4>Étape 2</h4>
           </label>
           <textarea
             name="step"
             id="step"
             placeholder="Saisissez la préparation de l'étape 2"
-          />
+          /> */}
           <br />
           <button type="button">Ajouter une étape</button>
           <button type="submit">Poster la recette</button>
