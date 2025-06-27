@@ -28,7 +28,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
         </div>
 
 
-        <div className="ingredients">
+        <div>
           <h3>Ingrédients</h3>
           <ul>
             {recipe.ingredients.map((ingredient) => {

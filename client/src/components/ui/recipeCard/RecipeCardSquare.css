@@ -20,7 +20,6 @@
     height: 190px;
     width: 190px;
     margin: -50px 0 0 0;
-    transition: 0.150s;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,11 +30,10 @@
 
     img {
       height: 100%;
-      aspect-ratio: 1 / 1;
       border-radius: 8px;
       object-fit: cover;
       overflow: hidden;
-      transition: 0.3s;
+      transition: 250ms;
 
       &:hover {
         transform: scale(1.02);
