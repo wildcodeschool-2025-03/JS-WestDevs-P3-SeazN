@@ -1,0 +1,16 @@
+.global_layout {
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr auto;
+
+  .sidebar {
+    grid-area: 1 / 1 / 4 / 2;
+  }
+  .header {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+  .footer {
+    grid-area: 3 / 2 / 4 / 3;
+  }
+}

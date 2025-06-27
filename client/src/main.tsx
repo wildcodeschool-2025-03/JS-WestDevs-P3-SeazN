@@ -18,6 +18,9 @@ import Analysis from "./pages/products/analysis/Analysis";
 import Seasonal from "./pages/products/seasonal/Seasonal";
 import Recipes from "./pages/recipes/Recipes";
 
+import { AuthProvider } from "./contexts/AuthContext";
+import Register from "./pages/register/Register";
+
 /* ************************************************************************* */
 
 const router = createBrowserRouter([
@@ -27,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
       {
         path: "/dashboard",
@@ -95,6 +102,8 @@ if (rootElement == null) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 );
