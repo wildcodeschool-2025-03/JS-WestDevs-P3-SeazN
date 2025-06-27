@@ -1,8 +1,9 @@
+import { GuestsIcon, StarIcon } from "../Icons/Icons";
 import type { RecipeDetailed } from "./data/recipeCardType";
 import "./RecipeCardDetailed.css";
 
 const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
-
+  const starIndex = [1, 2, 3, 4, 5];
   recipe.instructions.sort((a, b) => a.stepOrder - b.stepOrder);
 
   return (
@@ -17,14 +18,43 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
         </figure>
 
         <h2>{recipe.name}</h2>
-        {/* Créer logos différents pour chaque. data tableau d'objet ? grid 2x2 */}
 
         <div>
-          <span>nb : {recipe.guestNumber}</span>
-          <span>price : {recipe.price}</span>
-          <span>duration : {recipe.duration}</span>
-          <span>nut avg : {recipe.nutritionAverage}</span>
-          <span>eco avg : {recipe.ecoAverage}</span>
+          <div>
+            <GuestsIcon width="20px" height="20px" />
+            <span>{recipe.guestNumber}</span>
+          </div>
+
+          <span>{recipe.price && '€'.repeat(recipe.price)}</span>
+
+          <span>&#60; {recipe.duration} min</span>
+
+          <div>
+            {starIndex.map((i) => {
+              return (
+                <StarIcon key={i} height="24px" width="24px" className={i <= Math.floor(recipe.usersAverage || 0) ? "users-filled" : "empty"} />
+              )
+            })}
+          </div>
+
+
+          <div>
+            {starIndex.map((i) => {
+              return (
+                <StarIcon key={i} height="24px" width="24px" className={i <= Math.floor(recipe.ecoAverage || 0) ? "eco-filled" : "empty"} />
+              )
+            })}
+          </div>
+
+
+          <div>
+            {starIndex.map((i) => {
+              return (
+                <StarIcon key={i} height="24px" width="24px" className={i <= Math.floor(recipe.nutritionAverage || 0) ? "nut-filled" : "empty"} />
+              )
+            })}
+          </div>
+
         </div>
 
 

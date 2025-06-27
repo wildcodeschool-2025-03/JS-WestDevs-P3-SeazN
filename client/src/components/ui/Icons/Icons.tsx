@@ -1,6 +1,7 @@
 type IconProps = {
   height: string;
   width: string;
+  className?: string;
 };
 
 export const GithubIcon = ({ height, width }: IconProps) => (
@@ -19,7 +20,7 @@ export const GithubIcon = ({ height, width }: IconProps) => (
   </svg>
 );
 
-export const StarIcon = ({ height, width }: IconProps) => (
+export const StarIcon = ({ height, width, className }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -27,7 +28,7 @@ export const StarIcon = ({ height, width }: IconProps) => (
     stroke="currentColor"
     height={height}
     width={width}
-    fill="none"
+    className={className}
     aria-hidden="true"
     focusable="false"
   >

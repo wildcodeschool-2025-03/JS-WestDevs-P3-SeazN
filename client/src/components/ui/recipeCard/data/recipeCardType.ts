@@ -39,6 +39,7 @@ export interface RecipeDetailed {
   image: string | null;
   price: number | null;
   guestNumber: number;
+  usersAverage?: number | null;
   nutritionAverage?: number | null;
   ecoAverage?: number | null;
   ingredients: RecipeIngredient[];
