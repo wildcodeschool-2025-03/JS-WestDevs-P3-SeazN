@@ -9,7 +9,6 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
   return (
     <section className="recipe-card-detailed">
       <div>
-
         <figure>
           <img
             src={recipe.image ? recipe.image : undefined}
@@ -25,63 +24,112 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
             <span>{recipe.guestNumber}</span>
           </div>
 
-          <span>{recipe.price && '€'.repeat(recipe.price)}</span>
+          <span>{recipe.price && "€".repeat(recipe.price)}</span>
 
           <span>&#60; {recipe.duration} min</span>
 
           <div className="ranking-wrapper">
-            <div className="stars-container-filled" style={{ width: recipe.usersAverage ? `${recipe.usersAverage / 5 * 100}%` : 0 }}>
+            <div
+              className="stars-container-filled"
+              style={{
+                width: recipe.usersAverage
+                  ? `${(recipe.usersAverage / 5) * 100}%`
+                  : 0,
+              }}
+            >
               {starIndex.map((i) => {
                 return (
-                  <StarIcon key={i} height="24px" width="24px" className="star-filled-users" />
-                )
+                  <StarIcon
+                    key={i}
+                    height="24px"
+                    width="24px"
+                    className="star-filled-users"
+                  />
+                );
               })}
             </div>
             <div className="stars-container-empty">
               {starIndex.map((i) => {
                 return (
-                  <StarIcon key={i} height="24px" width="24px" className="star-empty" />
-                )
+                  <StarIcon
+                    key={i}
+                    height="24px"
+                    width="24px"
+                    className="star-empty"
+                  />
+                );
               })}
             </div>
           </div>
 
           <div className="ranking-wrapper">
-            <div className="stars-container-filled" style={{ width: recipe.ecoAverage ? `${recipe.ecoAverage / 5 * 100}%` : 0 }}>
+            <div
+              className="stars-container-filled"
+              style={{
+                width: recipe.ecoAverage
+                  ? `${(recipe.ecoAverage / 5) * 100}%`
+                  : 0,
+              }}
+            >
               {starIndex.map((i) => {
                 return (
-                  <StarIcon key={i} height="24px" width="24px" className="star-filled-eco" />
-                )
+                  <StarIcon
+                    key={i}
+                    height="24px"
+                    width="24px"
+                    className="star-filled-eco"
+                  />
+                );
               })}
             </div>
             <div className="stars-container-empty">
               {starIndex.map((i) => {
                 return (
-                  <StarIcon key={i} height="24px" width="24px" className="star-empty" />
-                )
+                  <StarIcon
+                    key={i}
+                    height="24px"
+                    width="24px"
+                    className="star-empty"
+                  />
+                );
               })}
             </div>
           </div>
 
           <div className="ranking-wrapper">
-            <div className="stars-container-filled" style={{ width: recipe.nutritionAverage ? `${recipe.nutritionAverage / 5 * 100}%` : 0 }}>
+            <div
+              className="stars-container-filled"
+              style={{
+                width: recipe.nutritionAverage
+                  ? `${(recipe.nutritionAverage / 5) * 100}%`
+                  : 0,
+              }}
+            >
               {starIndex.map((i) => {
                 return (
-                  <StarIcon key={i} height="24px" width="24px" className="star-filled-nut" />
-                )
+                  <StarIcon
+                    key={i}
+                    height="24px"
+                    width="24px"
+                    className="star-filled-nut"
+                  />
+                );
               })}
             </div>
             <div className="stars-container-empty">
               {starIndex.map((i) => {
                 return (
-                  <StarIcon key={i} height="24px" width="24px" className="star-empty" />
-                )
+                  <StarIcon
+                    key={i}
+                    height="24px"
+                    width="24px"
+                    className="star-empty"
+                  />
+                );
               })}
             </div>
           </div>
-
         </div>
-
 
         <div>
           <h3>Ingrédients</h3>
@@ -89,14 +137,16 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
             {recipe.ingredients.map((ingredient) => {
               const { id, quantity, unit, name } = ingredient;
               const displayedQuantity = quantity != null ? quantity : "";
-              const displayedUnit = unit != null && unit !== "pièce(s)" ? unit : "";
-              const needsLink = unit && unit !== null && unit !== "pièce(s)" ? "de " : "";
+              const displayedUnit =
+                unit != null && unit !== "pièce(s)" ? unit : "";
+              const needsLink =
+                unit && unit !== null && unit !== "pièce(s)" ? "de " : "";
 
               return (
                 <li key={id}>
                   {`${displayedQuantity} ${displayedUnit} ${needsLink}${name}`}
                 </li>
-              )
+              );
             })}
           </ul>
         </div>
@@ -115,7 +165,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
           })}
         </ul>
       </div>
-    </section >
+    </section>
   );
 };
 
