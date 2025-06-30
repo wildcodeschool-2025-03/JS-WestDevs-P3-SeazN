@@ -1,10 +1,24 @@
+import { useState } from "react";
 import "./MyRecipes.css";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const MyRecipes = () => {
+  const [imageSrc, setImageSrc] = useState("");
+
   const handleSubmit = (formData: FormData) => {
     const formObj = Object.fromEntries(formData);
+    setImageSrc("");
     console.log(formObj);
   };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setImageSrc(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  const ingrédient = ["carotte", "poulet", "curry"];
 
   return (
     <section className="myRecipes">
@@ -27,26 +41,38 @@ const MyRecipes = () => {
             placeholder="nom de la recette"
           />
           <h3>les catégories</h3>
+
           <input type="checkbox" name="végan" id="végan" />
           <label htmlFor="végan">Végan</label>
+
           <input type="checkbox" name="végétarien" id="végétarien" />
           <label htmlFor="végétarien">Végétarien</label>
+
           <input type="checkbox" name="glutenFree" id="glutenFree" />
           <label htmlFor="glutenFree">Sans gluten</label>
+
           <label htmlFor="image">
             <h3>La photo</h3>
+            <input
+              type="file"
+              name="image"
+              id="image"
+              accept=".png, .jpg, .jepg, .webp"
+              onChange={handleChange}
+            />
+            <img src={imageSrc} alt="your upload" />
           </label>
-          <input
-            type="url"
-            name="image"
-            id="image"
-            pattern="https://.*"
-            placeholder="https://example.png"
-          />
-          <button type="button">Ajouter</button>
+
           <label htmlFor="ingredient">
             <h3>Les ingrédients</h3>
           </label>
+          <Autocomplete
+            freeSolo
+            options={ingrédient}
+            renderInput={(params) => (
+              <TextField {...params} label="ingrédient" />
+            )}
+          />
           <input
             type="number"
             name="quantity"

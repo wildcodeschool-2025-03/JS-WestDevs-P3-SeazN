@@ -20,4 +20,11 @@
   :nth-child(3) {
     grid-area: 1 / 2 / 3 / 3;
   }
+  img {
+    max-width: 150px;
+  }
+
+  input {
+    border: solid red;
+  }
 }
