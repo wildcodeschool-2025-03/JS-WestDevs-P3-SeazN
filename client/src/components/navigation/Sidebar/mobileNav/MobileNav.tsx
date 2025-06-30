@@ -1,3 +1,4 @@
+import Popover from "@mui/material/Popover";
 import { useState } from "react";
 import { NavLink } from "react-router";
 import { menuItems } from "../../../../data/menu-Items";
@@ -6,9 +7,17 @@ import "./MobileNav.css";
 
 const MobileNav = () => {
   const [openedSubmenu, setOpenedSubmenu] = useState<string | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const toggleSubmenu = (label: string) =>
+  const toggleSubmenu = (label: string, el: HTMLElement) => {
     setOpenedSubmenu((prev) => (prev === label ? null : label));
+    setAnchorEl(openedSubmenu === label ? null : el);
+  };
+
+  const handleClose = () => {
+    setOpenedSubmenu(null);
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -22,33 +31,55 @@ const MobileNav = () => {
 
       <nav className="mobile-footer">
         {menuItems.map(({ icon, label, path, subItems }) => (
-          <div key={label}>
+          <div
+            key={label}
+            className={`nav-item ${label === "Synthèse" ? "synthese" : ""}`}
+          >
             <NavLink
               to={path}
               onClick={(e) => {
                 if (subItems) {
-                  e.preventDefault();
-                  toggleSubmenu(label);
+                  toggleSubmenu(label, e.currentTarget);
                 } else {
-                  setOpenedSubmenu(null);
+                  handleClose();
                 }
               }}
             >
-              <img
-                src={icon}
-                alt={label}
-                className={label === "Synthèse" ? "center-icon" : undefined}
-              />
+              {label === "Synthèse" ? (
+                <div className="center-icon">
+                  <img src={icon} alt={label} />
+                </div>
+              ) : (
+                <img src={icon} alt={label} />
+              )}
             </NavLink>
 
             {subItems && openedSubmenu === label && (
-              <div>
-                {subItems.map(({ label: subLabel, path }) => (
-                  <NavLink key={subLabel} to={path}>
-                    {subLabel}
-                  </NavLink>
-                ))}
-              </div>
+              <Popover
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                transformOrigin={{ vertical: "bottom", horizontal: "center" }}
+                slotProps={{
+                  paper: {
+                    className: "popover-menu",
+                  },
+                }}
+              >
+                <div className="submenu-wrapper">
+                  {subItems.map(({ label: subLabel, path }) => (
+                    <NavLink
+                      key={subLabel}
+                      to={path}
+                      onClick={handleClose}
+                      className="submenu-item"
+                    >
+                      {subLabel}
+                    </NavLink>
+                  ))}
+                </div>
+              </Popover>
             )}
           </div>
         ))}

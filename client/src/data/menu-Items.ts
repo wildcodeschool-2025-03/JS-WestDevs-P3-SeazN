@@ -2,32 +2,32 @@ export const menuItems = [
   {
     icon: "/icones-logo/icon-dashbords2.webp",
     label: "Synthèse",
-    path: "/synthese",
+    path: "/dashboard",
   },
   {
     icon: "/icones-logo/Icon-cuisine3.webp",
     label: "Ma cuisine",
-    path: "/ma-cuisine",
+    path: "",
     subItems: [
-      { label: "Mes recettes", path: "/ma-cuisine/recettes" },
-      { label: "Frigo", path: "/ma-cuisine/frigo" },
-      { label: "Liste des courses", path: "/ma-cuisine/courses" },
-      { label: "Préférences", path: "/ma-cuisine/preferences" },
-      { label: "Plannificateur", path: "/ma-cuisine/plannificateur" },
+      { label: "Mes recettes", path: "/kitchen/myrecipes" },
+      { label: "Frigo", path: "/kitchen/fridge" },
+      { label: "Liste des courses", path: "/kitchen/shoppinglist" },
+      { label: "Préférences", path: "/kitchen/settings" },
+      { label: "Plannificateur", path: "/kitchen/planner" },
     ],
   },
   {
     icon: "/icones-logo/icon-recette2.webp",
     label: "Recettes",
-    path: "/recettes",
+    path: "/recipes",
   },
   {
     icon: "/icones-logo/icon-produit2.webp",
     label: "Produits",
-    path: "/produits",
+    path: "",
     subItems: [
-      { label: "Légumes de saison", path: "/produits/legumes-de-saison" },
-      { label: "Analyse ingrédients", path: "/produits/analyse-ingredients" },
+      { label: "Légumes de saison", path: "/products/seasonal" },
+      { label: "Analyse ingrédients", path: "/products/analysis" },
     ],
   },
   {
