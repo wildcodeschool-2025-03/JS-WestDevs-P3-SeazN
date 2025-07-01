@@ -20,7 +20,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
         <div>
           <div>
-            <GuestsIcon width="20px" height="20px" />
+            <GuestsIcon />
             <span>{recipe.guestNumber}</span>
           </div>
 
@@ -28,9 +28,8 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
           <span>&#60; {recipe.duration} min</span>
 
-          <div className="ranking-wrapper">
+          <div>
             <div
-              className="stars-container-filled"
               style={{
                 width: recipe.usersAverage
                   ? `${(recipe.usersAverage / 5) * 100}%`
@@ -41,30 +40,24 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                 return (
                   <StarIcon
                     key={i}
-                    height="24px"
-                    width="24px"
                     className="star-filled-users"
                   />
                 );
               })}
             </div>
-            <div className="stars-container-empty">
+            <div>
               {starIndex.map((i) => {
                 return (
                   <StarIcon
                     key={i}
-                    height="24px"
-                    width="24px"
-                    className="star-empty"
                   />
                 );
               })}
             </div>
           </div>
 
-          <div className="ranking-wrapper">
+          <div>
             <div
-              className="stars-container-filled"
               style={{
                 width: recipe.ecoAverage
                   ? `${(recipe.ecoAverage / 5) * 100}%`
@@ -82,23 +75,19 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                 );
               })}
             </div>
-            <div className="stars-container-empty">
+            <div>
               {starIndex.map((i) => {
                 return (
                   <StarIcon
                     key={i}
-                    height="24px"
-                    width="24px"
-                    className="star-empty"
                   />
                 );
               })}
             </div>
           </div>
 
-          <div className="ranking-wrapper">
+          <div>
             <div
-              className="stars-container-filled"
               style={{
                 width: recipe.nutritionAverage
                   ? `${(recipe.nutritionAverage / 5) * 100}%`
@@ -116,14 +105,11 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                 );
               })}
             </div>
-            <div className="stars-container-empty">
+            <div>
               {starIndex.map((i) => {
                 return (
                   <StarIcon
                     key={i}
-                    height="24px"
-                    width="24px"
-                    className="star-empty"
                   />
                 );
               })}
