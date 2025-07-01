@@ -8,7 +8,7 @@ import type { ChildrenProps } from "../../../types/global";
 
 const AppLayout = ({ children }: ChildrenProps) => {
   return (
-    <div className="global_layout">
+    <div className="global-layout">
       <Sidebar />
 
       <Header />
