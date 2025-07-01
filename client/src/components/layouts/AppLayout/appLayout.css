@@ -1,4 +1,4 @@
-.global_layout {
+.global-layout {
   height: 100dvh;
   display: grid;
   grid-template-columns: auto 1fr;
@@ -21,7 +21,7 @@
   .header {
     display: none;
   }
-  .global_layout {
+  .global-layout {
     display: block;
     grid-template-columns: none;
     grid-template-rows: none;
