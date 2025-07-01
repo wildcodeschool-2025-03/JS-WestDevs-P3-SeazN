@@ -1,10 +1,13 @@
-import { GuestsIcon, StarIcon } from "../Icons/Icons";
+import { useState } from "react";
+import { GuestsIcon, HeartIcon, StarIcon } from "../Icons/Icons";
 import type { RecipeDetailed } from "./data/recipeCardType";
 import "./RecipeCardDetailed.css";
 
 const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
   const starIndex = [1, 2, 3, 4, 5];
   recipe.instructions.sort((a, b) => a.stepOrder - b.stepOrder);
+
+  const [isFavorite, setIsFavorite] = useState<boolean>()
 
   return (
     <section className="recipe-card-detailed">
@@ -16,7 +19,12 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
           />
         </figure>
 
-        <h2>{recipe.name}</h2>
+        <div>
+          <h2>{recipe.name}</h2>
+          <button type="button" onClick={() => setIsFavorite(!isFavorite)} aria-label={isFavorite ? "Retirer des recettes favorites" : "Ajouter aux recettes favorites"} aria-pressed={isFavorite}>
+            <HeartIcon fill={isFavorite ? "var(--light-secondary)" : "none"} />
+          </button>
+        </div>
 
         <div>
           <div>
@@ -28,7 +36,10 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
           <span>&#60; {recipe.duration} min</span>
 
+          {/* Ranking details */}
+
           <div>
+            {/* Filled stars */}
             <div
               style={{
                 width: recipe.usersAverage
@@ -45,6 +56,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                 );
               })}
             </div>
+            {/* Empty stars */}
             <div>
               {starIndex.map((i) => {
                 return (
@@ -57,6 +69,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
           </div>
 
           <div>
+            {/* Filled stars */}
             <div
               style={{
                 width: recipe.ecoAverage
@@ -75,6 +88,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                 );
               })}
             </div>
+            {/* Empty stars */}
             <div>
               {starIndex.map((i) => {
                 return (
@@ -87,6 +101,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
           </div>
 
           <div>
+            {/* Filled stars */}
             <div
               style={{
                 width: recipe.nutritionAverage
@@ -105,6 +120,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                 );
               })}
             </div>
+            {/* Empty stars */}
             <div>
               {starIndex.map((i) => {
                 return (
