@@ -1,15 +1,10 @@
 export interface User {
+  password: string;
   email: string;
-  firstName: string;
-}
-
-export interface LoginResponse {
-  token: string;
-  email: string;
-  firstName: string;
-}
-
-export interface SignUpResponse {
-  token: string;
-  user: User;
+  username: string;
+  is_major: boolean;
+  last_active: string;
+  is_premium: boolean;
+  is_admin: boolean;
+  country: string;
 }

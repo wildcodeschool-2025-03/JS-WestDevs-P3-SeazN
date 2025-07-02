@@ -23,10 +23,13 @@ export interface LoginResponse {
   message?: string;
 }
 
-export interface SignUpResponse {
+export interface signUpResponse {
   username: string;
   email: string;
   firstName: string;
+  isMajor: boolean;
+  lastActive: string;
+  country: string;
   token?: string;
   message?: string;
 }

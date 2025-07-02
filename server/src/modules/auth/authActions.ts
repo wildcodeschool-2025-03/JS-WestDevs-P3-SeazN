@@ -1,38 +1,37 @@
-import { loginApi, signUpApi } from "./authRepository";
-import type { LoginResponse, SignUpResponse } from "./types";
+import type { RequestHandler } from "express";
+import authRepository from "./authRepository";
 
-export const login = async (
-  email: string,
-  password: string,
-  onSuccess: (data: LoginResponse) => void,
-  onError: (message: string) => void,
-) => {
+// login
+const browse: RequestHandler = async (req, res) => {
   try {
-    const data = await loginApi(email, password);
-    onSuccess(data);
-  } catch (error) {
-    if (error instanceof Error) {
-      onError(error.message);
+    const user = await authRepository.readByEmail(req.body);
+
+    if (user) {
+      res.status(201).json("Congratulations, you're connected !");
     } else {
-      onError("Une erreur inconnue est survenue");
+      res.status(404).json("An error has occurred!");
     }
+  } catch (err) {
+    res.sendStatus(500);
   }
 };
 
-export const signup = async (
-  email: string,
-  password: string,
-  onSuccess: (data: SignUpResponse) => void,
-  onError: (message: string) => void,
-) => {
+// SignUp
+
+const add: RequestHandler = async (req, res) => {
   try {
-    const data = await signUpApi(email, password);
-    onSuccess(data);
-  } catch (error) {
-    if (error instanceof Error) {
-      onError(error.message);
+    const user = await authRepository.create(req.body);
+
+    if (user) {
+      res
+        .status(201)
+        .json("Congratulations, your account has been created successfully !");
     } else {
-      onError("Une erreur inconnue est survenue");
+      res.status(404).json("An error occured during the registration");
     }
+  } catch (err) {
+    res.sendStatus(500);
   }
 };
+
+export default { add };
