@@ -38,6 +38,13 @@
 
   .nav-item {
     order: 0;
+
+    > a,
+    > button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   .nav-item:first-child {
