@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
-import { menuItems } from "../../../data/menu-Items";
+import { menuItems } from "../data/menu-Items";
 import "./sidebar.css";
 
 const Sidebar = () => {

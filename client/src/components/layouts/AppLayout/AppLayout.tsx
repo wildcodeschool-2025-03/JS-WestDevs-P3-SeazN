@@ -1,10 +1,9 @@
-import MobileNav from "../../../components/navigation/Sidebar/mobileNav/MobileNav";
-import Sidebar from "../../navigation/Sidebar/Sidebar";
+import type { ChildrenProps } from "../../../types/global";
+import MobileNav from "../../navigation/mobileNav/MobileNav";
+import Sidebar from "../../navigation/sidebar/Sidebar";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
-import "../../navigation/Sidebar/mobileNav/mobileNav.css";
 import "./appLayout.css";
-import type { ChildrenProps } from "../../../types/global";
 
 const AppLayout = ({ children }: ChildrenProps) => {
   return (
