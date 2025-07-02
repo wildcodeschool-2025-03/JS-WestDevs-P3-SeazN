@@ -7,7 +7,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
   const starIndex = [1, 2, 3, 4, 5];
   recipe.instructions.sort((a, b) => a.stepOrder - b.stepOrder);
 
-  const [isFavorite, setIsFavorite] = useState<boolean>()
+  const [isFavorite, setIsFavorite] = useState<boolean>();
 
   return (
     <section className="recipe-card-detailed">
@@ -21,7 +21,16 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
         <div>
           <h2>{recipe.name}</h2>
-          <button type="button" onClick={() => setIsFavorite(!isFavorite)} aria-label={isFavorite ? "Retirer des recettes favorites" : "Ajouter aux recettes favorites"} aria-pressed={isFavorite}>
+          <button
+            type="button"
+            onClick={() => setIsFavorite(!isFavorite)}
+            aria-label={
+              isFavorite
+                ? "Retirer des recettes favorites"
+                : "Ajouter aux recettes favorites"
+            }
+            aria-pressed={isFavorite}
+          >
             <HeartIcon fill={isFavorite ? "var(--light-secondary)" : "none"} />
           </button>
         </div>
@@ -48,22 +57,13 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
               }}
             >
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                    className="star-filled-users"
-                  />
-                );
+                return <StarIcon key={i} className="star-filled-users" />;
               })}
             </div>
             {/* Empty stars */}
             <div>
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                  />
-                );
+                return <StarIcon key={i} />;
               })}
             </div>
           </div>
@@ -91,11 +91,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
             {/* Empty stars */}
             <div>
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                  />
-                );
+                return <StarIcon key={i} />;
               })}
             </div>
           </div>
@@ -123,11 +119,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
             {/* Empty stars */}
             <div>
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                  />
-                );
+                return <StarIcon key={i} />;
               })}
             </div>
           </div>
