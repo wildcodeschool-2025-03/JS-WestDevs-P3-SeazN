@@ -5,10 +5,17 @@ import Autocomplete from "@mui/material/Autocomplete";
 
 const MyRecipes = () => {
   const [imageSrc, setImageSrc] = useState("");
+  // const [value, setValue] = useState(0);
 
   const handleSubmit = (formData: FormData) => {
     const formObj = Object.fromEntries(formData);
+
     setImageSrc("");
+    for (const [key, value] of Object.entries(formObj)) {
+      if (value === "on") {
+        formObj[key] = true;
+      }
+    }
     console.log(formObj);
   };
 
@@ -67,12 +74,23 @@ const MyRecipes = () => {
             <h3>Les ingrédients</h3>
           </label>
           <Autocomplete
+            sx={(theme) => ({
+              display: "inline-block",
+              "& input": {
+                width: 700,
+                bgcolor: "background.paper",
+                color: theme.palette.getContrastText(
+                  theme.palette.background.paper,
+                ),
+              },
+            })}
             freeSolo
             options={ingrédient}
             renderInput={(params) => (
               <TextField {...params} label="ingrédient" />
             )}
           />
+          <br />
           <input
             type="number"
             name="quantity"
@@ -112,6 +130,7 @@ const MyRecipes = () => {
             placeholder="Saisissez la préparation de l'étape 2"
           /> */}
           <br />
+          
           <button type="button">Ajouter une étape</button>
           <button type="submit">Poster la recette</button>
         </form>
