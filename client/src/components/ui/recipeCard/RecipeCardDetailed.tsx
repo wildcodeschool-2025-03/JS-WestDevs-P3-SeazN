@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GuestsIcon, HeartIcon, StarIcon } from "../Icons/Icons";
 import type { RecipeDetailed } from "./data/recipeCardType";
-import "./RecipeCardDetailed.css";
+import "./recipeCardDetailed.css";
 
 const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
   const starIndex = [1, 2, 3, 4, 5];
