@@ -1,13 +1,15 @@
+import { Link } from "react-router";
+
 const Kitchen = () => {
   return (
     <div>
       <h2>Kitchen :</h2>
       <ul>
-        <li><a href="/kitchen/myrecipes">My Recipes</a></li>
-        <li><a href="/kitchen/fridge">Fridge</a></li>
-        <li><a href="/kitchen/shoppinglist">Shopping List</a></li>
-        <li><a href="/kitchen/settings">Settings</a></li>
-        <li><a href="/kitchen/planner">Planner</a></li>
+        <li><Link to="/kitchen/myrecipes">My Recipes</Link></li>
+        <li><Link to="/kitchen/fridge">Fridge</Link></li>
+        <li><Link to="/kitchen/shoppinglist">Shopping List</Link></li>
+        <li><Link to="/kitchen/settings">Settings</Link></li>
+        <li><Link to="/kitchen/planner">Planner</Link></li>
       </ul>
     </div>
   )

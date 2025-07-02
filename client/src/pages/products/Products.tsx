@@ -1,13 +1,15 @@
+import { Link } from "react-router";
+
 const Products = () => {
   return (
     <div>
       Products :
       <ul>
         <li>
-          <a href="/products/seasonnal">Seasonnal</a>
+          <Link to="/products/seasonnal">Seasonnal</Link>
         </li>
         <li>
-          <a href="/products/analysis">Analysis</a>
+          <Link to="/products/analysis">Analysis</Link>
         </li>
       </ul>
     </div>
