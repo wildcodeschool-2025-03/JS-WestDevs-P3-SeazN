@@ -25,6 +25,29 @@ export const GithubIcon = ({
   </svg>
 );
 
+export const UserIcon = ({
+  height = "24px",
+  width = "24px",
+  className,
+}: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={`${className} transition-theme fill-none stroke-current motion-reduce:transition-none`}
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    height={height}
+    width={width}
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+    />
+  </svg>
+);
+
 export const StarIcon = ({
   height = "24px",
   width = "24px",
@@ -47,6 +70,29 @@ export const StarIcon = ({
       strokeLinejoin="round"
       d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
     />
+  </svg>
+);
+
+export const LanguageIcon = ({
+  height = "24px",
+  width = "24px",
+  className,
+}: IconProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={`${className} transition-theme fill-none stroke-current motion-reduce:transition-none`}
+    viewBox="0 0 24 24"
+    strokeWidth={2}
+    height={height}
+    width={width}
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+    <path d="M2 12h20" />
   </svg>
 );
 
