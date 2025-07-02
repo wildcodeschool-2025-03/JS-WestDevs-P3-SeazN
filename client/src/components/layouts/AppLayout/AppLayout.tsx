@@ -9,7 +9,6 @@ const AppLayout = ({ children }: ChildrenProps) => {
   return (
     <div className="global-layout">
       <Sidebar />
-
       <Header />
       <MobileNav />
       <main>

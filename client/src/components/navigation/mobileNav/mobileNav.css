@@ -34,6 +34,8 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  z-index: 30;
+
   .nav-item {
     order: 0;
   }
