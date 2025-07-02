@@ -92,13 +92,13 @@
   transform: translateX(-50%);
   margin-block-end: 8px;
   background-color: white;
-  border: px solid #7f976c;
+  border: 3 px solid #7f976c;
   border-radius: 12px;
-  padding: 1rem;
-  max-width: 90vw;
+  width: 250px;
+
+  padding: 2rem 1.5rem;
   opacity: 0;
   transition: opacity 0.2s ease;
-  z-index: 10;
 }
 
 .popover-menu:popover-open {
@@ -109,7 +109,7 @@
 .submenu-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
 .submenu-item {
@@ -117,10 +117,11 @@
   text-decoration: none;
   background-color: #d7e7c6;
   color: #2e382e;
-  padding: 0.8rem 1rem;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
   text-align: center;
+  transition: background-color 0.2s ease;
 }
 
 .submenu-item:hover {
