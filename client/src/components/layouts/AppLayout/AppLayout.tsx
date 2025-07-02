@@ -12,7 +12,9 @@ const AppLayout = ({ children }: ChildrenProps) => {
 
       <Header />
       <MobileNav />
-      {children}
+      <main>
+        {children}
+      </main>
       <Footer />
     </div>
   );
