@@ -11,9 +11,7 @@ const AppLayout = ({ children }: ChildrenProps) => {
       <Sidebar />
       <Header />
       <MobileNav />
-      <main>
-        {children}
-      </main>
+      <main>{children}</main>
       <Footer />
     </div>
   );

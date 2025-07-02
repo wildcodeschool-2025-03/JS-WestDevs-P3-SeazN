@@ -13,7 +13,7 @@ const Products = () => {
         </li>
       </ul>
     </div>
-  )
-}
+  );
+};
 
 export default Products;

@@ -78,12 +78,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
               }}
             >
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                    className="star-filled-eco"
-                  />
-                );
+                return <StarIcon key={i} className="star-filled-eco" />;
               })}
             </div>
             {/* Empty stars */}
@@ -104,12 +99,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
               }}
             >
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                    className="star-filled-nut"
-                  />
-                );
+                return <StarIcon key={i} className="star-filled-nut" />;
               })}
             </div>
             {/* Empty stars */}

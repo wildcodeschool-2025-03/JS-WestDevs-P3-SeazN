@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router";
-import { menuItems } from "../data/menu-Items";
 import { LanguageIcon, UserIcon } from "../../ui/Icons/Icons";
+import { menuItems } from "../data/menu-Items";
 import "./MobileNav.css";
 
 const MobileNav = () => {
