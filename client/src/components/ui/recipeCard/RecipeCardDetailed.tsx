@@ -81,8 +81,6 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                 return (
                   <StarIcon
                     key={i}
-                    height="24px"
-                    width="24px"
                     className="star-filled-eco"
                   />
                 );
@@ -109,8 +107,6 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                 return (
                   <StarIcon
                     key={i}
-                    height="24px"
-                    width="24px"
                     className="star-filled-nut"
                   />
                 );

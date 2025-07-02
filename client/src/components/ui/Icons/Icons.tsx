@@ -1,22 +1,14 @@
 type IconProps = {
-  height?: string;
-  width?: string;
   className?: string;
   fill?: string;
 };
 
-export const GithubIcon = ({
-  height = "24px",
-  width = "24px",
-  className,
-}: IconProps) => (
+export const GithubIcon = ({ className }: IconProps) => (
   <svg
     className={className}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 496 512"
     strokeWidth={1.5}
-    height={height}
-    width={width}
     fill="currentColor"
     aria-hidden="true"
     focusable="false"
@@ -26,18 +18,12 @@ export const GithubIcon = ({
   </svg>
 );
 
-export const UserIcon = ({
-  height = "24px",
-  width = "24px",
-  className,
-}: IconProps) => (
+export const UserIcon = ({ className }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={`${className} transition-theme fill-none stroke-current motion-reduce:transition-none`}
     viewBox="0 0 24 24"
     strokeWidth={1.5}
-    height={height}
-    width={width}
     aria-hidden="true"
     focusable="false"
   >
@@ -49,19 +35,13 @@ export const UserIcon = ({
   </svg>
 );
 
-export const StarIcon = ({
-  height = "24px",
-  width = "24px",
-  className,
-}: IconProps) => (
+export const StarIcon = ({ className }: IconProps) => (
   <svg
     className={className}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    height={height}
-    width={width}
     aria-hidden="true"
     focusable="false"
   >
@@ -74,18 +54,12 @@ export const StarIcon = ({
   </svg>
 );
 
-export const LanguageIcon = ({
-  height = "24px",
-  width = "24px",
-  className,
-}: IconProps) => (
+export const LanguageIcon = ({ className }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className={`${className} transition-theme fill-none stroke-current motion-reduce:transition-none`}
     viewBox="0 0 24 24"
     strokeWidth={2}
-    height={height}
-    width={width}
     stroke-linecap="round"
     stroke-linejoin="round"
     aria-hidden="true"
@@ -97,19 +71,13 @@ export const LanguageIcon = ({
   </svg>
 );
 
-export const GuestsIcon = ({
-  height = "24px",
-  width = "24px",
-  className,
-}: IconProps) => (
+export const GuestsIcon = ({ className }: IconProps) => (
   <svg
     className={className}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     strokeWidth={1.5}
     stroke="currentColor"
-    height={height}
-    width={width}
     fill="none"
     aria-hidden="true"
     focusable="false"
