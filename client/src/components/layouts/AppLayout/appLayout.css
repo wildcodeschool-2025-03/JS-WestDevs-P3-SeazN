@@ -1,4 +1,4 @@
-.global_layout {
+.global-layout {
   height: 100dvh;
   display: grid;
   grid-template-columns: auto 1fr;
@@ -10,7 +10,31 @@
   .header {
     grid-area: 1 / 2 / 2 / 3;
   }
+  main {
+    grid-area: 2 / 2 / 3 / 3;
+    padding: 16px;
+  }
   .footer {
     grid-area: 3 / 2 / 4 / 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .global-layout {
+    display: block;
+    grid-template-columns: none;
+    grid-template-rows: none;
+    height: auto;
+
+    .sidebar,
+    .footer,
+    .header {
+      display: none;
+    }
+
+    main {
+      padding: 8px;
+      margin-bottom: 70px;
+    }
   }
 }
