@@ -1,10 +1,13 @@
-import { GuestsIcon, StarIcon } from "../Icons/Icons";
+import { useState } from "react";
+import { GuestsIcon, HeartIcon, StarIcon } from "../Icons/Icons";
 import type { RecipeDetailed } from "./data/recipeCardType";
-import "./RecipeCardDetailed.css";
+import "./recipeCardDetailed.css";
 
 const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
   const starIndex = [1, 2, 3, 4, 5];
   recipe.instructions.sort((a, b) => a.stepOrder - b.stepOrder);
+
+  const [isFavorite, setIsFavorite] = useState<boolean>();
 
   return (
     <section className="recipe-card-detailed">
@@ -16,11 +19,25 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
           />
         </figure>
 
-        <h2>{recipe.name}</h2>
+        <div>
+          <h2>{recipe.name}</h2>
+          <button
+            type="button"
+            onClick={() => setIsFavorite(!isFavorite)}
+            aria-label={
+              isFavorite
+                ? "Retirer des recettes favorites"
+                : "Ajouter aux recettes favorites"
+            }
+            aria-pressed={isFavorite}
+          >
+            <HeartIcon fill={isFavorite ? "var(--light-secondary)" : "none"} />
+          </button>
+        </div>
 
         <div>
           <div>
-            <GuestsIcon width="20px" height="20px" />
+            <GuestsIcon />
             <span>{recipe.guestNumber}</span>
           </div>
 
@@ -28,9 +45,11 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
           <span>&#60; {recipe.duration} min</span>
 
-          <div className="ranking-wrapper">
+          {/* Ranking details */}
+
+          <div>
+            {/* Filled stars */}
             <div
-              className="stars-container-filled"
               style={{
                 width: recipe.usersAverage
                   ? `${(recipe.usersAverage / 5) * 100}%`
@@ -38,33 +57,20 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
               }}
             >
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                    height="24px"
-                    width="24px"
-                    className="star-filled-users"
-                  />
-                );
+                return <StarIcon key={i} className="star-filled-users" />;
               })}
             </div>
-            <div className="stars-container-empty">
+            {/* Empty stars */}
+            <div>
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                    height="24px"
-                    width="24px"
-                    className="star-empty"
-                  />
-                );
+                return <StarIcon key={i} />;
               })}
             </div>
           </div>
 
-          <div className="ranking-wrapper">
+          <div>
+            {/* Filled stars */}
             <div
-              className="stars-container-filled"
               style={{
                 width: recipe.ecoAverage
                   ? `${(recipe.ecoAverage / 5) * 100}%`
@@ -72,33 +78,20 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
               }}
             >
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                    height="24px"
-                    width="24px"
-                    className="star-filled-eco"
-                  />
-                );
+                return <StarIcon key={i} className="star-filled-eco" />;
               })}
             </div>
-            <div className="stars-container-empty">
+            {/* Empty stars */}
+            <div>
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                    height="24px"
-                    width="24px"
-                    className="star-empty"
-                  />
-                );
+                return <StarIcon key={i} />;
               })}
             </div>
           </div>
 
-          <div className="ranking-wrapper">
+          <div>
+            {/* Filled stars */}
             <div
-              className="stars-container-filled"
               style={{
                 width: recipe.nutritionAverage
                   ? `${(recipe.nutritionAverage / 5) * 100}%`
@@ -106,26 +99,13 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
               }}
             >
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                    height="24px"
-                    width="24px"
-                    className="star-filled-nut"
-                  />
-                );
+                return <StarIcon key={i} className="star-filled-nut" />;
               })}
             </div>
-            <div className="stars-container-empty">
+            {/* Empty stars */}
+            <div>
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                    height="24px"
-                    width="24px"
-                    className="star-empty"
-                  />
-                );
+                return <StarIcon key={i} />;
               })}
             </div>
           </div>

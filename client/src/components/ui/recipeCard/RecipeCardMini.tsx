@@ -1,5 +1,5 @@
 import type { RecipeBase } from "./data/recipeCardType";
-import "./RecipeCardMini.css";
+import "./recipeCardMini.css";
 
 const RecipeCardMini = ({ recipe }: { recipe: RecipeBase }) => {
   return (
