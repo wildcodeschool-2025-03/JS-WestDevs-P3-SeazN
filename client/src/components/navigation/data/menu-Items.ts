@@ -7,7 +7,7 @@ export const menuItems = [
   {
     icon: "/icones-logo/Icon-cuisine3.webp",
     label: "Ma cuisine",
-    path: "",
+    path: "/kitchen",
     subItems: [
       { label: "Mes recettes", path: "/kitchen/myrecipes" },
       { label: "Frigo", path: "/kitchen/fridge" },
@@ -24,7 +24,7 @@ export const menuItems = [
   {
     icon: "/icones-logo/icon-produit2.webp",
     label: "Produits",
-    path: "",
+    path: "/products",
     subItems: [
       { label: "Légumes de saison", path: "/products/seasonal" },
       { label: "Analyse ingrédients", path: "/products/analysis" },

@@ -5,8 +5,10 @@ import { RouterProvider, createBrowserRouter } from "react-router";
 /* ************************************************************************* */
 
 import App from "./App";
+import { AuthProvider } from "./contexts/AuthContext";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Home from "./pages/home/Home";
+import Kitchen from "./pages/kitchen/Kitchen";
 import Fridge from "./pages/kitchen/fridge/Fridge";
 import MyRecipes from "./pages/kitchen/myrecipes/MyRecipes";
 import Planner from "./pages/kitchen/planner/Planner";
@@ -14,11 +16,10 @@ import Settings from "./pages/kitchen/settings/Settings";
 import ShoppingList from "./pages/kitchen/shoppinglist/ShoppingList";
 import NotFound from "./pages/notFound/NotFound";
 import Nutrition from "./pages/nutrition/Nutrition";
+import Products from "./pages/products/Products";
 import Analysis from "./pages/products/analysis/Analysis";
 import Seasonal from "./pages/products/seasonal/Seasonal";
 import Recipes from "./pages/recipes/Recipes";
-
-import { AuthProvider } from "./contexts/AuthContext";
 import Register from "./pages/register/Register";
 
 /* ************************************************************************* */
@@ -41,28 +42,27 @@ const router = createBrowserRouter([
       },
       {
         path: "/kitchen",
-        children: [
-          {
-            path: "myrecipes",
-            element: <MyRecipes />,
-          },
-          {
-            path: "fridge",
-            element: <Fridge />,
-          },
-          {
-            path: "shoppinglist",
-            element: <ShoppingList />,
-          },
-          {
-            path: "settings",
-            element: <Settings />,
-          },
-          {
-            path: "planner",
-            element: <Planner />,
-          },
-        ],
+        element: <Kitchen />,
+      },
+      {
+        path: "/kitchen/myrecipes",
+        element: <MyRecipes />,
+      },
+      {
+        path: "/kitchen/fridge",
+        element: <Fridge />,
+      },
+      {
+        path: "/kitchen/shoppinglist",
+        element: <ShoppingList />,
+      },
+      {
+        path: "/kitchen/settings",
+        element: <Settings />,
+      },
+      {
+        path: "/kitchen/planner",
+        element: <Planner />,
       },
       {
         path: "/recipes",
@@ -70,16 +70,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/products",
-        children: [
-          {
-            path: "seasonal",
-            element: <Seasonal />,
-          },
-          {
-            path: "analysis",
-            element: <Analysis />,
-          },
-        ],
+        element: <Products />,
+      },
+      {
+        path: "/products/seasonal",
+        element: <Seasonal />,
+      },
+      {
+        path: "/products/analysis",
+        element: <Analysis />,
       },
       {
         path: "/nutrition",
