@@ -1,5 +1,5 @@
 import type { RecipeBase } from "./data/recipeCardType";
-import "./RecipeCardSquare.css";
+import "./recipeCardSquare.css";
 
 const RecipeCardSquare = ({ recipe }: { recipe: RecipeBase }) => {
   return (

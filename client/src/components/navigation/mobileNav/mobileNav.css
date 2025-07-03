@@ -34,8 +34,17 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  z-index: 30;
+
   .nav-item {
     order: 0;
+
+    > a,
+    > button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   .nav-item:first-child {

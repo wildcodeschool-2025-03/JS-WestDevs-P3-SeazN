@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GuestsIcon, HeartIcon, StarIcon } from "../Icons/Icons";
 import type { RecipeDetailed } from "./data/recipeCardType";
-import "./RecipeCardDetailed.css";
+import "./recipeCardDetailed.css";
 
 const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
   const starIndex = [1, 2, 3, 4, 5];
@@ -78,14 +78,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
               }}
             >
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                    height="24px"
-                    width="24px"
-                    className="star-filled-eco"
-                  />
-                );
+                return <StarIcon key={i} className="star-filled-eco" />;
               })}
             </div>
             {/* Empty stars */}
@@ -106,14 +99,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
               }}
             >
               {starIndex.map((i) => {
-                return (
-                  <StarIcon
-                    key={i}
-                    height="24px"
-                    width="24px"
-                    className="star-filled-nut"
-                  />
-                );
+                return <StarIcon key={i} className="star-filled-nut" />;
               })}
             </div>
             {/* Empty stars */}
