@@ -6,8 +6,8 @@ import "../login/Login.css";
 import { Autocomplete } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import countries from "./countries";
-import type { CountryType } from "./countries";
+import countries from "../signup/data/countries";
+import type { CountryType } from "../signup/data/countries";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -140,4 +140,3 @@ export default function SignUp() {
     </div>
   );
 }
-// Passw0rd!
