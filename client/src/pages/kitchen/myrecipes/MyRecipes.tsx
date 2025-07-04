@@ -7,14 +7,19 @@ const MyRecipes = () => {
   const [imageSrc, setImageSrc] = useState("");
   const [selectedIngredient, setSelectedIngredient] = useState("");
   const [steps, setSteps] = useState([{ id: 1, content: "" }]);
+  const [ingredients, setIngredients] = useState<
+    { id: number; name: string; quantity: string; unit: string }[]
+  >([]);
+  const [currentQuantity, setCurrentQuantity] = useState("");
+  const [currentUnit, setCurrentUnit] = useState("");
 
   const handleSubmit = (formData: FormData) => {
     const formObj = Object.fromEntries(formData);
     const formRecipe = JSON.parse(JSON.stringify(formObj));
 
     setImageSrc("");
-    for (const [key, value] of Object.entries(formRecipe)) {
-      if (value === "on") {
+    for (const [key] of Object.entries(formRecipe)) {
+      if (key === "végan" || key === "glutenFree" || key === "végétarien") {
         formRecipe[key] = true;
       }
     }
@@ -51,6 +56,28 @@ const MyRecipes = () => {
     if (steps.length > 1) {
       setSteps((prevSteps) => prevSteps.filter((step) => step.id !== stepId));
     }
+  };
+
+  const addIngredient = () => {
+    if (selectedIngredient && currentQuantity) {
+      const newIngredient = {
+        id: Date.now(),
+        name: selectedIngredient,
+        quantity: currentQuantity,
+        unit: currentUnit,
+      };
+      setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
+
+      setSelectedIngredient("");
+      setCurrentQuantity("");
+      setCurrentUnit("gram");
+    }
+  };
+
+  const removeIngredient = (ingredientId: number) => {
+    setIngredients((prevIngredients) =>
+      prevIngredients.filter((ingredient) => ingredient.id !== ingredientId),
+    );
   };
 
   const ingrédient = ["carotte", "poulet", "curry"];
@@ -109,6 +136,7 @@ const MyRecipes = () => {
           <Autocomplete
             freeSolo
             options={ingrédient}
+            value={selectedIngredient}
             onChange={handleIngredientChange}
             renderInput={(params) => (
               <TextField {...params} label="ingrédient" />
@@ -123,18 +151,48 @@ const MyRecipes = () => {
             id="quantity"
             placeholder="200"
             min="0"
+            value={currentQuantity}
+            onChange={(e) => setCurrentQuantity(e.target.value)}
           />
 
-          <select name="unit" id="unit">
-            <option value="gram">g</option>
-            <option value="centilitre">cl</option>
-            <option value="teaspoon">cuillière(s) à café</option>
-            <option value="tablespoon">cuillière(s) à soupe</option>
-            <option value="piece">pièce(s)</option>
-            <option value="portion">portion(s)</option>
+          <select
+            name="unit"
+            id="unit"
+            value={currentUnit}
+            onChange={(e) => setCurrentUnit(e.target.value)}
+            aria-placeholder="selectionné l'unité"
+          >
+            <option value="">selectionné l'unité</option>
+            <option value="gramme(s)">g</option>
+            <option value="centilitre(s)">cl</option>
+            <option value="cuillière(s) à café">cuillière(s) à café</option>
+            <option value="cuillière(s) à soupe">cuillière(s) à soupe</option>
+            <option value="piece(s)">pièce(s)</option>
+            <option value="portion(s)">portion(s)</option>
           </select>
 
-          <button type="button">Ajouter</button>
+          <button type="button" onClick={addIngredient}>
+            Ajouter
+          </button>
+
+          {ingredients.length > 0 && (
+            <fieldset name="quantity">
+              <legend>Ingrédients ajoutés</legend>
+              {ingredients.map((ingredient) => (
+                <p key={ingredient.id}>
+                  {ingredient.quantity} {ingredient.unit} de {ingredient.name}
+                  <button
+                    type="button"
+                    onClick={() => removeIngredient(ingredient.id)}
+                    className="remove-ingredient-btn"
+                  >
+                    Supprimer
+                  </button>
+                </p>
+              ))}
+            </fieldset>
+          )}
+          <br />
 
           {steps.map((step, index) => (
             <fieldset key={step.id}>
@@ -157,7 +215,6 @@ const MyRecipes = () => {
               />
             </fieldset>
           ))}
-
           <br />
           <button type="button" onClick={addStep}>
             Ajouter une étape
