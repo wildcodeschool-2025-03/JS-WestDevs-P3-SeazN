@@ -10,7 +10,7 @@
     > fieldset {
       position: relative;
 
-      legend {
+      /* legend {
         position: absolute;
         width: 1px;
         height: 1px;
@@ -20,16 +20,16 @@
         clip: rect(0, 0, 0, 0);
         white-space: nowrap;
         border-width: 0;
-      }
+      } */
     }
 
     > fieldset:first-child {
-      border: 2px solid green;
+      /* border: 2px solid green; */
     }
 
     > fieldset:not(:first-child) {
       > div {
-        border: 2px solid blue;
+        /* border: 2px solid blue; */
         display: flex;
         flex-direction: column;
         align-items: start;
