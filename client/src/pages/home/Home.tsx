@@ -1,29 +1,17 @@
+import { useEffect, useState } from "react";
 import "./home.css";
 import { Link } from "react-router";
 import type { RecipeBase } from "../../../src/components/ui/recipeCard/data/recipeCardType";
 import RecipeCard from "../../components/ui/recipeCard/RecipeCard";
 
-const lastRecipes: RecipeBase[] = [
-  {
-    id: 1,
-    name: "Riz au curry",
-    image:
-      "https://img.cuisineaz.com/660x495/2015/10/22/i100924-riz-champignons.webp",
-  },
-  {
-    id: 2,
-    name: "Biscuits cacao",
-    image:
-      "https://resize.elle.fr/portrait_320_webp/var/plain_site/storage/images/elle-a-table/recettes-de-cuisine/biscuits-sans-farine-au-cacao-parfume-3593609/85388120-1-fre-FR/Biscuits-sans-farine-au-cacao-parfume.jpg",
-  },
-  {
-    id: 3,
-    name: "Blanquette de veau",
-    image: "https://assets.afcdn.com/recipe/20190529/93191_w600.jpg",
-  },
-];
-
 const Home = () => {
+  const [lastRecipes, setLastRecipes] = useState<RecipeBase[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3310/api/last-recipes")
+      .then((res) => res.json())
+      .then((data) => setLastRecipes(data));
+  }, []);
   return (
     <section className="home-section">
       <hgroup>
