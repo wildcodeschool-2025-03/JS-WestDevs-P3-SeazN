@@ -1,8 +1,8 @@
 import type { User } from "./types";
 
 import databaseClient, {
-  type Rows,
   type Result,
+  type Rows,
 } from "../../../database/client";
 
 class AuthRepository {

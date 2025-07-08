@@ -1,13 +1,13 @@
+import { Autocomplete } from "@mui/material";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import { useState, useTransition } from "react";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import type { signUpResponse } from "../../../types/Auth";
 import "../login/Login.css";
-import { Autocomplete } from "@mui/material";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import countries from "../signup/data/countries";
 import type { CountryType } from "../signup/data/countries";
+import countries from "../signup/data/countries";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -39,7 +39,6 @@ export default function SignUp() {
       return;
     }
 
-    console.log("contenu ?", payload);
     startTransition(async () => {
       try {
         const response = await fetch("http://localhost:3310/api/signup", {
