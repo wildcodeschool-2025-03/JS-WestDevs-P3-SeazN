@@ -1,11 +1,35 @@
+import { useEffect, useState } from "react";
+import RecipeCard from "../../components/ui/recipeCard/RecipeCard";
+import type { RecipeBase } from "../../components/ui/recipeCard/data/recipeCardType";
 import "./Recipes.css";
 import { formFilters } from "./data/recipesData";
+import type { FormObjType } from "./data/recipesType";
 
 const Recipes = () => {
-  /* useEffect(() => {
-    const formObj = Object.fromEntries(formData)
-    console.log(formObj);
-  }, [formData]); */
+
+  const [formObj, setFormObj] = useState<FormObjType>({});
+  const [filteredRecipes, setFilteredRecipes] = useState<RecipeBase[] | null>(null);
+
+  useEffect(() => {
+    const nameQuery = formObj.name;
+    const queryTimer = setTimeout(() => {
+      if (nameQuery && nameQuery.length > 3) {
+        console.log(`nameQuery : ${nameQuery}`);
+        fetch('api/') /* A compléter */
+          .then(res => res.json())
+          .then(data => {
+            setFilteredRecipes(data);
+          })
+      } else {
+        fetch('api/') /* A compléter sans le nom*/
+          .then(res => res.json())
+          .then(data => {
+            setFilteredRecipes(data);
+          });
+      }
+    }, 1500);
+    return () => clearTimeout(queryTimer);
+  }, [formObj]);
 
   return (
     <section className="recipe-search">
@@ -13,8 +37,33 @@ const Recipes = () => {
         /* action="" */
         onChange={(e) => {
           const formData = new FormData(e.currentTarget);
-          const formObj = Object.fromEntries(formData);
-          console.log(formObj);
+          console.log("formdata", formData);
+          const obj = { name: "", price: "", duration: "", usersRanking: "", ecoRanking: "" };
+
+          for (const [key] of formData) {
+            const values = formData.getAll(key);
+            const value = values.length === 1 ? values[0] : values;
+
+            switch (key) {
+              case "name":
+              case "usersRanking":
+              case "ecoRanking":
+                obj[key] = typeof value === "string" ? value : "";
+                break;
+              case "price":
+              case "duration":
+                if (Array.isArray(value)) {
+                  obj[key] = value.map(item => typeof item === "string" ? item : "").join(", ");
+                } else {
+                  obj[key] = typeof value === "string" ? value : "";
+                }
+                break;
+              default:
+                break;
+            }
+            setFormObj(obj);
+            console.log(obj);
+          }
         }}
       >
         Form :
@@ -59,8 +108,20 @@ const Recipes = () => {
         })}
       </form>
 
-      <div>Visualisation :</div>
-    </section>
+      {/* Visualisation  */}
+      <div>
+        {filteredRecipes ?
+          filteredRecipes.map((recipe) => {
+            return (
+              <RecipeCard key={recipe.id} variant="square" recipe={recipe} />
+            )
+          })
+          :
+          <span>Aucune recette ne correspond à votre recherche</span>
+
+        }
+      </div>
+    </section >
   );
 };
 

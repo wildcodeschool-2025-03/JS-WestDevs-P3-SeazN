@@ -13,3 +13,18 @@ export interface RecipesFormFilter {
 }
 
 export type RecipesFormFilters = RecipesFormFilter[];
+
+export type FormKeyName =
+  | "name"
+  | "price"
+  | "duration"
+  | "usersRanking"
+  | "ecoRanking";
+
+export type FormObjType = {
+  name?: string;
+  price?: string | string[];
+  duration?: string | string[];
+  usersRanking?: string;
+  ecoRanking?: string;
+};
