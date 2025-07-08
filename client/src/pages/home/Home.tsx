@@ -23,17 +23,20 @@ const Home = () => {
           />
         </h1>
         <p>
-          Le plaisir de cuisiner, la clé d’une alimentation saine et
-          transparente !
+          Le plaisir de cuisiner,
+          <br /> la clé d’une alimentation saine et transparente !
         </p>
       </hgroup>
       <article className="last-recipes">
         <h2>Dernières recettes postées</h2>
         <div className="mini-cards">
           {lastRecipes.map((recipe) => (
-            <Link to={`/recipe/${recipe.id}`} key={recipe.id}>
-              <RecipeCard variant="mini" recipe={recipe} />
-            </Link>
+            <div className="tooltip" key={recipe.id}>
+              <Link to={`/recipe/${recipe.id}`}>
+                <RecipeCard variant="mini" recipe={recipe} />
+              </Link>
+              <span className="tooltiptext">{recipe.name}</span>
+            </div>
           ))}
         </div>
       </article>
