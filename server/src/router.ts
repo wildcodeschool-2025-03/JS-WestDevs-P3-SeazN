@@ -7,6 +7,9 @@ const router = express.Router();
 /* ************************************************************************* */
 import authActions from "./modules/auth/authActions";
 // Define item-related routes
+import recipesActions from "./modules/recipes/recipesActions";
+
+router.get("/api/last-recipes", recipesActions.browseLastRecipes);
 import auth from "./utils/auth";
 import validation from "./utils/validation";
 
