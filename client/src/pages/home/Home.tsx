@@ -31,12 +31,9 @@ const Home = () => {
         <h2>Dernières recettes postées</h2>
         <div className="mini-cards">
           {lastRecipes.map((recipe) => (
-            <div className="tooltip" key={recipe.id}>
-              <Link to={`/recipe/${recipe.id}`}>
-                <RecipeCard variant="mini" recipe={recipe} />
-              </Link>
-              <span className="tooltiptext">{recipe.name}</span>
-            </div>
+            <Link to={`/recipe/${recipe.id}`} key={recipe.id}>
+              <RecipeCard variant="mini" recipe={recipe} />
+            </Link>
           ))}
         </div>
       </article>
