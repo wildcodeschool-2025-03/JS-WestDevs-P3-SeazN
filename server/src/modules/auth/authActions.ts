@@ -24,7 +24,7 @@ const add: RequestHandler = async (req, res) => {
 
     if (user) {
       res
-        .status(200)
+        .status(201)
         .json("Congratulations, your account has been created successfully !");
     } else {
       res.status(404).json("An error occured during the registration");
