@@ -11,22 +11,31 @@ const Recipes = () => {
   const [filteredRecipes, setFilteredRecipes] = useState<RecipeBase[] | null>(null);
 
   useEffect(() => {
-    const nameQuery = formObj.name;
+    const params = new URLSearchParams();
     const queryTimer = setTimeout(() => {
-      if (nameQuery && nameQuery.length > 3) {
-        console.log(`nameQuery : ${nameQuery}`);
-        fetch('api/') /* A compléter */
-          .then(res => res.json())
-          .then(data => {
-            setFilteredRecipes(data);
-          })
-      } else {
-        fetch('api/') /* A compléter sans le nom*/
-          .then(res => res.json())
-          .then(data => {
-            setFilteredRecipes(data);
-          });
+      for (const [key, value] of Object.entries(formObj)) {
+        switch (key) {
+          case "name":
+            if (value.length > 3) {
+              params.append(key, value);
+            }
+            break;
+          case "price":
+          case "duration":
+          case "usersRanking":
+          case "ecoRanking":
+            params.append(key, value);
+            break;
+          default:
+            break;
+        }
       }
+      console.log("params : ", params.toString());
+      fetch(`api/recipes?${params.toString()}`)
+        .then(res => res.json())
+        .then(data => {
+          setFilteredRecipes(data);
+        })
     }, 1500);
     return () => clearTimeout(queryTimer);
   }, [formObj]);
@@ -34,7 +43,6 @@ const Recipes = () => {
   return (
     <section className="recipe-search">
       <form
-        /* action="" */
         onChange={(e) => {
           const formData = new FormData(e.currentTarget);
           console.log("formdata", formData);
@@ -43,7 +51,6 @@ const Recipes = () => {
           for (const [key] of formData) {
             const values = formData.getAll(key);
             const value = values.length === 1 ? values[0] : values;
-
             switch (key) {
               case "name":
               case "usersRanking":
@@ -53,7 +60,7 @@ const Recipes = () => {
               case "price":
               case "duration":
                 if (Array.isArray(value)) {
-                  obj[key] = value.map(item => typeof item === "string" ? item : "").join(", ");
+                  obj[key] = value.map(item => typeof item === "string" ? item : "").join(",");
                 } else {
                   obj[key] = typeof value === "string" ? value : "";
                 }
@@ -66,7 +73,6 @@ const Recipes = () => {
           }
         }}
       >
-        Form :
         <fieldset>
           <legend>Recherche par nom</legend>
           <label htmlFor="name">

@@ -22,9 +22,5 @@ export type FormKeyName =
   | "ecoRanking";
 
 export type FormObjType = {
-  name?: string;
-  price?: string | string[];
-  duration?: string | string[];
-  usersRanking?: string;
-  ecoRanking?: string;
+  [key in FormKeyName]?: string;
 };
