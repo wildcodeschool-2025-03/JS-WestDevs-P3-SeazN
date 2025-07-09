@@ -8,7 +8,7 @@ const browse: RequestHandler = async (req, res) => {
     const user = await authRepository.readByEmail(email);
 
     if (user) {
-      res.status(201).json("Congratulations, you're connected !");
+      res.status(200).json("Congratulations, you're connected !");
     } else {
       res.status(404).json("An error has occurred!");
     }
@@ -24,7 +24,7 @@ const add: RequestHandler = async (req, res) => {
 
     if (user) {
       res
-        .status(201)
+        .status(200)
         .json("Congratulations, your account has been created successfully !");
     } else {
       res.status(404).json("An error occured during the registration");

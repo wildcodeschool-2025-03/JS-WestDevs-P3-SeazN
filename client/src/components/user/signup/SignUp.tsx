@@ -57,7 +57,9 @@ export default function SignUp() {
         }
 
         toast.success("Compte créé avec succès !");
-        toast.success("Vous allez être redirigé vers votre tableau de bord. ");
+        toast.success(
+          "Vous allez être redirigé.e vers votre tableau de bord. ",
+        );
         setTimeout(() => {
           navigate("/dashboard");
         }, 3000);

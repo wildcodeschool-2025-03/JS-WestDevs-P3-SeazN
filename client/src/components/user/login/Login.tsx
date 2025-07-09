@@ -33,7 +33,9 @@ export default function Login() {
         });
 
         toast.success("Connexion réussie !");
-        toast.success("Vous allez être redirigé vers votre tableau de bord. ");
+        toast.success(
+          "Vous allez être redirigé.e vers votre tableau de bord. ",
+        );
         setTimeout(() => {
           navigate("/dashboard");
         }, 3000);
