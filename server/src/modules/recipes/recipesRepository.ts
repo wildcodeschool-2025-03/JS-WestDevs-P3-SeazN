@@ -9,19 +9,11 @@ type Recipe = {
 };
 
 class recipesRepository {
-  async readAll() {
+  async readLastRecipes() {
     const [rows] = await databaseClient.query<Rows>(
       "SELECT * FROM recipe WHERE is_validated = 1 ORDER BY id DESC LIMIT 5",
     );
     return rows;
-  }
-
-  async readById(id: number) {
-    const [rows] = await databaseClient.query<Rows>(
-      "SELECT * FROM recipe WHERE id = ?",
-      [id],
-    );
-    return rows[0] as Recipe;
   }
 }
 
