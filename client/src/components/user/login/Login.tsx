@@ -32,7 +32,13 @@ export default function Login() {
           firstName: result.firstName,
         });
 
-        navigate("/dashboard");
+        toast.success("Connexion réussie !");
+        toast.success(
+          "Vous allez être redirigé.e vers votre tableau de bord. ",
+        );
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 3000);
       } catch (error) {
         console.error("Erreur serveur :", error);
         toast.error("Erreur lors de la connexion.");

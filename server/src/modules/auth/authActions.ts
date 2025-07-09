@@ -4,10 +4,11 @@ import authRepository from "./authRepository";
 // login
 const browse: RequestHandler = async (req, res) => {
   try {
-    const user = await authRepository.readByEmail(req.body);
+    const { email } = req.body;
+    const user = await authRepository.readByEmail(email);
 
     if (user) {
-      res.status(201).json("Congratulations, you're connected !");
+      res.status(200).json("Congratulations, you're connected !");
     } else {
       res.status(404).json("An error has occurred!");
     }
@@ -17,7 +18,6 @@ const browse: RequestHandler = async (req, res) => {
 };
 
 // SignUp
-
 const add: RequestHandler = async (req, res) => {
   try {
     const user = await authRepository.create(req.body);
@@ -34,4 +34,4 @@ const add: RequestHandler = async (req, res) => {
   }
 };
 
-export default { add };
+export default { add, browse };
