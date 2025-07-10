@@ -1,4 +1,4 @@
-section {
+.home-section {
   hgroup {
     h1 {
       display: flex;
@@ -68,7 +68,7 @@ section {
 }
 
 @media screen and (min-width: 768px) {
-  section {
+  .home-section {
     hgroup {
       h1 {
         padding-top: 72px;

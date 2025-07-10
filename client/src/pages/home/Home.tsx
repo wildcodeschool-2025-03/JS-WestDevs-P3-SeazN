@@ -13,7 +13,7 @@ const Home = () => {
       .then((data) => setLastRecipes(data));
   }, []);
   return (
-    <section>
+    <section className="home-section">
       <hgroup>
         <h1>
           <img src="/icones-logo/logo SeazN.webp" alt="Logo SeazN" />
