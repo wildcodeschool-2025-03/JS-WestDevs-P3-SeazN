@@ -5,6 +5,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 
 const NewRecipes = () => {
   const [imageSrc, setImageSrc] = useState("");
+  const [imageFile, setImageFile] = useState<File | undefined>();
   const [guestNumber, setGuestNumber] = useState<number>(0);
   const [selectedIngredient, setSelectedIngredient] = useState("");
   const [ingredients, setIngredients] = useState<
@@ -24,19 +25,19 @@ const NewRecipes = () => {
     const formRecipe = JSON.parse(JSON.stringify(formObj));
 
     formRecipe.ingrédient = ingredients;
+    formRecipe.image = imageFile;
     setImageSrc("");
     setGuestNumber(0);
     setIngredients([]);
     setSteps([{ id: 1, content: "" }]);
 
     console.log("Je suis formRecipe", formRecipe);
-    console.log("Je suis image", formRecipe.image);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
+    event.target.files &&
       setImageSrc(URL.createObjectURL(event.target.files[0]));
-    }
+    event.target.files && setImageFile(event.target.files[0]);
   };
 
   const handleIngredientChange = (
@@ -55,7 +56,6 @@ const NewRecipes = () => {
         unit: currentUnit,
       };
       setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
-
       setSelectedIngredient("");
       setCurrentQuantity("");
       setCurrentUnit("");
@@ -119,7 +119,9 @@ const NewRecipes = () => {
             accept=".png, .jpg, .jpeg, .webp"
             onChange={handleFileChange}
           />
-          <img src={imageSrc} alt="your upload" />
+          {imageSrc && imageSrc.trim() !== "" && (
+            <img src={imageSrc} alt="Aperçu de la recette" />
+          )}{" "}
         </label>
 
         <label htmlFor="guestNumber">
@@ -156,7 +158,7 @@ const NewRecipes = () => {
         <div className="ingredient-inputs">
           <input
             type="number"
-            // name="quantity"
+            name="quantity"
             id="quantity"
             placeholder="quantité ex: 200"
             min="0"
