@@ -7,6 +7,7 @@ import type { FormObjType } from "./data/recipesType";
 
 const Recipes = () => {
 
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [formObj, setFormObj] = useState<FormObjType>({});
   const [filteredRecipes, setFilteredRecipes] = useState<RecipeBase[] | null>(null);
 
@@ -30,8 +31,7 @@ const Recipes = () => {
             break;
         }
       }
-      console.log("params : ", params.toString());
-      fetch(`api/recipes?${params.toString()}`)
+      fetch(`${apiUrl}/api/recipes?${params.toString()}`)
         .then(res => res.json())
         .then(data => {
           setFilteredRecipes(data);

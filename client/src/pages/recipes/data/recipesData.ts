@@ -19,7 +19,7 @@ export const formFilters: RecipesFormFilters = [
       { id: "duration1", name: "< 30min", value: "00:00:00-00:30:00" },
       { id: "duration2", name: "30 min - 1h", value: "00:30:00-01:00:00" },
       { id: "duration3", name: "1h - 2h", value: "01:00:00-02:00:00" },
-      { id: "duration3", name: "> 2h", value: "02:00:00-99:00:00" },
+      { id: "duration4", name: "> 2h", value: "02:00:00-99:00:00" },
     ],
   },
   {
