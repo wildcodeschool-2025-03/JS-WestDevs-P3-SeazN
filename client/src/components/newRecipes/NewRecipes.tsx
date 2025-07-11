@@ -156,7 +156,7 @@ const NewRecipes = () => {
         <div className="ingredient-inputs">
           <input
             type="number"
-            name="quantity"
+            // name="quantity"
             id="quantity"
             placeholder="quantité ex: 200"
             min="0"

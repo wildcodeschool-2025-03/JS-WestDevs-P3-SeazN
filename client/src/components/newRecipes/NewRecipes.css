@@ -107,7 +107,7 @@
     margin: 4px 0 0 0;
   }
 
-  select[name="unit"] {
+  select[id="unit"] {
     height: 30px;
     padding: 6px 8px;
     margin: 4px 0 0 0;
