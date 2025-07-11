@@ -23,13 +23,12 @@ export interface RecipesParams {
 
 class RecipesRepository {
   async readSearchRecipes(recipesParams: RecipesParams) {
-    let sql = "SELECT id,name,image from recipe";
-    /* AJOUTER is_validated ! */
-    const sqlWhere = [];
-    const sqlParams: (string | number)[] = [];
+    let sql = "SELECT id,name,image from recipe ";
+    const sqlWhere = ["(recipe.is_validated = ?)"];
+    const sqlParams: (string | number)[] = [1];
 
     if (recipesParams.name && recipesParams.name.length > 0) {
-      sqlWhere.push("recipe.name LIKE ?");
+      sqlWhere.push("(recipe.name LIKE ?)");
       sqlParams.push(`%${recipesParams.name}%`);
     }
 
@@ -39,7 +38,7 @@ class RecipesRepository {
         .map((price) => Number.parseInt(price));
 
       sqlWhere.push(
-        `recipe.price IN (${prices.map((price) => "?").join(", ")})`,
+        `(recipe.price IN (${prices.map((price) => "?").join(", ")}))`,
       );
 
       for (const price of prices) {
@@ -47,24 +46,26 @@ class RecipesRepository {
       }
     }
 
-    /* Change TIME to INT in table */
-    /*  if (recipesParams.duration && recipesParams.duration.length > 0) {
-      sqlWhere.push("recipe.duration IN ?");
-      sqlParams.push(
-        recipesParams.duration
-          .split(",")
-          .map((value) => Number.parseInt(value)),
-      ); 
-    }  */
+    if (recipesParams.duration && recipesParams.duration.length > 0) {
+      const ranges = recipesParams.duration
+        .split(",")
+        .map((range) => range.split("-"));
+      const whereRanges = [];
+      for (const range of ranges) {
+        whereRanges.push("(recipe.duration BETWEEN ? AND ?)");
+        sqlParams.push(range[0], range[1]);
+      }
+      sqlWhere.push(`(${whereRanges.join(" OR ")})`);
+    }
 
-    /* JOIN here
+    /* No users ranking in DB - Add it later
     if (recipesParams.usersRanking && recipesParams.usersRanking.length > 0) {
       sqlWhere.push("recipe.usersRanking >= ?");
       sqlParams.push(Number.parseInt(recipesParams.usersRanking));
     } */
 
     if (recipesParams.ecoRanking && recipesParams.ecoRanking.length > 0) {
-      sqlWhere.push("recipe.eco_average >= ?");
+      sqlWhere.push("(recipe.eco_average >= ?)");
       sqlParams.push(Number.parseInt(recipesParams.ecoRanking));
     }
 
@@ -72,13 +73,7 @@ class RecipesRepository {
       sql += ` WHERE ${sqlWhere.join(" AND ")}`;
     }
 
-    console.warn("SQL Where : ", sqlWhere);
-    console.warn("SQL request : ", sql);
-    console.warn("SQL values : ", sqlParams);
-
     const [rows] = await databaseClient.query<Rows>(sql, sqlParams);
-
-    console.warn("rows :", rows);
 
     return rows as RecipeBase[];
   }
