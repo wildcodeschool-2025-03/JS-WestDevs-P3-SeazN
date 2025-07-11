@@ -16,31 +16,29 @@ const Home = () => {
     <section className="home-section">
       <hgroup>
         <h1>
-          <img
-            src="/icones-logo/logo SeazN.webp"
-            alt="Logo SeazN"
-            className="logo-full"
-          />
+          <img src="/icones-logo/logo SeazN.webp" alt="Logo SeazN" />
         </h1>
         <p>
           Le plaisir de cuisiner,
-          <br /> la clé d’une alimentation saine et transparente !
+          <br /> la clé d'une alimentation saine et transparente !
         </p>
       </hgroup>
-      <article className="last-recipes">
+      <article>
         <h2>Dernières recettes postées</h2>
-        <div className="mini-cards">
+        <div>
           {lastRecipes.map((recipe) => (
-            <Link to={`/recipe/${recipe.id}`} key={recipe.id}>
-              <RecipeCard variant="mini" recipe={recipe} />
-            </Link>
+            <div key={recipe.id}>
+              <Link to={`/recipe/${recipe.id}`}>
+                <RecipeCard variant="mini" recipe={recipe} />
+              </Link>
+              <span role="tooltip">{recipe.name}</span>
+            </div>
           ))}
         </div>
       </article>
       <img
         src="/icones-logo/feuille footer 2 v2.webp"
         alt="decoration Logo leaf above footer"
-        className="leaf-logo-footer"
       />
     </section>
   );
