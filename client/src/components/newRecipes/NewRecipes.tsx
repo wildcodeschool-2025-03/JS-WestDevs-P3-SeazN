@@ -100,14 +100,13 @@ const NewRecipes = () => {
 
         <label htmlFor="recipeName">
           <h3>La recette</h3>
+          <input
+            type="text"
+            id="recipeName"
+            name="recipeName"
+            placeholder="Nom de la recette"
+          />
         </label>
-
-        <input
-          type="text"
-          id="recipeName"
-          name="recipeName"
-          placeholder="Nom de la recette"
-        />
 
         <label htmlFor="image">
           <h3>La photo</h3>
@@ -121,30 +120,29 @@ const NewRecipes = () => {
           />
           {imageSrc && imageSrc.trim() !== "" && (
             <img src={imageSrc} alt="Aperçu de la recette" />
-          )}{" "}
+          )}
         </label>
 
         <label htmlFor="guestNumber">
           <h3>Nombre de personnes</h3>
+          <select
+            name="guestNumber"
+            id="guestNumber"
+            value={guestNumber}
+            onChange={(e) => setGuestNumber(Number(e.target.value))}
+          >
+            <option value={0}>Sélectionné le nombre de personnes</option>
+            <option value={2}>2</option>
+            <option value={4}>4</option>
+            <option value={6}>6</option>
+            <option value={8}>8</option>
+            <option value={10}>10</option>
+            <option value={12}>12</option>
+          </select>
         </label>
-        <select
-          name="guestNumber"
-          id="guestNumber"
-          value={guestNumber}
-          onChange={(e) => setGuestNumber(Number(e.target.value))}
-        >
-          <option value={0}>Sélectionné le nombre de personnes</option>
-          <option value={2}>2</option>
-          <option value={4}>4</option>
-          <option value={6}>6</option>
-          <option value={8}>8</option>
-          <option value={10}>10</option>
-          <option value={12}>12</option>
-        </select>
 
         <label htmlFor="ingredient">
           <h3>Les ingrédients</h3>
-        </label>
         <Autocomplete
           freeSolo
           options={ingrédient}
@@ -153,7 +151,8 @@ const NewRecipes = () => {
           renderInput={(params) => (
             <TextField {...params} label="ingrédients" />
           )}
-        />
+          />
+          </label>
 
         <div className="ingredient-inputs">
           <input

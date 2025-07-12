@@ -1,9 +1,16 @@
 .newRecipes {
   width: 320px;
   height: 100%;
-  padding: 0 15px 0 0;
+
+  form {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: repeat(9, auto);
+    row-gap: 8px;
+  }
 
   h2 {
+    grid-area: 1 / 1 / 2 / 2;
     text-align: center;
     font-size: 1.5rem;
     font-weight: 200;
@@ -12,7 +19,10 @@
   h3 {
     font-size: 1.2rem;
     font-weight: 200;
-    margin: 8px 0 0 0;
+  }
+
+  label[for="recipeName"] {
+    grid-area: 2 / 1 / 3 / 2;
   }
 
   input[type="text"] {
@@ -22,6 +32,10 @@
     border: none;
     border-radius: 8px;
     font-size: 0.8rem;
+  }
+
+  label[for="image"] {
+    grid-area: 3 / 1 / 4 / 2;
   }
 
   label[for="image"] > legend {
@@ -49,6 +63,10 @@
     padding: 8px 0 0 0;
   }
 
+  label[for="guestNumber"] {
+    grid-area: 4 / 1 / 5 / 2;
+  }
+
   select[name="guestNumber"] {
     width: 100%;
     height: 30px;
@@ -64,11 +82,16 @@
     background-size: 16px;
   }
 
+  label[for="ingredient"],
+  .MuiAutocomplete-root,
+  .MuiOutlinedInput-root {
+    grid-area: 5 / 1 / 6 / 2;
+  }
+
   .MuiAutocomplete-root .MuiOutlinedInput-root {
     background-color: var(--text-light);
     height: 30px;
     border-radius: 8px;
-    margin: 0 0 8px 0;
   }
 
   .css-113d811-MuiFormLabel-root-MuiInputLabel-root {
@@ -86,16 +109,11 @@
   }
 
   .ingredient-inputs {
+    grid-area: 6 / 1 / 7 / 2;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 13px;
-    margin: 16px 0;
-  }
-
-  fieldset[name="ingredients"] p {
-    flex-direction: column;
-    gap: 10px;
   }
 
   input[type="number"] {
@@ -104,13 +122,11 @@
     border: none;
     border-radius: 8px;
     font-size: 0.8rem;
-    margin: 4px 0 0 0;
   }
 
   select[id="unit"] {
     height: 30px;
     padding: 6px 8px;
-    margin: 4px 0 0 0;
     border: none;
     border-radius: 8px;
     font-size: 0.8rem;
@@ -123,7 +139,7 @@
   }
 
   button {
-    padding: 6px 16px;
+    padding: 8px 16px;
     border: none;
     border-radius: 8px;
     font-size: 0.8rem;
@@ -134,6 +150,36 @@
 
   button:hover {
     background-color: rgb(226, 226, 226);
+  }
+
+  fieldset {
+    border: none;
+  }
+
+  fieldset[name="ingredients"] {
+    grid-area: 7 / 1 / 8 / 2;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 8px 16px;
+  }
+
+  fieldset[name="ingredients"] > legend {
+    color: white;
+    font-size: 1rem;
+    font-weight: 200;
+  }
+
+  fieldset[name="ingredients"] p {
+    flex-direction: column;
+    gap: 10px;
+    background-color: var(--text-light);
+    color: var(--text-dark);
+    padding: 8px 16px;
+    margin: 0 0 8px 0;
+    border-radius: 8px;
+    display: flex;
+    font-size: 0.8rem;
+    align-items: center;
   }
 
   .remove-ingredient-btn,
@@ -149,39 +195,10 @@
     background-color: #f07c09 !important;
   }
 
-  fieldset {
-    border: none;
-  }
-
-  fieldset[name="ingredients"] {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 8px 16px;
-    margin: 0 0 16px 0;
-  }
-
-  fieldset[name="ingredients"] > legend {
-    color: white;
-    font-size: 1rem;
-    font-weight: 200;
-  }
-
-  fieldset[name="ingredients"] p {
-    background-color: var(--text-light);
-    color: var(--text-dark);
-    padding: 8px 16px;
-    margin: 0 0 8px 0;
-    border-radius: 8px;
-    display: flex;
-    font-size: 0.8rem;
-    align-items: center;
-  }
-
   fieldset:not([name="ingredients"]) legend {
     color: white;
     font-size: 1.2rem;
     font-weight: 200;
-    margin: 0 0 8px 0;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -210,6 +227,10 @@
     height: 700px;
     overflow-y: scroll;
     scrollbar-width: none;
+
+    form {
+      row-gap: 16px;
+    }
 
     h2 {
       font-size: 2rem;
@@ -274,7 +295,6 @@
       padding: 12px 16px;
       border-radius: 10px;
       font-size: 1rem;
-      margin: 0;
     }
 
     select[name="unit"] {
@@ -283,7 +303,6 @@
       padding: 12px 16px;
       border-radius: 10px;
       font-size: 1rem;
-      margin: 0;
     }
 
     button {
