@@ -6,35 +6,34 @@
   form {
     width: 100%;
     padding-bottom: 1rem;
-    /* display: flex;
-    justify-content: space-between;
-    align-items: start; */
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
 
-    > fieldset {
-      position: relative;
-      border: none;
+    > details {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--light-primary);
+      border-radius: 4px;
+      /* border: none; */
+      /* place-self: start; */
 
-      legend {
-        /*  position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border-width: 0; */
+      summary {
+        font-weight: 600;
         color: var(--light-primary);
       }
     }
 
-    > fieldset:first-child {
-      /* border: 2px solid green; */
+    > details:first-child {
+      /* grid-column: span 2; */
+
+      input {
+        padding: 4px;
+        border: 1px solid var(--light-primary);
+        border-radius: 4px;
+      }
     }
 
-    > fieldset:not(:first-child) {
+    > details:not(:first-child) {
       > div {
         display: flex;
         flex-direction: column;
@@ -58,7 +57,18 @@
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
-    justify-content: space-between;
-    /* border: 1px solid blueviolet; */
+    justify-content: center;
+  }
+}
+
+@media only screen and (min-width = 768px) and (max-width = 1024px) {
+  .recipe-search form {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (min-width = 1024px) {
+  .recipe-search form {
+    grid-template-columns: repeat(5, 1fr);
   }
 }

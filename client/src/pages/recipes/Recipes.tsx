@@ -73,22 +73,23 @@ const Recipes = () => {
           }
         }}
       >
-        <fieldset>
-          <legend>Recherche par nom</legend>
+        <details>
+          <summary>Recherche par nom</summary>
           <label htmlFor="name">
             <input
               id="name"
               type="text"
               name="name"
               aria-label="name"
-              placeholder="Recherche par nom"
+              maxLength={50}
+              placeholder="Entrez un nom de recette"
             />
           </label>
-        </fieldset>
+        </details>
         {formFilters.map((filter) => {
           return (
-            <fieldset key={filter.id}>
-              <legend>{filter.filterName}</legend>
+            <details key={filter.id}>
+              <summary>{filter.filterName}</summary>
               <div>
                 {filter.content.map((item, index) => {
                   return (
@@ -98,9 +99,9 @@ const Recipes = () => {
                         id={item.id}
                         name={filter.id}
                         value={item.value}
-                        defaultChecked={
-                          filter.type === "radio" ? index === 0 : undefined
-                        }
+                      /* defaultChecked={
+                        filter.type === "radio" ? index === 0 : undefined
+                      } */
                       />
                       <span>
                         {item.name} {filter.typeDetail === "ranking" && "☆"}
@@ -109,7 +110,7 @@ const Recipes = () => {
                   );
                 })}
               </div>
-            </fieldset>
+            </details>
           );
         })}
       </form>
@@ -124,7 +125,6 @@ const Recipes = () => {
           })
           :
           <span>Aucune recette ne correspond à votre recherche</span>
-
         }
       </div>
     </section >
