@@ -26,7 +26,7 @@ export const formFilters: RecipesFormFilters = [
     id: "usersRanking",
     type: "radio",
     typeDetail: "ranking",
-    filterName: "Évaluation utilisateurs",
+    filterName: "Note gourmets",
     content: [
       { id: "usersRanking1", name: "> 0", value: "0" },
       { id: "usersRanking2", name: "> 1", value: "1" },
@@ -39,7 +39,7 @@ export const formFilters: RecipesFormFilters = [
     id: "ecoRanking",
     type: "radio",
     typeDetail: "ranking",
-    filterName: "Évaluation écologique",
+    filterName: "Note éco",
     content: [
       { id: "ecoRanking1", name: "> 0", value: "0" },
       { id: "ecoRanking2", name: "> 1", value: "1" },

@@ -73,8 +73,8 @@ const Recipes = () => {
           }
         }}
       >
-        <details>
-          <summary>Recherche par nom</summary>
+        <details aria-labelledby="recherche-nom">
+          <summary id="recherche-nom">Recherche par nom</summary>
           <label htmlFor="name">
             <input
               id="name"
@@ -88,10 +88,10 @@ const Recipes = () => {
         </details>
         {formFilters.map((filter) => {
           return (
-            <details key={filter.id}>
-              <summary>{filter.filterName}</summary>
+            <details key={filter.id} aria-labelledby={filter.filterName}>
+              <summary id={filter.filterName}>{filter.filterName}</summary>
               <div>
-                {filter.content.map((item, index) => {
+                {filter.content.map((item) => {
                   return (
                     <label key={item.id} htmlFor={item.id}>
                       <input
@@ -99,9 +99,6 @@ const Recipes = () => {
                         id={item.id}
                         name={filter.id}
                         value={item.value}
-                      /* defaultChecked={
-                        filter.type === "radio" ? index === 0 : undefined
-                      } */
                       />
                       <span>
                         {item.name} {filter.typeDetail === "ranking" && "☆"}
@@ -117,7 +114,7 @@ const Recipes = () => {
 
       {/* Visualisation  */}
       <div>
-        {filteredRecipes ?
+        {filteredRecipes && filteredRecipes.length > 0 ?
           filteredRecipes.map((recipe) => {
             return (
               <RecipeCard key={recipe.id} variant="square" recipe={recipe} />
