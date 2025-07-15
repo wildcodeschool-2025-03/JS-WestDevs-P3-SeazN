@@ -1,7 +1,7 @@
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import "./NewRecipes.css";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 
 const NewRecipes = () => {
   const [imageSrc, setImageSrc] = useState("");
