@@ -9,7 +9,6 @@
     width: 100%;
     display: grid;
     gap: 0.5rem;
-    border: 1px solid blue;
 
     > details {
       width: 100%;
@@ -52,28 +51,26 @@
     }
   }
 
+  > span {
+    color: var(--light-primary);
+    font-weight: 600;
+    text-align: center;
+  }
+
   > div:first-of-type {
     width: min(100%, 1400px);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     gap: 1rem;
-    border: 1px solid red;
 
     figure {
       place-self: center;
-    }
-
-    span {
-      color: var(--light-primary);
-      font-weight: 600;
-      text-align: center;
     }
   }
 
   > div:last-of-type {
     display: flex;
     gap: 1rem;
-    border: 1px solid rgb(198, 159, 18);
 
     button {
       width: 7rem;
@@ -83,6 +80,10 @@
       background-color: var(--light-primary);
       border-radius: 16px;
       border: none;
+
+      &:disabled {
+        opacity: 0.4;
+      }
     }
 
     span {
@@ -95,8 +96,6 @@
 
 @media only screen and (min-width: 500px) and (max-width: 768px) {
   .recipe-search {
-    padding-bottom: 0;
-
     form {
       grid-template-columns: repeat(2, 1fr);
 

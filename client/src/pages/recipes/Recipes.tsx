@@ -11,7 +11,9 @@ const Recipes = () => {
   const [formObj, setFormObj] = useState<FormObjType>({});
   const [filteredRecipes, setFilteredRecipes] = useState<RecipeBase[] | null>(null);
   const [page, setPage] = useState<number>(1)
+  const [totalRecipes, setTotalRecipes] = useState<number>(0)
   const limitResults = 20;
+  const totalPages = Math.ceil(totalRecipes / limitResults);
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -37,7 +39,8 @@ const Recipes = () => {
       fetch(`${apiUrl}/api/recipes?${params.toString()}`)
         .then(res => res.json())
         .then(data => {
-          setFilteredRecipes(data);
+          setFilteredRecipes(data.recipes);
+          setTotalRecipes(data.totalRecipes);
         })
     }, 1500);
     return () => clearTimeout(queryTimer);
@@ -114,15 +117,14 @@ const Recipes = () => {
       </form>
 
       {/* Visualisation  */}
+      <span>{totalRecipes === 0 ? "Aucune recette ne correspond à votre recherche" : totalRecipes > 1 ? `${totalRecipes} recettes correspondent à votre recherche` : "1 recette correspond à votre recherche"}</span>
       <div>
-        {filteredRecipes && filteredRecipes.length > 0 ?
-          filteredRecipes.map((recipe) => {
-            return (
-              <RecipeCard key={recipe.id} variant="square" recipe={recipe} />
-            )
-          })
-          :
-          <span>Aucune recette ne correspond à votre recherche</span>
+        {filteredRecipes?.map((recipe) => {
+          return (
+            <RecipeCard key={recipe.id} variant="square" recipe={recipe} />
+          )
+        })
+
         }
       </div>
 
@@ -135,12 +137,12 @@ const Recipes = () => {
           &laquo; Précédent
         </button>
 
-        <span>{page}</span>
+        <span>{page} / {totalPages}</span>
 
         <button
           type="button"
           onClick={() => setPage(page + 1)}
-          disabled={!!filteredRecipes && filteredRecipes.length < limitResults}
+          disabled={page === totalPages}
         >
           Suivant &raquo;
         </button>

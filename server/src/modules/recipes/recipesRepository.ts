@@ -25,7 +25,7 @@ export interface RecipesParams {
 
 class RecipesRepository {
   async readSearchRecipes(recipesParams: RecipesParams) {
-    let sql = "SELECT id,name,image from recipe ";
+    let sqlBase = "FROM recipe ";
     const sqlWhere = ["(recipe.is_validated = ?)"];
     const sqlParams: (string | number)[] = [1];
 
@@ -72,20 +72,35 @@ class RecipesRepository {
     }
 
     if (sqlWhere.length > 0) {
-      sql += ` WHERE ${sqlWhere.join(" AND ")}`;
+      sqlBase += ` WHERE ${sqlWhere.join(" AND ")}`;
     }
 
+    /* Total recipes */
+    const countSql = `SELECT count(*) as totalRecipes ${sqlBase}`;
+    const countParams = sqlParams;
+    const [countRows] = await databaseClient.query<Rows>(countSql, countParams);
+    const totalRecipes = countRows[0].totalRecipes;
+
+    /* Displayed recipes */
+    let dataSql = `SELECT id, name, image ${sqlBase}`;
+    const dataParams = sqlParams;
     if (recipesParams.page && recipesParams.page.length > 0) {
       const limitResults = 20;
       const offsetResults =
         limitResults * (Number.parseInt(recipesParams.page) - 1);
-      sql += " LIMIT ? OFFSET ?";
+      dataSql += " LIMIT ? OFFSET ?";
       sqlParams.push(limitResults, offsetResults);
     }
 
-    const [rows] = await databaseClient.query<Rows>(sql, sqlParams);
+    const [dataRows] = await databaseClient.query<Rows>(dataSql, dataParams);
 
-    return rows as RecipeBase[];
+    console.log("countRows", countRows);
+    console.log("dataRows", dataRows);
+
+    return {
+      recipes: dataRows as RecipeBase[],
+      totalRecipes: totalRecipes as number,
+    };
   }
 }
 
