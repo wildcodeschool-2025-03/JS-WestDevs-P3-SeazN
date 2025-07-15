@@ -12,6 +12,9 @@
   border-radius: 16px;
 
   figcaption {
+    min-height: 54px;
+    display: grid;
+    place-items: center;
     text-align: center;
     color: var(--text-light);
   }
