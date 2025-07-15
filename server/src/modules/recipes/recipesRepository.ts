@@ -11,7 +11,8 @@ export type AvailableFilters =
   | "price"
   | "duration"
   | "usersRanking"
-  | "ecoRanking";
+  | "ecoRanking"
+  | "page";
 
 export interface RecipesParams {
   name?: string;
@@ -19,6 +20,7 @@ export interface RecipesParams {
   duration?: string;
   usersRanking?: string;
   ecoRanking?: string;
+  page?: string;
 }
 
 class RecipesRepository {
@@ -71,6 +73,14 @@ class RecipesRepository {
 
     if (sqlWhere.length > 0) {
       sql += ` WHERE ${sqlWhere.join(" AND ")}`;
+    }
+
+    if (recipesParams.page && recipesParams.page.length > 0) {
+      const limitResults = 20;
+      const offsetResults =
+        limitResults * (Number.parseInt(recipesParams.page) - 1);
+      sql += " LIMIT ? OFFSET ?";
+      sqlParams.push(limitResults, offsetResults);
     }
 
     const [rows] = await databaseClient.query<Rows>(sql, sqlParams);

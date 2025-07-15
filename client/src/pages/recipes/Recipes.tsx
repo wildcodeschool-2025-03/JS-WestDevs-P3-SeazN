@@ -10,6 +10,8 @@ const Recipes = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [formObj, setFormObj] = useState<FormObjType>({});
   const [filteredRecipes, setFilteredRecipes] = useState<RecipeBase[] | null>(null);
+  const [page, setPage] = useState<number>(1)
+  const limitResults = 20;
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -31,6 +33,7 @@ const Recipes = () => {
             break;
         }
       }
+      params.append("page", page.toString())
       fetch(`${apiUrl}/api/recipes?${params.toString()}`)
         .then(res => res.json())
         .then(data => {
@@ -38,14 +41,13 @@ const Recipes = () => {
         })
     }, 1500);
     return () => clearTimeout(queryTimer);
-  }, [formObj]);
+  }, [formObj, page]);
 
   return (
     <section className="recipe-search">
       <form
         onChange={(e) => {
           const formData = new FormData(e.currentTarget);
-          console.log("formdata", formData);
           const obj = { name: "", price: "", duration: "", usersRanking: "", ecoRanking: "" };
 
           for (const [key] of formData) {
@@ -69,7 +71,6 @@ const Recipes = () => {
                 break;
             }
             setFormObj(obj);
-            console.log(obj);
           }
         }}
       >
@@ -124,6 +125,27 @@ const Recipes = () => {
           <span>Aucune recette ne correspond à votre recherche</span>
         }
       </div>
+
+      <div>
+        <button
+          type="button"
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+        >
+          &laquo; Précédent
+        </button>
+
+        <span>{page}</span>
+
+        <button
+          type="button"
+          onClick={() => setPage(page + 1)}
+          disabled={!!filteredRecipes && filteredRecipes.length < limitResults}
+        >
+          Suivant &raquo;
+        </button>
+      </div>
+
     </section >
   );
 };

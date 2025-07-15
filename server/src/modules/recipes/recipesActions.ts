@@ -6,7 +6,14 @@ import recipesRepository, {
 
 const browseSearchRecipes: RequestHandler = async (req, res, next) => {
   try {
-    const filters = ["name", "price", "duration", "usersRanking", "ecoRanking"];
+    const filters = [
+      "name",
+      "price",
+      "duration",
+      "usersRanking",
+      "ecoRanking",
+      "page",
+    ];
     const recipesParams: RecipesParams = {};
     for (const key of filters) {
       const value = req.query[key];
