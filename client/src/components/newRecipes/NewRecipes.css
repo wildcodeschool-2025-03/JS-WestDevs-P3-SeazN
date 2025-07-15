@@ -88,22 +88,26 @@
     grid-area: 5 / 1 / 6 / 2;
   }
 
+  /* input autocomplete */
   .MuiAutocomplete-root .MuiOutlinedInput-root {
     background-color: var(--text-light);
     height: 30px;
     border-radius: 8px;
   }
 
-  .css-113d811-MuiFormLabel-root-MuiInputLabel-root {
-    font-size: 0.6rem;
-    top: 3px;
-  }
-
+  /* placeholder autocomplete */
   .css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root {
     font-size: 0.8rem;
     top: -11px;
   }
 
+  /* placeholder at the top */
+  .css-113d811-MuiFormLabel-root-MuiInputLabel-root {
+    font-size: 0.6rem;
+    top: 3px;
+  }
+
+  /* autocomplete cross */
   .css-1x7n7v0-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator {
     padding: 0;
   }
@@ -268,19 +272,22 @@
       background-position: right 16px center;
     }
 
+    /* input autocomplete */
     .MuiAutocomplete-root .MuiOutlinedInput-root {
       height: 48px;
       border-radius: 10px;
     }
 
-    .css-113d811-MuiFormLabel-root-MuiInputLabel-root {
-      font-size: initial;
-      top: -1px;
-    }
-
+    /* placeholder autocomplete */
     .css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root {
       font-size: initial;
       top: -4px;
+    }
+
+    /* placeholder at the top */
+    .css-113d811-MuiFormLabel-root-MuiInputLabel-root {
+      font-size: initial;
+      top: -1px;
     }
 
     .ingredient-inputs {

@@ -30,8 +30,6 @@ const NewRecipes = () => {
     setGuestNumber(0);
     setIngredients([]);
     setSteps([{ id: 1, content: "" }]);
-
-    console.log("Je suis formRecipe", formRecipe);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,16 +141,16 @@ const NewRecipes = () => {
 
         <label htmlFor="ingredient">
           <h3>Les ingrédients</h3>
-        <Autocomplete
-          freeSolo
-          options={ingrédient}
-          value={selectedIngredient}
-          onChange={handleIngredientChange}
-          renderInput={(params) => (
-            <TextField {...params} label="ingrédients" />
-          )}
+          <Autocomplete
+            freeSolo
+            options={ingrédient}
+            value={selectedIngredient}
+            onChange={handleIngredientChange}
+            renderInput={(params) => (
+              <TextField {...params} label="ingrédients" />
+            )}
           />
-          </label>
+        </label>
 
         <div className="ingredient-inputs">
           <input
