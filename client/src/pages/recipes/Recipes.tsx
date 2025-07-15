@@ -6,12 +6,13 @@ import { formFilters } from "./data/recipesData";
 import type { FormObjType } from "./data/recipesType";
 
 const Recipes = () => {
-
   const apiUrl = import.meta.env.VITE_API_URL;
   const [formObj, setFormObj] = useState<FormObjType>({});
-  const [filteredRecipes, setFilteredRecipes] = useState<RecipeBase[] | null>(null);
-  const [page, setPage] = useState<number>(1)
-  const [totalRecipes, setTotalRecipes] = useState<number>(0)
+  const [filteredRecipes, setFilteredRecipes] = useState<RecipeBase[] | null>(
+    null,
+  );
+  const [page, setPage] = useState<number>(1);
+  const [totalRecipes, setTotalRecipes] = useState<number>(0);
   const limitResults = 20;
   const totalPages = Math.ceil(totalRecipes / limitResults);
 
@@ -35,13 +36,13 @@ const Recipes = () => {
             break;
         }
       }
-      params.append("page", page.toString())
+      params.append("page", page.toString());
       fetch(`${apiUrl}/api/recipes?${params.toString()}`)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           setFilteredRecipes(data.recipes);
           setTotalRecipes(data.totalRecipes);
-        })
+        });
     }, 1500);
     return () => clearTimeout(queryTimer);
   }, [formObj, page]);
@@ -51,7 +52,13 @@ const Recipes = () => {
       <form
         onChange={(e) => {
           const formData = new FormData(e.currentTarget);
-          const obj = { name: "", price: "", duration: "", usersRanking: "", ecoRanking: "" };
+          const obj = {
+            name: "",
+            price: "",
+            duration: "",
+            usersRanking: "",
+            ecoRanking: "",
+          };
 
           for (const [key] of formData) {
             const values = formData.getAll(key);
@@ -65,7 +72,9 @@ const Recipes = () => {
               case "price":
               case "duration":
                 if (Array.isArray(value)) {
-                  obj[key] = value.map(item => typeof item === "string" ? item : "").join(",");
+                  obj[key] = value
+                    .map((item) => (typeof item === "string" ? item : ""))
+                    .join(",");
                 } else {
                   obj[key] = typeof value === "string" ? value : "";
                 }
@@ -117,15 +126,19 @@ const Recipes = () => {
       </form>
 
       {/* Visualisation  */}
-      <span>{totalRecipes === 0 ? "Aucune recette ne correspond à votre recherche" : totalRecipes > 1 ? `${totalRecipes} recettes correspondent à votre recherche` : "1 recette correspond à votre recherche"}</span>
+      <span>
+        {totalRecipes === 0
+          ? "Aucune recette ne correspond à votre recherche"
+          : totalRecipes > 1
+            ? `${totalRecipes} recettes correspondent à votre recherche`
+            : "1 recette correspond à votre recherche"}
+      </span>
       <div>
         {filteredRecipes?.map((recipe) => {
           return (
             <RecipeCard key={recipe.id} variant="square" recipe={recipe} />
-          )
-        })
-
-        }
+          );
+        })}
       </div>
 
       <div>
@@ -137,7 +150,9 @@ const Recipes = () => {
           &laquo; Précédent
         </button>
 
-        <span>{page} / {totalPages}</span>
+        <span>
+          {page} / {totalPages}
+        </span>
 
         <button
           type="button"
@@ -147,8 +162,7 @@ const Recipes = () => {
           Suivant &raquo;
         </button>
       </div>
-
-    </section >
+    </section>
   );
 };
 
