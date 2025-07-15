@@ -11,18 +11,25 @@ const MobileNav = () => {
     setOpenedPopover((prev) => (prev === label ? null : label));
   };
 
+  const orderItemMobile = (items: typeof menuItems) => {
+    const [dashboard, kitchen, recipes, products, nutrition] = items;
+    return [kitchen, recipes, dashboard, products, nutrition];
+  };
+
+  const orderItems = orderItemMobile(menuItems);
+
   return (
     <>
       <header className="mobile-header">
         <img src="/icones-logo/N vert et orange.webp" alt="Logo" />
-        <div className="icon-mobile">
+        <div>
           <LanguageIcon />
           <UserIcon />
         </div>
       </header>
 
       <nav className="mobile-footer">
-        {menuItems.map(({ icon, label, path, subItems }) => {
+        {orderItems.map(({ icon, label, path, subItems }) => {
           const popoverId = label;
 
           return (
@@ -51,7 +58,6 @@ const MobileNav = () => {
                       <img src={icon} alt={label} />
                     )}
                   </button>
-
                   {openedPopover && (
                     <div
                       id={popoverId}
