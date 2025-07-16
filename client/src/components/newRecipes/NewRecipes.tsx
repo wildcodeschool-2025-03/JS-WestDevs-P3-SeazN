@@ -30,8 +30,6 @@ const NewRecipes = () => {
     setGuestNumber(0);
     setIngredients([]);
     setSteps([{ id: 1, content: "" }]);
-
-    console.log("Je suis la recette", formRecipe);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
