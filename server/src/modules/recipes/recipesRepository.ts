@@ -31,7 +31,7 @@ class recipesRepository {
         body.duration,
       ],
     );
-    return result;
+    return result.affectedRows;
   }
 }
 
