@@ -37,6 +37,7 @@ const NewRecipes = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.target.files &&
       setImageSrc(URL.createObjectURL(event.target.files[0]));
+    event.target.files && setImageFile(event.target.files[0]);
   };
 
   const handleIngredientChange = (
