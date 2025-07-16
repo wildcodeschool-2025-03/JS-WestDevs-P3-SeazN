@@ -196,7 +196,7 @@
 
   .remove-ingredient-btn:hover,
   .remove-step-btn:hover {
-    background-color: #f07c09 ;
+    background-color: #f07c09;
   }
 
   fieldset:not([name="ingredients"]) legend {
