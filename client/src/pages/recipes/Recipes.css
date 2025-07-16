@@ -80,9 +80,15 @@
       background-color: var(--light-primary);
       border-radius: 16px;
       border: none;
+      transition: 300ms;
 
       &:disabled {
         opacity: 0.4;
+      }
+
+      &:enabled:hover {
+        filter: brightness(0.9);
+        cursor: pointer;
       }
     }
 
