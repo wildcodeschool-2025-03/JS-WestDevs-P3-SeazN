@@ -3,7 +3,7 @@ import NewRecipes from "../../../components/newRecipes/NewRecipes";
 
 const MyRecipes = () => {
   return (
-    <section className="myRecipes">
+    <section className="my-recipes">
       <article>
         <h2>Mes recettes favorites</h2>
       </article>

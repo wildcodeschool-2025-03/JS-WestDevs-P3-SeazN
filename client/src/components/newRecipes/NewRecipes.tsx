@@ -30,12 +30,13 @@ const NewRecipes = () => {
     setGuestNumber(0);
     setIngredients([]);
     setSteps([{ id: 1, content: "" }]);
+
+    console.log("Je suis la recette", formRecipe);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.target.files &&
       setImageSrc(URL.createObjectURL(event.target.files[0]));
-    event.target.files && setImageFile(event.target.files[0]);
   };
 
   const handleIngredientChange = (
@@ -92,7 +93,7 @@ const NewRecipes = () => {
   ];
 
   return (
-    <article className="newRecipes">
+    <article className="new-recipes">
       <form action={handleSubmit}>
         <h2>Poster une recette</h2>
 
@@ -129,7 +130,7 @@ const NewRecipes = () => {
             value={guestNumber}
             onChange={(e) => setGuestNumber(Number(e.target.value))}
           >
-            <option value={0}>Sélectionné le nombre de personnes</option>
+            <option value={0}>Sélectionnez le nombre de personnes</option>
             <option value={2}>2</option>
             <option value={4}>4</option>
             <option value={6}>6</option>
@@ -168,13 +169,13 @@ const NewRecipes = () => {
             id="unit"
             value={currentUnit}
             onChange={(e) => setCurrentUnit(e.target.value)}
-            aria-placeholder="Selectionné l'unité"
+            aria-label="Sélectionnez l'unité"
           >
-            <option value="">selectionné l'unité</option>
+            <option value="">Sélectionnez l'unité</option>
             <option value="gramme(s)">g</option>
             <option value="centilitre(s)">cl</option>
-            <option value="cuillière(s) à café">cuillière(s) à café</option>
-            <option value="cuillière(s) à soupe">cuillière(s) à soupe</option>
+            <option value="cuillère(s) à café">cuillère(s) à café</option>
+            <option value="cuillère(s) à soupe">cuillère(s) à soupe</option>
             <option value="piece(s)">pièce(s)</option>
             <option value="portion(s)">portion(s)</option>
           </select>
