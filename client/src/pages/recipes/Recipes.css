@@ -63,7 +63,7 @@
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
     gap: 1rem;
 
-    figure {
+    a {
       place-self: center;
     }
   }

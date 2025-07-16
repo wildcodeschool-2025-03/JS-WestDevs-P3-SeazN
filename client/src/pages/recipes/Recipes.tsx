@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import RecipeCard from "../../components/ui/recipeCard/RecipeCard";
 import type { RecipeBase } from "../../components/ui/recipeCard/data/recipeCardType";
 import "./Recipes.css";
+import { Link } from "react-router";
 import { formFilters } from "./data/recipesData";
 import type { FormObjType } from "./data/recipesType";
 
@@ -136,7 +137,9 @@ const Recipes = () => {
       <div>
         {filteredRecipes?.map((recipe) => {
           return (
-            <RecipeCard key={recipe.id} variant="square" recipe={recipe} />
+            <Link key={recipe.id} to={`recipes/:${recipe.id}`}>
+              <RecipeCard variant="square" recipe={recipe} />
+            </Link>
           );
         })}
       </div>
