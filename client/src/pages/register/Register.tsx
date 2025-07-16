@@ -1,16 +1,13 @@
 import Login from "../../components/user/login/Login";
+import SignUp from "../../components/user/signup/SignUp";
+import "../register/register.css";
 
 const Register = () => {
   return (
-    <>
-      <div>
-        <h3>Inscription :</h3>
-      </div>
-      <div>
-        <h3>Ou connecte-toi ici :</h3>
-        <Login />
-      </div>
-    </>
+    <div className="register-container">
+      <SignUp />
+      <Login />
+    </div>
   );
 };
 

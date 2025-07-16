@@ -1,19 +1,36 @@
-import type { LoginResponse } from "./types";
+import type { User } from "./types";
 
-export const loginApi = async (
-  email: string,
-  password: string,
-): Promise<LoginResponse> => {
-  const response = await fetch("http://localhost:3310/api/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
+import databaseClient, {
+  type Result,
+  type Rows,
+} from "../../../database/client";
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Erreur lors de la connexion");
+class AuthRepository {
+  // login
+  async readByEmail(email: string) {
+    const [user] = await databaseClient.query<Rows>(
+      "SELECT * FROM user WHERE email = ?",
+      [email],
+    );
+    return user[0];
   }
 
-  return response.json();
-};
+  // SignUp
+  async create(body: User) {
+    const [user] = await databaseClient.query<Result>(
+      "INSERT INTO user (username, email, password, is_premium, is_admin, country, last_active, is_major ) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)",
+      [
+        body.username,
+        body.email,
+        body.password,
+        body.is_premium,
+        body.is_admin,
+        body.country,
+        body.is_major,
+      ],
+    );
+    return user.affectedRows;
+  }
+}
+
+export default new AuthRepository();

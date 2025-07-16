@@ -30,4 +30,13 @@ const browseSearchRecipes: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browseSearchRecipes };
+const browseLastRecipes: RequestHandler = async (req, res, next) => {
+  try {
+    const lastRecipes = await recipesRepository.readLastRecipes();
+    res.json(lastRecipes);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default { browseSearchRecipes, browseLastRecipes };

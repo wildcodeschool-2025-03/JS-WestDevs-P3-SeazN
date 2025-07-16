@@ -94,13 +94,17 @@ class RecipesRepository {
 
     const [dataRows] = await databaseClient.query<Rows>(dataSql, dataParams);
 
-    console.log("countRows", countRows);
-    console.log("dataRows", dataRows);
-
     return {
       recipes: dataRows as RecipeBase[],
       totalRecipes: totalRecipes as number,
     };
+  }
+
+  async readLastRecipes() {
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT * FROM recipe WHERE is_validated = 1 ORDER BY id DESC LIMIT 5",
+    );
+    return rows;
   }
 }
 

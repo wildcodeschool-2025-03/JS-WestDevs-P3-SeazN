@@ -4,7 +4,7 @@ CREATE TABLE user (
   image VARCHAR(250),
   email VARCHAR(100) UNIQUE NOT NULL,
   password VARCHAR(250) NOT NULL,
-  is_major BOOLEAN NOT NULL,
+  is_major BOOLEAN DEFAULT FALSE,
   zip_code INT,
   country VARCHAR(100) NOT NULL,
   last_active DATE NOT NULL, 
