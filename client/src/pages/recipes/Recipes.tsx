@@ -137,7 +137,7 @@ const Recipes = () => {
       <div>
         {filteredRecipes?.map((recipe) => {
           return (
-            <Link key={recipe.id} to={`recipes/:${recipe.id}`}>
+            <Link key={recipe.id} to={`/recipes/:${recipe.id}`}>
               <RecipeCard variant="square" recipe={recipe} />
             </Link>
           );
