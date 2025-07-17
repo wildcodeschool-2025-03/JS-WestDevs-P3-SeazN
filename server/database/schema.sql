@@ -160,6 +160,7 @@ CREATE TABLE chosen (
 CREATE TABLE rating (
   user_id INT NOT NULL,
   recipe_id INT NOT NULL,
+  mark INT,
   PRIMARY KEY (user_id, recipe_id),
   CONSTRAINT fk_user
     FOREIGN KEY (user_id)
@@ -170,6 +171,18 @@ CREATE TABLE rating (
     REFERENCES recipe(id)
     ON DELETE CASCADE
 );
+
+INSERT INTO rating (user_id, recipe_id, mark)
+VALUES  (1, 1, 1),
+        (1, 2, 3),
+        (1, 3, 4),
+        (2, 1, 2),
+        (2, 2, 4),
+        (2, 3, 5),
+        (3, 1, 2),
+        (3, 2, 5),
+        (3, 3, 1)
+;
 
 CREATE TABLE save (
   user_id INT NOT NULL,
