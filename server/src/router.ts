@@ -6,10 +6,7 @@ const router = express.Router();
 // Define Your API Routes Here
 /* ************************************************************************* */
 import authActions from "./modules/auth/authActions";
-// Define item-related routes
 import recipesActions from "./modules/recipes/recipesActions";
-
-router.get("/api/last-recipes", recipesActions.browseLastRecipes);
 import auth from "./utils/auth";
 import validation from "./utils/validation";
 
@@ -20,6 +17,9 @@ router.post(
   auth.hashPassword,
   authActions.add,
 );
+
+router.get("/api/last-recipes", recipesActions.browseLastRecipes);
+router.get("/api/recipes", recipesActions.browseSearchRecipes);
 
 /* ************************************************************************* */
 
