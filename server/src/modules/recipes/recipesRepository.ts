@@ -25,8 +25,11 @@ export interface RecipesParams {
 
 class RecipesRepository {
   async readSearchRecipes(recipesParams: RecipesParams) {
-    let sqlBase = "FROM recipe ";
+    let sqlBaseFrom =
+      "FROM recipe LEFT JOIN rating ON recipe.id = rating.recipe_id ";
+    const sqlBaseGroupBy = " GROUP BY recipe.id";
     const sqlWhere = ["(recipe.is_validated = ?)"];
+    const sqlHaving = [];
     const sqlParams: (string | number)[] = [1];
 
     if (recipesParams.name && recipesParams.name.length > 0) {
@@ -60,29 +63,42 @@ class RecipesRepository {
       sqlWhere.push(`(${whereRanges.join(" OR ")})`);
     }
 
-    /* No users ranking in DB - Add it later
-    if (recipesParams.usersRanking && recipesParams.usersRanking.length > 0) {
-      sqlWhere.push("recipe.usersRanking >= ?");
-      sqlParams.push(Number.parseInt(recipesParams.usersRanking));
-    } */
-
     if (recipesParams.ecoRanking && recipesParams.ecoRanking.length > 0) {
       sqlWhere.push("(recipe.eco_average >= ?)");
       sqlParams.push(Number.parseInt(recipesParams.ecoRanking));
     }
 
-    if (sqlWhere.length > 0) {
-      sqlBase += ` WHERE ${sqlWhere.join(" AND ")}`;
+    if (
+      sqlWhere.length > 0 ||
+      (recipesParams.usersRanking && recipesParams.usersRanking.length > 0)
+    ) {
+      sqlBaseFrom += ` WHERE ${sqlWhere.join(" AND ")} GROUP BY recipe.id`;
     }
 
+    if (recipesParams.usersRanking && recipesParams.usersRanking.length > 0) {
+      sqlHaving.push("(users_average >= ?)");
+      sqlParams.push(Number.parseInt(recipesParams.usersRanking));
+    }
+
+    sqlBaseFrom +=
+      sqlHaving.length > 0 ? ` HAVING ${sqlHaving.join(" AND ")}` : "";
+
     /* Total recipes */
-    const countSql = `SELECT count(*) as totalRecipes ${sqlBase}`;
+    /* const countSql = `SELECT count(*) as totalRecipes ${sqlBase}`; */
+    const countSql = `SELECT COUNT(*) as totalRecipes FROM (
+  SELECT recipe.id, AVG(rating.mark) as users_average
+  ${sqlBaseFrom}
+  WHERE ${sqlWhere.join(" AND ")}
+  ${sqlBaseGroupBy}
+  ${sqlHaving.length > 0 ? `HAVING ${sqlHaving.join(" AND ")}` : ""}
+) as filtered_recipes`;
+
     const countParams = sqlParams;
     const [countRows] = await databaseClient.query<Rows>(countSql, countParams);
     const totalRecipes = countRows[0].totalRecipes;
 
     /* Displayed recipes */
-    let dataSql = `SELECT id, name, image ${sqlBase}`;
+    let dataSql = `SELECT recipe.id, recipe.name, recipe.image, AVG(rating.mark) as users_average ${sqlBaseFrom} ${sqlBaseGroupBy}`;
     const dataParams = sqlParams;
     if (recipesParams.page && recipesParams.page.length > 0) {
       const limitResults = 20;
@@ -92,7 +108,13 @@ class RecipesRepository {
       sqlParams.push(limitResults, offsetResults);
     }
 
+    console.warn("countSql", countSql);
+    console.warn("dataSql", dataSql);
+
     const [dataRows] = await databaseClient.query<Rows>(dataSql, dataParams);
+
+    console.warn("totalRecipes", totalRecipes);
+    console.warn("recipes", dataRows);
 
     return {
       recipes: dataRows as RecipeBase[],
