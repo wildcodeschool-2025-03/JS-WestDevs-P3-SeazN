@@ -11,25 +11,28 @@ const MobileNav = () => {
     setOpenedPopover((prev) => (prev === label ? null : label));
   };
 
+  const reorderMenuForMobile = (items: typeof menuItems) => {
+    return [items[1], items[2], items[0], items[3], items[4]];
+  };
+
+  const orderItems = reorderMenuForMobile(menuItems);
+
   return (
-    <>
-      <header className="mobile-header">
+    <section className="mobile-section">
+      <header>
         <img src="/icones-logo/N vert et orange.webp" alt="Logo" />
-        <div className="icon-mobile">
+        <div>
           <LanguageIcon />
           <UserIcon />
         </div>
       </header>
 
-      <nav className="mobile-footer">
-        {menuItems.map(({ icon, label, path, subItems }) => {
+      <nav>
+        {orderItems.map(({ icon, label, path, subItems }) => {
           const popoverId = label;
 
           return (
-            <div
-              key={label}
-              className={`nav-item ${label === "Synthèse" ? "synthese" : ""}`}
-            >
+            <div key={label} className={label === "Synthèse" ? "synthese" : ""}>
               {subItems ? (
                 <>
                   <button
@@ -43,7 +46,7 @@ const MobileNav = () => {
                   >
                     {label === "Synthèse" ? (
                       <div className="center-icon">
-                        <div className="icon-wrapper">
+                        <div>
                           <img src={icon} alt={label} />
                         </div>
                       </div>
@@ -51,7 +54,6 @@ const MobileNav = () => {
                       <img src={icon} alt={label} />
                     )}
                   </button>
-
                   {openedPopover && (
                     <div
                       id={popoverId}
@@ -90,7 +92,7 @@ const MobileNav = () => {
           );
         })}
       </nav>
-    </>
+    </section>
   );
 };
 
