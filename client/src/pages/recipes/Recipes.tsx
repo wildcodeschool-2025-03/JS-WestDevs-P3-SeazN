@@ -18,8 +18,10 @@ const Recipes = () => {
   const totalPages = Math.ceil(totalRecipes / limitResults);
 
   useEffect(() => {
-    const params = new URLSearchParams();
-    const queryTimer = setTimeout(() => {
+    const needDebounce = formObj.name && formObj.name.length > 3;
+
+    const fetchData = () => {
+      const params = new URLSearchParams();
       for (const [key, value] of Object.entries(formObj)) {
         switch (key) {
           case "name":
@@ -44,7 +46,14 @@ const Recipes = () => {
           setFilteredRecipes(data.recipes);
           setTotalRecipes(data.totalRecipes);
         });
-    }, 1500);
+    };
+
+    const queryTimer = setTimeout(
+      () => {
+        fetchData();
+      },
+      needDebounce ? 1500 : 0,
+    );
     return () => clearTimeout(queryTimer);
   }, [formObj, page]);
 
@@ -137,7 +146,7 @@ const Recipes = () => {
       <div>
         {filteredRecipes?.map((recipe) => {
           return (
-            <Link key={recipe.id} to={`/recipes/:${recipe.id}`}>
+            <Link key={recipe.id} to={`/recipes/${recipe.id}`}>
               <RecipeCard variant="square" recipe={recipe} />
             </Link>
           );
