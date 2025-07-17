@@ -4,15 +4,15 @@ import ingredientsActions from "./modules/ingredients/ingredientsActions";
 import recipesActions from "./modules/recipes/recipesActions";
 import auth from "./utils/auth";
 import validation from "./utils/validation";
+import files from "./utils/files";
 
 const router = express.Router();
 
 /* ************************************************************************* */
 // Define Your API Routes Here
 /* ************************************************************************* */
-// Define item-related routes
 
-router.get("/api/last-recipes", recipesActions.browseLastRecipes);
+// Define item-related routes
 
 router.post("/api/login", authActions.browse);
 router.post(
@@ -22,8 +22,16 @@ router.post(
   authActions.add,
 );
 
+router.get("/api/recipes", recipesActions.browseSearchRecipes);
+router.get("/api/last-recipes", recipesActions.browseLastRecipes);
+router.post(
+  "/api/newRecipes",
+  files.imageUpload,
+  files.recipesImage,
+  recipesActions.addRecipes,
+);
+
 router.get("/api/ingredients", ingredientsActions.browseIngredient);
-router.post("/api/newRecipes", recipesActions.addRecipes)
 
 /* ************************************************************************* */
 

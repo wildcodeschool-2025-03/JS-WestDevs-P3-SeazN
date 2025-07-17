@@ -1,0 +1,137 @@
+.recipe-search {
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  form {
+    width: 100%;
+    display: grid;
+    gap: 0.5rem;
+
+    > details {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--light-primary);
+      border-radius: 4px;
+
+      summary {
+        font-weight: 600;
+        color: var(--light-primary);
+      }
+    }
+
+    > details:first-child {
+      input {
+        width: 100%;
+        color: var(--light-primary);
+        padding: 4px;
+        border: 1px solid var(--light-primary);
+        border-radius: 4px;
+      }
+    }
+
+    > details:not(:first-child) {
+      > div {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+
+        label {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+
+          span {
+            color: var(--light-primary);
+          }
+        }
+      }
+    }
+  }
+
+  > span {
+    color: var(--light-primary);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  > div:first-of-type {
+    width: min(100%, 1400px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+
+    a {
+      place-self: center;
+    }
+  }
+
+  > div:last-of-type {
+    display: flex;
+    gap: 1rem;
+
+    button {
+      width: 7rem;
+      padding: 0 8px;
+      font-weight: 600;
+      color: var(--text-light);
+      background-color: var(--light-primary);
+      border-radius: 16px;
+      border: none;
+      transition: 300ms;
+
+      &:disabled {
+        opacity: 0.4;
+      }
+
+      &:enabled:hover {
+        opacity: 0.85;
+        cursor: pointer;
+      }
+    }
+
+    span {
+      color: var(--light-primary);
+      font-weight: 600;
+      font-size: large;
+    }
+  }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 768px) {
+  .recipe-search {
+    form {
+      grid-template-columns: repeat(2, 1fr);
+
+      > details:first-child {
+        grid-column: span 2;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .recipe-search {
+    padding-bottom: 0;
+
+    form {
+      grid-template-columns: repeat(4, 1fr);
+
+      > details:first-child {
+        grid-column: span 4;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .recipe-search {
+    padding-bottom: 0;
+
+    form {
+      grid-template-columns: 2fr repeat(4, 1fr);
+    }
+  }
+}

@@ -8,10 +8,10 @@ const storage = multer.diskStorage({
     callback(null, "public/assets/images/");
   },
   filename(req, file, callback) {
-    const base = path.basename(file.originalname).toLowerCase();
-    const ext = path.extname(file.originalname).toLowerCase();
+    const { name, ext } = path.parse(file.originalname.toLowerCase());
     const id = crypto.randomUUID();
-    callback(null, `${base}_${id}${ext}`);
+    callback(null, `${name}_${id}${ext}`)
+
   },
 });
 
@@ -25,8 +25,12 @@ const recipesImage: RequestHandler = (req, res, next) => {
       req.body.image = `/assets/images/${req.file.filename}`;
 
       next();
+    } else {
+      res.status(400).json("File problem");
     }
   } catch (err) {
     next(err);
   }
 };
+
+export default { imageUpload, recipesImage };
