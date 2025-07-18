@@ -23,22 +23,6 @@
       font-weight: 500;
       font-size: 0.95rem;
     }
-
-    .search-toggle {
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      color: white;
-    }
-
-    .search-input {
-      margin-left: 0.5rem;
-      padding: 0.35rem 0.6rem;
-      border-radius: 8px;
-      border: none;
-      font-size: 0.9rem;
-    }
   }
 
   .header-right {
@@ -56,6 +40,7 @@
       text-decoration: none;
       cursor: pointer;
       transition: background-color 0.2s ease;
+      border-style: none;
 
       &:hover {
         background-color: #fffdfdcc;
