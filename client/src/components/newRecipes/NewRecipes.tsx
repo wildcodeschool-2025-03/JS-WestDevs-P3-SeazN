@@ -1,6 +1,6 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./NewRecipes.css";
 
 const NewRecipes = () => {
@@ -8,6 +8,14 @@ const NewRecipes = () => {
   const [imageFile, setImageFile] = useState<File | undefined>();
   const [guestNumber, setGuestNumber] = useState<number>(0);
   const [selectedIngredient, setSelectedIngredient] = useState("");
+  const [availableIngredients, setAvailableIngredients] = useState<
+    {
+      id: number;
+      name: string;
+      quantity: string;
+      unit: string;
+    }[]
+  >([]);
   const [ingredients, setIngredients] = useState<
     {
       id: number;
@@ -19,6 +27,7 @@ const NewRecipes = () => {
   const [currentQuantity, setCurrentQuantity] = useState("");
   const [currentUnit, setCurrentUnit] = useState("");
   const [steps, setSteps] = useState([{ id: 1, content: "" }]);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleSubmit = (formData: FormData) => {
     const formObj = Object.fromEntries(formData);
@@ -30,6 +39,8 @@ const NewRecipes = () => {
     setGuestNumber(0);
     setIngredients([]);
     setSteps([{ id: 1, content: "" }]);
+
+    console.log("je suis la recette", formRecipe);
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,9 +51,18 @@ const NewRecipes = () => {
 
   const handleIngredientChange = (
     _event: React.SyntheticEvent,
-    value: string | null,
+    value:
+      | string
+      | { id: number; name: string; quantity: string; unit: string }
+      | null,
   ) => {
-    setSelectedIngredient(value || "");
+    if (typeof value === "string") {
+      setSelectedIngredient(value);
+    } else if (value && typeof value === "object") {
+      setSelectedIngredient(value.name);
+    } else {
+      setSelectedIngredient("");
+    }
   };
 
   const addIngredient = () => {
@@ -79,17 +99,14 @@ const NewRecipes = () => {
     }
   };
 
-  const ingrédient = [
-    "carotte",
-    "poulet",
-    "curry",
-    "lait",
-    "champignon",
-    "sel",
-    "poivre",
-    "huile",
-    "pomme de terre",
-  ];
+  useEffect(() => {
+    fetch(`${apiUrl}/api/ingredients`)
+      .then((res) => res.json())
+      .then((data) => setAvailableIngredients(data))
+      .catch((error) =>
+        console.error("Erreur lors du chargement des ingrédients:", error),
+      );
+  }, []);
 
   return (
     <article className="new-recipes">
@@ -143,7 +160,16 @@ const NewRecipes = () => {
           <h3>Les ingrédients</h3>
           <Autocomplete
             freeSolo
-            options={ingrédient}
+            options={availableIngredients}
+            getOptionLabel={(option) =>
+              typeof option === "string" ? option : option.name
+            }
+            isOptionEqualToValue={(option, value) => {
+              const optionName =
+                typeof option === "string" ? option : option.name;
+              const valueName = typeof value === "string" ? value : value.name;
+              return optionName === valueName;
+            }}
             value={selectedIngredient}
             onChange={handleIngredientChange}
             renderInput={(params) => (
