@@ -9,7 +9,6 @@
   text-align: center;
 
   h2 {
-    margin-bottom: 30px;
     font-weight: 700;
     font-size: 1.8rem;
   }
@@ -17,9 +16,9 @@
   .login-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
 
     input {
+      margin-top: 20px;
       padding: 12px 15px;
       border-radius: 6px;
       border: none;
@@ -34,6 +33,7 @@
     }
 
     button {
+      margin-top: 20px;
       padding: 14px 0;
       border: none;
       border-radius: 6px;
@@ -49,6 +49,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      margin-top: 20px;
 
       input {
         padding: 12px 15px;
@@ -56,18 +57,52 @@
         height: 20px;
         width: 20px;
         accent-color: #7f976c;
+        margin-top: 0;
+        padding: 0;
       }
     }
     .autocomplete {
+      margin-top: 20px !important;
       background-color: white;
       border-radius: 6px;
-    }
 
-    .error {
-      margin-top: 15px;
-      color: white;
-      font-weight: 600;
-      font-size: 0.9rem;
+      .MuiFormControl-root {
+        margin: 0 !important;
+      }
+
+      .MuiInputBase-root {
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+      }
+
+      input {
+        margin: 0 !important;
+        padding: 12px 12px !important;
+        height: auto !important;
+        box-sizing: border-box;
+
+        &::placeholder {
+          color: #757575 !important;
+          opacity: 1 !important;
+        }
+      }
+
+      .MuiAutocomplete-popupIndicator {
+        margin: 0 !important;
+        padding: 0 !important;
+        top: 0 !important;
+        transform: translateY(0) !important;
+        align-self: center !important;
+        height: 100% !important;
+      }
     }
+  }
+
+  .error {
+    margin-top: 15px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
   }
 }

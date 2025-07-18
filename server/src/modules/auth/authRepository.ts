@@ -6,16 +6,14 @@ import databaseClient, {
 } from "../../../database/client";
 
 class AuthRepository {
-  // login
   async readByEmail(email: string) {
     const [user] = await databaseClient.query<Rows>(
-      "SELECT * FROM user WHERE email = ?",
+      "SELECT id, email, username, password FROM user WHERE email = ?",
       [email],
     );
     return user[0];
   }
 
-  // SignUp
   async create(body: User) {
     const [user] = await databaseClient.query<Result>(
       "INSERT INTO user (username, email, password, is_premium, is_admin, country, last_active, is_major ) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)",

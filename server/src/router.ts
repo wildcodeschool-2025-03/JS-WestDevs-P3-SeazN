@@ -10,13 +10,19 @@ import recipesActions from "./modules/recipes/recipesActions";
 import auth from "./utils/auth";
 import validation from "./utils/validation";
 
-router.post("/api/login", authActions.browse);
+router.post(
+  "/api/login",
+  validation.authValidation,
+  auth.login,
+  authActions.browse,
+);
 router.post(
   "/api/signup",
   validation.authValidation,
   auth.hashPassword,
   authActions.add,
 );
+router.get("/api/refresh", auth.refreshToken);
 
 router.get("/api/last-recipes", recipesActions.browseLastRecipes);
 router.get("/api/recipes", recipesActions.browseSearchRecipes);

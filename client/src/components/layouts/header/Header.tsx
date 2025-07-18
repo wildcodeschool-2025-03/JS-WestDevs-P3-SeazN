@@ -1,10 +1,23 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "../../../contexts/AuthContext";
 import "./Header.css";
 
 const Header = () => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const userName = "Jean-Michmich";
+  const { user, isLogged, isLoading, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const greeting = isLoading
+    ? "Chargement..."
+    : user?.username
+      ? `Bienvenue ${user.username}`
+      : "Bienvenue";
+
+  const handleLogout = () => {
+    logout();
+    navigate("/connexion");
+  };
 
   return (
     <header className="header">
@@ -15,7 +28,8 @@ const Header = () => {
           className="user-avatar"
         />
 
-        <span className="user-name">{userName}</span>
+        <span className="user-name">{greeting}</span>
+
         <button
           type="button"
           className="search-toggle"
@@ -37,9 +51,21 @@ const Header = () => {
         <Link to="/langage" className="header-link">
           Langage
         </Link>
-        <Link to="/connexion" className="header-link">
-          Se connecter
-        </Link>
+
+        {!isLoading &&
+          (isLogged ? (
+            <button
+              className="header-link"
+              type="button"
+              onClick={handleLogout}
+            >
+              Se déconnecter
+            </button>
+          ) : (
+            <Link to="/connexion" className="header-link">
+              Se connecter
+            </Link>
+          ))}
       </div>
     </header>
   );

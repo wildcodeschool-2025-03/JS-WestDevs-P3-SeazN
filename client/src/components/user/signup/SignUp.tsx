@@ -51,7 +51,8 @@ export default function SignUp() {
 
         if (!response.ok) {
           toast.error(
-            result.message || "Erreur lors de la création du compte.",
+            result.message ||
+              "Certains champs semblent incorrects, vérifiez votre saisie.",
           );
           return;
         }
@@ -94,6 +95,10 @@ export default function SignUp() {
           required
           disabled={isPending}
         />
+        <small>
+          Le mot de passe doit contenir au moins 8 caractères, 1 majuscule, 1
+          minuscule, 1 chiffre et 1 caractère spécial
+        </small>
         <input
           type="password"
           name="confirmPassword"
@@ -124,7 +129,11 @@ export default function SignUp() {
             </Box>
           )}
           renderInput={(params) => (
-            <TextField {...params} label="Sélectionner votre pays" />
+            <TextField
+              {...params}
+              placeholder="Sélectionner votre pays"
+              label=""
+            />
           )}
         />
 

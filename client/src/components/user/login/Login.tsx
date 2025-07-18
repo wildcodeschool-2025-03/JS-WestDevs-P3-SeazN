@@ -16,6 +16,7 @@ export default function Login() {
       try {
         const response = await fetch("http://localhost:3310/api/login", {
           method: "POST",
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
         });
@@ -29,7 +30,7 @@ export default function Login() {
 
         login({
           email: result.email,
-          firstName: result.firstName,
+          username: result.username,
         });
 
         toast.success("Connexion réussie !");
