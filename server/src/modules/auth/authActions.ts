@@ -1,6 +1,7 @@
 import type { RequestHandler } from "express";
 import { verifyToken } from "../../utils/jwt";
 import authRepository from "./authRepository";
+import type { User } from "./types";
 
 const browse: RequestHandler = async (req, res) => {
   try {
@@ -13,25 +14,47 @@ const browse: RequestHandler = async (req, res) => {
         username: user.username,
       });
     } else {
-      res.status(404).json("An error has occurred!");
+      res.status(404).json({ message: "Utilisateur introuvable." });
     }
   } catch (err) {
+    console.error("Erreur dans browse:", err);
     res.status(500).json({ message: "Une erreur interne s’est produite." });
   }
 };
 
-const add: RequestHandler = async (req, res) => {
+const add: RequestHandler = async (req, res, next) => {
   try {
-    const user = await authRepository.create(req.body);
+    const userId: number = await authRepository.create(req.body);
+    const user: User | null = await authRepository.readById(userId);
 
-    if (user) {
-      res
-        .status(201)
-        .json("Congratulations, your account has been created successfully !");
-    } else {
-      res.status(404).json("An error occured during the registration");
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "Erreur lors de la création du compte." });
     }
-  } catch (err) {
+
+    if (!req.body._originalPassword) {
+      return res
+        .status(400)
+        .json({ message: "Mot de passe original manquant." });
+    }
+
+    req.body.email = user.email;
+    req.body.password = req.body._originalPassword;
+
+    next(); // passe à auth.login
+  } catch (err: unknown) {
+    if (
+      typeof err === "object" &&
+      err !== null &&
+      "message" in err &&
+      typeof (err as { message: string }).message === "string"
+    ) {
+      const errorMessage = (err as { message: string }).message;
+      return res.status(409).json({ message: errorMessage });
+    }
+
+    console.error("Erreur dans add:", err);
     res.status(500).json({ message: "Une erreur interne s’est produite." });
   }
 };

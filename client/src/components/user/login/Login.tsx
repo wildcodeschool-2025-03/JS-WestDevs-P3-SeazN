@@ -38,7 +38,7 @@ export default function Login() {
           "Vous allez être redirigé.e vers votre tableau de bord. ",
         );
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/recipes");
         }, 3000);
       } catch (error) {
         console.error("Erreur serveur :", error);

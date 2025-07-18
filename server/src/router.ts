@@ -21,6 +21,8 @@ router.post(
   validation.authValidation,
   auth.hashPassword,
   authActions.add,
+  auth.login,
+  authActions.browse,
 );
 router.get("/api/refresh", auth.refreshToken);
 

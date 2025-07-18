@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../../../contexts/AuthContext";
 import "./Header.css";
 
 const Header = () => {
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
   const { user, isLogged, isLoading, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -23,28 +21,12 @@ const Header = () => {
     <header className="header">
       <div className="header-left">
         <img
-          src="/icones-logo/avatar-dg.jpg"
+          src="/icones-logo/avatar_profil.webp"
           alt="Avatar de l'utilisateur"
           className="user-avatar"
         />
 
         <span className="user-name">{greeting}</span>
-
-        <button
-          type="button"
-          className="search-toggle"
-          onClick={() => setIsSearchVisible((prev) => !prev)}
-        >
-          🔍
-        </button>
-
-        {isSearchVisible && (
-          <input
-            type="search"
-            className="search-input"
-            placeholder="Rechercher une recette, ingrédient..."
-          />
-        )}
       </div>
 
       <div className="header-right">

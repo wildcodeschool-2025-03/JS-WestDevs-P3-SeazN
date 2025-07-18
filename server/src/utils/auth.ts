@@ -6,11 +6,15 @@ import authRepository from "../modules/auth/authRepository";
 const hashPassword: RequestHandler = async (req, res, next) => {
   try {
     const { password } = req.body;
+
+    req.body._originalPassword = password;
+
     const hash = await argon2.hash(password, {
       memoryCost: 2 ** 19,
       timeCost: 2,
       parallelism: 1,
     });
+
     req.body.password = hash;
 
     next();
@@ -19,7 +23,6 @@ const hashPassword: RequestHandler = async (req, res, next) => {
     res.status(500).json({ message: "Une erreur interne s’est produite." });
   }
 };
-
 const login: RequestHandler = async (req, res) => {
   try {
     const { email, password } = req.body;
