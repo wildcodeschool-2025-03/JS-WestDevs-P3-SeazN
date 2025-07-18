@@ -44,7 +44,8 @@ export default function SignUp() {
 
     startTransition(async () => {
       try {
-        const response = await fetch("http://localhost:3310/api/signup", {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}/api/signup`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -62,9 +63,7 @@ export default function SignUp() {
 
         toast.success("Compte créé avec succès !");
         login({ email: result.email, username: result.username });
-        toast.success(
-          "Vous allez être redirigé.e vers votre tableau de bord. ",
-        );
+        toast.success("Vous allez être redirigé.e vers la page recettes. ");
 
         setTimeout(() => {
           navigate("/recipes");

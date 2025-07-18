@@ -62,12 +62,12 @@
       }
     }
     .autocomplete {
-      margin-top: 20px !important;
+      margin-top: 20px;
       background-color: white;
       border-radius: 6px;
 
       .MuiFormControl-root {
-        margin: 0 !important;
+        margin: 0;
       }
 
       .MuiAutocomplete-clearIndicator {
@@ -76,34 +76,34 @@
       }
 
       .MuiInputBase-root {
-        margin: 0 !important;
-        padding: 0 !important;
-        height: auto !important;
+        margin: 0;
+        padding: 0;
+        height: auto;
       }
 
       .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
-        border-color: transparent !important;
+        border-color: transparent;
       }
 
       input {
-        margin: 0 !important;
-        padding: 12px 12px !important;
-        height: auto !important;
+        margin: 0;
+        padding: 12px 12px;
+        height: auto;
         box-sizing: border-box;
 
         &::placeholder {
-          color: #757575 !important;
-          opacity: 1 !important;
+          color: #757575;
+          opacity: 1;
         }
       }
 
       .MuiAutocomplete-popupIndicator {
-        margin: 0 !important;
-        padding: 0 !important;
-        top: 0 !important;
-        transform: translateY(0) !important;
-        align-self: center !important;
-        height: 100% !important;
+        margin: 0;
+        padding: 0;
+        top: 0;
+        transform: translateY(0);
+        align-self: center;
+        height: 100%;
       }
     }
   }

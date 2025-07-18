@@ -17,7 +17,9 @@ export const AuthProvider = ({ children }: Children) => {
       return;
     }
 
-    fetch("http://localhost:3310/api/refresh", {
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    fetch(`${apiUrl}/api/refresh`, {
       credentials: "include",
     })
       .then((res) => {

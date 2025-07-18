@@ -44,7 +44,6 @@ class AuthRepository {
         "code" in err &&
         (err as { code: string }).code === "ER_DUP_ENTRY"
       ) {
-        console.warn("Duplicate entry detected");
         throw new Error("Ce nom d'utilisateur ou cet email est déjà utilisé.");
       }
 
