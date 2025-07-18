@@ -20,6 +20,7 @@ router.post(
 
 router.get("/api/last-recipes", recipesActions.browseLastRecipes);
 router.get("/api/recipes", recipesActions.browseSearchRecipes);
+router.get("/api/recipes/:id", recipesActions.readRecipeDetailed);
 
 /* ************************************************************************* */
 

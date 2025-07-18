@@ -38,5 +38,20 @@ const browseLastRecipes: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+const readRecipeDetailed: RequestHandler = async (req, res, next) => {
+  console.log(req.params);
+  try {
+    const recipeId = Number(req.params.id);
+    const recipe = await recipesRepository.readById(recipeId);
 
-export default { browseSearchRecipes, browseLastRecipes };
+    if (recipe == null) {
+      res.sendStatus(404);
+    } else {
+      res.json(recipe);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default { browseSearchRecipes, browseLastRecipes, readRecipeDetailed };
