@@ -1,14 +1,16 @@
 import type { ReactNode } from "react";
 
-export interface User {
+export type User = {
   email: string;
-  firstName: string;
-}
+  username: string;
+};
 
 export interface AuthContextType {
   user: User | null;
   login: (userData: User) => void;
   logout: () => void;
+  isLoading: boolean;
+  isLogged: boolean;
 }
 
 export interface Children {
