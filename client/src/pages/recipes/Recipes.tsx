@@ -153,27 +153,29 @@ const Recipes = () => {
         })}
       </div>
 
-      <div>
-        <button
-          type="button"
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-        >
-          &laquo; Précédent
-        </button>
+      {totalPages !== 0 && (
+        <div>
+          <button
+            type="button"
+            onClick={() => setPage(page - 1)}
+            disabled={page === 1}
+          >
+            &laquo; Précédent
+          </button>
 
-        <span>
-          {page} / {totalPages}
-        </span>
+          <span>
+            {page} / {totalPages}
+          </span>
 
-        <button
-          type="button"
-          onClick={() => setPage(page + 1)}
-          disabled={page === totalPages}
-        >
-          Suivant &raquo;
-        </button>
-      </div>
+          <button
+            type="button"
+            onClick={() => setPage(page + 1)}
+            disabled={totalPages === 0 || page === totalPages}
+          >
+            Suivant &raquo;
+          </button>
+        </div>
+      )}
     </section>
   );
 };
