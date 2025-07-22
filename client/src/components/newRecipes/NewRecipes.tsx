@@ -9,23 +9,12 @@ const NewRecipes = () => {
   const [guestNumber, setGuestNumber] = useState<number>(0);
   const [selectedIngredient, setSelectedIngredient] = useState("");
   const [availableIngredients, setAvailableIngredients] = useState<
-    {
-      id: number;
-      name: string;
-      quantity: string;
-      unit: string;
-    }[]
+    Ingredient[]
   >([]);
-  const [ingredients, setIngredients] = useState<
-    {
-      id: number;
-      name: string;
-      quantity: string;
-      unit: string;
-    }[]
-  >([]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [currentQuantity, setCurrentQuantity] = useState("");
   const [currentUnit, setCurrentUnit] = useState("");
+  const [availableUnit, setAvailableUnit] = useState<{ name: string }[]>([]);
   const [steps, setSteps] = useState([{ id: 1, content: "" }]);
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -106,6 +95,13 @@ const NewRecipes = () => {
       .catch((error) =>
         console.error("Erreur lors du chargement des ingrédients:", error),
       );
+
+    fetch(`${apiUrl}/api/unit`)
+      .then((res) => res.json())
+      .then((data) => setAvailableUnit(data))
+      .catch((error) =>
+        console.error("Erreur lors du chargement des unités:", error),
+      );
   }, []);
 
   return (
@@ -181,7 +177,6 @@ const NewRecipes = () => {
         <div className="ingredient-inputs">
           <input
             type="number"
-            name="quantity"
             id="quantity"
             placeholder="quantité ex: 200"
             min="0"
@@ -190,19 +185,17 @@ const NewRecipes = () => {
           />
 
           <select
-            name="unit"
             id="unit"
             value={currentUnit}
             onChange={(e) => setCurrentUnit(e.target.value)}
             aria-label="Sélectionnez l'unité"
           >
-            <option value="">Sélectionnez l'unité</option>
-            <option value="gramme(s)">g</option>
-            <option value="centilitre(s)">cl</option>
-            <option value="cuillère(s) à café">cuillère(s) à café</option>
-            <option value="cuillère(s) à soupe">cuillère(s) à soupe</option>
-            <option value="piece(s)">pièce(s)</option>
-            <option value="portion(s)">portion(s)</option>
+            <option value="">Sélectionnez une unité</option>
+            {availableUnit.map((unit) => (
+              <option key={unit.name} value={unit.name}>
+                {unit.name}
+              </option>
+            ))}
           </select>
 
           <button type="button" onClick={addIngredient}>

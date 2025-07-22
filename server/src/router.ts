@@ -5,6 +5,7 @@ import recipesActions from "./modules/recipes/recipesActions";
 import auth from "./utils/auth";
 import validation from "./utils/validation";
 import files from "./utils/files";
+import unitActions from "./modules/unit/unitActions";
 
 const router = express.Router();
 
@@ -33,6 +34,7 @@ router.post(
 
 router.get("/api/ingredients", ingredientsActions.browseIngredient);
 
+router.get("/api/unit", unitActions.browseUnit);
 /* ************************************************************************* */
 
 export default router;
