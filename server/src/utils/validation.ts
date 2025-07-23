@@ -8,15 +8,19 @@ const authValidation: RequestHandler = (req, res, next) => {
       /^(?!\.)(?!.*\.\.)([a-z0-9_'+\-\.]*)[a-z0-9_'+\-]@([a-z0-9][a-z0-9\-]*\.)+[a-z]{2,}$/,
     );
 
+    const isPasswordValid = password.match(
+      /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/,
+    );
+
     if (!email || !password) {
       res.status(403).json("Les champs ne doivent pas êtres vides");
     } else if (!isEmailValid) {
       res.status(403).json("Le format de l'email est invalide");
-    } else if (password.length < 8) {
+    } else if (!isPasswordValid) {
       res
         .status(403)
         .json(
-          "La longueur du mot de passe doit contenir au moins 8 caractères",
+          "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial",
         );
     } else {
       next();

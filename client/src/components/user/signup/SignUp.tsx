@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import { useState, useTransition } from "react";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
+import { useAuth } from "../../../contexts/AuthContext";
 import type { signUpResponse } from "../../../types/Auth";
 import "../login/Login.css";
 import type { CountryType } from "../signup/data/countries";
@@ -11,6 +12,7 @@ import countries from "../signup/data/countries";
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [isPending, startTransition] = useTransition();
   const [selectedCountry, setSelectedCountry] = useState("");
 
@@ -24,6 +26,7 @@ export default function SignUp() {
   async function handleSubmit(formData: FormData) {
     const data = Object.fromEntries(formData);
     const payload = JSON.parse(JSON.stringify(data));
+
     for (const [key] of Object.entries(payload)) {
       if (key === "is_major") {
         payload[key] = true;
@@ -41,7 +44,8 @@ export default function SignUp() {
 
     startTransition(async () => {
       try {
-        const response = await fetch("http://localhost:3310/api/signup", {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}/api/signup`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -51,17 +55,18 @@ export default function SignUp() {
 
         if (!response.ok) {
           toast.error(
-            result.message || "Erreur lors de la création du compte.",
+            result.message ||
+              "Certains champs semblent incorrects, vérifiez votre saisie.",
           );
           return;
         }
 
         toast.success("Compte créé avec succès !");
-        toast.success(
-          "Vous allez être redirigé.e vers votre tableau de bord. ",
-        );
+        login({ email: result.email, username: result.username });
+        toast.success("Vous allez être redirigé.e vers la page recettes. ");
+
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/recipes");
         }, 3000);
       } catch (err) {
         console.error(err);
@@ -69,6 +74,7 @@ export default function SignUp() {
       }
     });
   }
+
   return (
     <div className="login_container">
       <h2>Créer un compte</h2>
@@ -94,6 +100,10 @@ export default function SignUp() {
           required
           disabled={isPending}
         />
+        <small>
+          Le mot de passe doit contenir au moins 8 caractères, 1 majuscule, 1
+          minuscule, 1 chiffre et 1 caractère spécial
+        </small>
         <input
           type="password"
           name="confirmPassword"
@@ -107,24 +117,32 @@ export default function SignUp() {
           options={countries}
           onChange={handleChange}
           getOptionLabel={(option) => option.label}
-          renderOption={(props, option) => (
-            <Box
-              component="li"
-              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-              {...props}
-            >
-              <img
-                loading="lazy"
-                width="20"
-                srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                alt={`${option.label} flag`}
-              />
-              {option.label}
-            </Box>
-          )}
+          renderOption={(props, option) => {
+            const { key, ...rest } = props;
+            return (
+              <Box
+                key={key}
+                component="li"
+                sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                {...rest}
+              >
+                <img
+                  loading="lazy"
+                  width="20"
+                  srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                  src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                  alt={`${option.label} flag`}
+                />
+                {option.label}
+              </Box>
+            );
+          }}
           renderInput={(params) => (
-            <TextField {...params} label="Sélectionner votre pays" />
+            <TextField
+              {...params}
+              placeholder="Sélectionner votre pays"
+              label=""
+            />
           )}
         />
 

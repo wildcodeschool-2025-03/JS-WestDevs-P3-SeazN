@@ -15,13 +15,21 @@ const router = express.Router();
 
 // Define item-related routes
 
-router.post("/api/login", authActions.browse);
+router.post(
+  "/api/login",
+  validation.authValidation,
+  auth.login,
+  authActions.browse,
+);
 router.post(
   "/api/signup",
   validation.authValidation,
   auth.hashPassword,
   authActions.add,
+  auth.login,
+  authActions.browse,
 );
+router.get("/api/refresh", auth.refreshToken);
 
 router.get("/api/recipes", recipesActions.browseSearchRecipes);
 router.get("/api/last-recipes", recipesActions.browseLastRecipes);

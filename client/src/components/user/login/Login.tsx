@@ -14,8 +14,10 @@ export default function Login() {
     const data = Object.fromEntries(formData);
     startTransition(async () => {
       try {
-        const response = await fetch("http://localhost:3310/api/login", {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}/api/login`, {
           method: "POST",
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
         });
@@ -29,15 +31,13 @@ export default function Login() {
 
         login({
           email: result.email,
-          firstName: result.firstName,
+          username: result.username,
         });
 
         toast.success("Connexion réussie !");
-        toast.success(
-          "Vous allez être redirigé.e vers votre tableau de bord. ",
-        );
+        toast.success("Vous allez être redirigé.e vers la page recettes. ");
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/recipes");
         }, 3000);
       } catch (error) {
         console.error("Erreur serveur :", error);
