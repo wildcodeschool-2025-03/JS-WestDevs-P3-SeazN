@@ -1,6 +1,6 @@
 import databaseClient from "../../../database/client";
 import type { Result, Rows } from "../../../database/client";
-import type { Recipes } from "../../types/recipes";
+import type { AddRecipes } from "../../types/recipes";
 
 interface RecipeBase {
   id: number;
@@ -127,20 +127,49 @@ class RecipesRepository {
     return rows;
   }
 
-  async createRecipes(body: Recipes) {
+  async createRecipes(body: AddRecipes) {
+    console.warn("JE SUIS DANS REPOSITORY");
     const [result] = await databaseClient.query<Result>(
-      "INSERT INTO recipe (name, image, price, is_validated, guest_number, nutrition_average, eco_average, duration) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      // "INSERT INTO recipe (name, image, price, is_validated, guest_number, nutrition_average, eco_average, duration) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      // [
+      //   body.name,
+      //   body.image,
+      //   body.price,
+      //   body.is_validated,
+      //   body.guest_number,
+      //   body.nutrition_average,
+      //   body.eco_average,
+      //   body.duration,
+      // ],
+      `START TRANSACTION;
+       INSERT INTO recipe (name, image, price, is_validated, guest_number, duration, nutrition_average, eco_average, user_id)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+       SET @recipe_id = LAST_INSERT_ID();
+       INSERT INTO quantity (ingredient_id, recipe_id, quantity, unit_id)
+       VALUES (?, @recipe_id, ?, ?);
+       INSERT INTO instruction (step_order, content, recipe_id)
+       VALUES (?, ?, @recipe_id);
+       COMMIT;`,
       [
         body.name,
         body.image,
         body.price,
         body.is_validated,
         body.guest_number,
+        body.duration,
         body.nutrition_average,
         body.eco_average,
-        body.duration,
+        body.user_id,
+        body.ingredient_id,
+        body.recipe_id,
+        body.quantity,
+        body.unit_id,
+        body.step_order,
+        body.content,
       ],
     );
+    console.warn("JE SUIS APRES LA REQUETE SQL");
+
     return result.affectedRows;
   }
 }

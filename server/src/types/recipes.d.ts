@@ -1,4 +1,4 @@
-export interface Recipes {
+export interface AddRecipes {
   name: string;
   image?: string;
   price?: number;
@@ -7,4 +7,12 @@ export interface Recipes {
   nutrition_average?: number;
   eco_average?: number;
   duration?: string;
+  user_id: number;
+  ingredient_id: number;
+  recipe_id: number;
+  quantity: number;
+  unit_id: number;
+  step_order: number;
+  content: string;
 }
+  

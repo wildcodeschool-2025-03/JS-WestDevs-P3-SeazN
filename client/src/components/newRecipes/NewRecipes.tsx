@@ -1,12 +1,14 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import "./NewRecipes.css";
 
 const NewRecipes = () => {
   const [imageSrc, setImageSrc] = useState("");
   const [imageFile, setImageFile] = useState<File | undefined>();
-  const [guestNumber, setGuestNumber] = useState<number>(0);
+  const [guestNumber, setGuestNumber] = useState(0);
+  const [duration, setDuration] = useState("00:00");
   const [selectedIngredient, setSelectedIngredient] = useState("");
   const [availableIngredients, setAvailableIngredients] = useState<
     Ingredient[]
@@ -18,16 +20,32 @@ const NewRecipes = () => {
   const [steps, setSteps] = useState([{ id: 1, content: "" }]);
   const apiUrl = import.meta.env.VITE_API_URL;
 
+  const guestOptions = [2, 4, 6, 8, 10, 12];
+
+  const success = () =>
+    toast.success("Bravo, vous avez réussi à créer une nouvelle recette 🎉");
+  const error = () => toast.error("La création de la recette a échoué 😩");
+
   const handleSubmit = (formData: FormData) => {
     const formObj = Object.fromEntries(formData);
     const formRecipe = JSON.parse(JSON.stringify(formObj));
 
-    formRecipe.ingrédient = ingredients;
-    formRecipe.image = imageFile;
     setImageSrc("");
+    formRecipe.image = imageFile;
     setGuestNumber(0);
+    setDuration("00:00");
+    formRecipe.duration += ":00";
     setIngredients([]);
+    formRecipe.ingrédient = ingredients;
     setSteps([{ id: 1, content: "" }]);
+
+    fetch(`${apiUrl}/api/newRecipes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: formRecipe,
+    }).then((res) => (res.ok ? success() : error()));
 
     console.log("je suis la recette", formRecipe);
   };
@@ -114,7 +132,7 @@ const NewRecipes = () => {
           <input
             type="text"
             id="recipeName"
-            name="recipeName"
+            name="name"
             placeholder="Nom de la recette"
           />
         </label>
@@ -134,23 +152,35 @@ const NewRecipes = () => {
           )}
         </label>
 
-        <label htmlFor="guestNumber">
-          <h3>Nombre de personnes</h3>
-          <select
-            name="guestNumber"
-            id="guestNumber"
-            value={guestNumber}
-            onChange={(e) => setGuestNumber(Number(e.target.value))}
-          >
-            <option value={0}>Sélectionnez le nombre de personnes</option>
-            <option value={2}>2</option>
-            <option value={4}>4</option>
-            <option value={6}>6</option>
-            <option value={8}>8</option>
-            <option value={10}>10</option>
-            <option value={12}>12</option>
-          </select>
-        </label>
+        <div className="guest-duration">
+          <label htmlFor="guestNumber">
+            <h3>Nombre de personnes</h3>
+            <select
+              name="guest_number"
+              id="guestNumber"
+              value={guestNumber}
+              onChange={(e) => setGuestNumber(Number(e.target.value))}
+            >
+              <option value={0}>Sélectionnez le nombre de personnes</option>
+              {guestOptions.map((number) => (
+                <option key={number} value={number}>
+                  {number}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label htmlFor="duration">
+            <h3>Durée</h3>
+            <input
+              type="time"
+              name="duration"
+              id="duration"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+            />
+          </label>
+        </div>
 
         <label htmlFor="ingredient">
           <h3>Les ingrédients</h3>
@@ -236,7 +266,7 @@ const NewRecipes = () => {
               )}
             </legend>
             <textarea
-              name={`step-${index + 1}`}
+              name={`instruction ${index + 1}`}
               id={`step-${step.id}`}
               placeholder={`Saisissez la préparation de l'étape ${index + 1}`}
             />
