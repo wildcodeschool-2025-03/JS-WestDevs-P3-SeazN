@@ -25,21 +25,26 @@ export interface RecipesParams {
 
 class RecipesRepository {
   async readSearchRecipes(recipesParams: RecipesParams) {
-    let sqlBase = "FROM recipe ";
-    const sqlWhere = ["(recipe.is_validated = ?)"];
+    const sqlBaseFrom: string =
+      "FROM recipe LEFT JOIN rating ON recipe.id = rating.recipe_id ";
+    const sqlBaseGroupBy: string = " GROUP BY recipe.id";
+    const whereFilters: string[] = ["(recipe.is_validated = ?)"];
+    const havingFilters: string[] = [];
     const sqlParams: (string | number)[] = [1];
 
+    /* Filter by name */
     if (recipesParams.name && recipesParams.name.length > 0) {
-      sqlWhere.push("(recipe.name LIKE ?)");
+      whereFilters.push("(recipe.name LIKE ?)");
       sqlParams.push(`%${recipesParams.name}%`);
     }
 
+    /* Filter by price */
     if (recipesParams.price && recipesParams.price.length > 0) {
       const prices = recipesParams.price
         .split(",")
         .map((price) => Number.parseInt(price));
 
-      sqlWhere.push(
+      whereFilters.push(
         `(recipe.price IN (${prices.map((price) => "?").join(", ")}))`,
       );
 
@@ -48,42 +53,51 @@ class RecipesRepository {
       }
     }
 
+    /* Filter by duration */
     if (recipesParams.duration && recipesParams.duration.length > 0) {
       const ranges = recipesParams.duration
         .split(",")
         .map((range) => range.split("-"));
+
       const whereRanges = [];
       for (const range of ranges) {
         whereRanges.push("(recipe.duration BETWEEN ? AND ?)");
         sqlParams.push(range[0], range[1]);
       }
-      sqlWhere.push(`(${whereRanges.join(" OR ")})`);
+      whereFilters.push(`(${whereRanges.join(" OR ")})`);
     }
 
-    /* No users ranking in DB - Add it later
-    if (recipesParams.usersRanking && recipesParams.usersRanking.length > 0) {
-      sqlWhere.push("recipe.usersRanking >= ?");
-      sqlParams.push(Number.parseInt(recipesParams.usersRanking));
-    } */
-
+    /* Filter by eco evaluation */
     if (recipesParams.ecoRanking && recipesParams.ecoRanking.length > 0) {
-      sqlWhere.push("(recipe.eco_average >= ?)");
+      whereFilters.push("(recipe.eco_average >= ?)");
       sqlParams.push(Number.parseInt(recipesParams.ecoRanking));
     }
 
-    if (sqlWhere.length > 0) {
-      sqlBase += ` WHERE ${sqlWhere.join(" AND ")}`;
+    /* Filter by users evaluation */
+    if (recipesParams.usersRanking && recipesParams.usersRanking.length > 0) {
+      havingFilters.push("(AVG(rating.mark) >= ?)");
+      sqlParams.push(Number.parseInt(recipesParams.usersRanking));
     }
 
-    /* Total recipes */
-    const countSql = `SELECT count(*) as totalRecipes ${sqlBase}`;
-    const countParams = sqlParams;
-    const [countRows] = await databaseClient.query<Rows>(countSql, countParams);
-    const totalRecipes = countRows[0].totalRecipes;
+    /* Total recipes request */
+    const countSql = `SELECT COUNT(*) as totalRecipes FROM (
+    SELECT recipe.id
+    ${sqlBaseFrom}
+    WHERE ${whereFilters.join(" AND ")}
+    ${sqlBaseGroupBy}
+    ${havingFilters.length > 0 ? `HAVING ${havingFilters.join(" AND ")}` : ""}
+  ) as filtered_recipes`;
 
-    /* Displayed recipes */
-    let dataSql = `SELECT id, name, image ${sqlBase}`;
-    const dataParams = sqlParams;
+    /* Displayed recipes request */
+    let dataSql = `SELECT recipe.id, recipe.name, recipe.image
+    ${sqlBaseFrom} 
+    WHERE ${whereFilters.join(" AND ")} 
+    ${sqlBaseGroupBy} `;
+
+    if (havingFilters.length > 0) {
+      dataSql += ` HAVING ${havingFilters.join(" AND ")}`;
+    }
+
     if (recipesParams.page && recipesParams.page.length > 0) {
       const limitResults = 20;
       const offsetResults =
@@ -92,7 +106,11 @@ class RecipesRepository {
       sqlParams.push(limitResults, offsetResults);
     }
 
-    const [dataRows] = await databaseClient.query<Rows>(dataSql, dataParams);
+    /* Execute requests : Count and Data  */
+    const [countRows] = await databaseClient.query<Rows>(countSql, sqlParams);
+    const totalRecipes = countRows[0].totalRecipes;
+
+    const [dataRows] = await databaseClient.query<Rows>(dataSql, sqlParams);
 
     return {
       recipes: dataRows as RecipeBase[],
