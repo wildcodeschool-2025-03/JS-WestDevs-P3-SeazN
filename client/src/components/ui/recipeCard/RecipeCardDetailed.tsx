@@ -49,11 +49,11 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
           <div>
             {/* Filled stars */}
             <div
-            // style={{
-            //   width: recipe.usersAverage
-            //     ? `${(recipe.usersAverage / 5) * 100}%`
-            //     : 0,
-            // }}
+              style={{
+                width: recipe.usersAverage
+                  ? `${(recipe.usersAverage / 5) * 100}%`
+                  : 0,
+              }}
             >
               {starIndex.map((i) => {
                 return <StarIcon key={i} className="star-filled-users" />;
@@ -70,11 +70,11 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
           <div>
             {/* Filled stars */}
             <div
-            // style={{
-            //   width: recipe.ecoAverage
-            //     ? `${(recipe.ecoAverage / 5) * 100}%`
-            //     : 0,
-            // }}
+              style={{
+                width: recipe.eco_average
+                  ? `${(recipe.eco_average / 5) * 100}%`
+                  : 0,
+              }}
             >
               {starIndex.map((i) => {
                 return <StarIcon key={i} className="star-filled-eco" />;
@@ -91,11 +91,11 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
           <div>
             {/* Filled stars */}
             <div
-            // style={{
-            //   width: recipe.nutritionAverage
-            //     ? `${(recipe.nutritionAverage / 5) * 100}%`
-            //     : 0,
-            // }}
+              style={{
+                width: recipe.nutrition_average
+                  ? `${(recipe.nutrition_average / 5) * 100}%`
+                  : 0,
+              }}
             >
               {starIndex.map((i) => {
                 return <StarIcon key={i} className="star-filled-nut" />;

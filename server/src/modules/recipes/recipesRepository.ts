@@ -167,11 +167,14 @@ FROM recipe r
 LEFT JOIN quantity q ON r.id = q.recipe_id
 LEFT JOIN ingredient i ON q.ingredient_id = i.id
 LEFT JOIN unit u ON q.unit_id = u.id
+LEFT JOIN rating ON rating.recipe_id = r.id
 
 WHERE r.id = ?
 
-GROUP BY r.id;`,
-      [id],
+GROUP BY r.id
+HAVING COALESCE(AVG(rating.mark),0) >= ?
+`,
+      [id, 2],
     );
     return rows[0] || null;
   }
