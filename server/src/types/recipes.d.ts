@@ -8,11 +8,13 @@ export interface AddRecipes {
   eco_average?: number;
   duration?: string;
   user_id: number;
-  ingredient_id: number;
-  recipe_id: number;
-  quantity: number;
-  unit_id: number;
-  step_order: number;
-  content: string;
+  ingredients: Array<{
+    ingredient_id: number;
+    quantity?: number;
+    unit_id?: number;
+  }>;
+  instructions: Array<{
+    step_order: number;
+    content: string;
+  }>;
 }
-  

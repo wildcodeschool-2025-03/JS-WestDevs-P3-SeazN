@@ -128,49 +128,65 @@ class RecipesRepository {
   }
 
   async createRecipes(body: AddRecipes) {
-    console.warn("JE SUIS DANS REPOSITORY");
-    const [result] = await databaseClient.query<Result>(
-      // "INSERT INTO recipe (name, image, price, is_validated, guest_number, nutrition_average, eco_average, duration) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-      // [
-      //   body.name,
-      //   body.image,
-      //   body.price,
-      //   body.is_validated,
-      //   body.guest_number,
-      //   body.nutrition_average,
-      //   body.eco_average,
-      //   body.duration,
-      // ],
-      `START TRANSACTION;
-       INSERT INTO recipe (name, image, price, is_validated, guest_number, duration, nutrition_average, eco_average, user_id)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-       SET @recipe_id = LAST_INSERT_ID();
-       INSERT INTO quantity (ingredient_id, recipe_id, quantity, unit_id)
-       VALUES (?, @recipe_id, ?, ?);
-       INSERT INTO instruction (step_order, content, recipe_id)
-       VALUES (?, ?, @recipe_id);
-       COMMIT;`,
-      [
-        body.name,
-        body.image,
-        body.price,
-        body.is_validated,
-        body.guest_number,
-        body.duration,
-        body.nutrition_average,
-        body.eco_average,
-        body.user_id,
-        body.ingredient_id,
-        body.recipe_id,
-        body.quantity,
-        body.unit_id,
-        body.step_order,
-        body.content,
-      ],
-    );
-    console.warn("JE SUIS APRES LA REQUETE SQL");
+    const connection = await databaseClient.getConnection();
 
-    return result.affectedRows;
+    try {
+      await connection.beginTransaction();
+
+      const [recipeResult] = await connection.query<Result>(
+        `INSERT INTO recipe (name, image, guest_number, duration, user_id, price, is_validated, nutrition_average, eco_average)
+       VALUES (?, ?, ?, ?, ?, ?, TRUE, ?, ?)`,
+        [
+          body.name,
+          body.image || null,
+          body.guest_number,
+          body.duration,
+          body.user_id || null,
+          body.price || null,
+          body.nutrition_average || null,
+          body.eco_average || null,
+        ],
+      );
+
+      const recipeId = recipeResult.insertId;
+
+      if (body.ingredients && body.ingredients.length > 0) {
+        const ingredientValues = body.ingredients.map((ing) => [
+          ing.ingredient_id,
+          recipeId,
+          ing.quantity || null,
+          ing.unit_id || null,
+        ]);
+
+        await connection.query(
+          "INSERT INTO quantity (ingredient_id, recipe_id, quantity, unit_id) VALUES ?",
+          [ingredientValues],
+        );
+      }
+
+      if (body.instructions && body.instructions.length > 0) {
+        const instructionValues = body.instructions.map((inst) => [
+          inst.step_order,
+          inst.content,
+          recipeId,
+        ]);
+
+        await connection.query(
+          "INSERT INTO instruction (step_order, content, recipe_id) VALUES ?",
+          [instructionValues],
+        );
+      }
+
+      await connection.commit();
+
+      return recipeResult.affectedRows;
+    } catch (error) {
+      await connection.rollback();
+      console.error("Erreur lors de la création de la recette:", error);
+      throw new Error("Erreur lors de la création de la recette");
+    } finally {
+      connection.release();
+    }
   }
 }
 
