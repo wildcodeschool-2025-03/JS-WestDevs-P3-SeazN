@@ -4,3 +4,8 @@ interface Ingredient {
   quantity: string;
   unit: string;
 }
+
+interface Instruction {
+  step_order: number;
+  content: string;
+}
