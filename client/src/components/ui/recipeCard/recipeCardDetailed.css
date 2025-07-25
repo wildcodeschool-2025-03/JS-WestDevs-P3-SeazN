@@ -124,11 +124,11 @@
           }
 
           .star-filled-eco {
-            fill: var(--light-primary);
+            fill: rgb(202, 105, 70);
           }
 
           .star-filled-nut {
-            fill: #add8e6;
+            fill: #65c9eb;
           }
         }
 

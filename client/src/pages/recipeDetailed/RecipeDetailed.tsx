@@ -15,7 +15,7 @@ const RecipeDetailedComplet = () => {
       .then((data) => {
         const transformedData = {
           ...data,
-
+          usersAverage: Number(data.user_ratings),
           nutrition_average: Number(data.nutrition_average),
           eco_average: Number(data.eco_average),
         };

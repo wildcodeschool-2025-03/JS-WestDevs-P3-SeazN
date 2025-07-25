@@ -9,6 +9,21 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
   const [isFavorite, setIsFavorite] = useState<boolean>();
 
+  const formatDuration = (duration: string): string => {
+    if (!duration) return "";
+
+    const [hours, minutes] = duration.split(":").map(Number);
+
+    if (hours === 0) {
+      return `${minutes} min`;
+    }
+
+    if (minutes === 0) {
+      return `${hours}h`;
+    }
+
+    return `${hours}h${minutes < 10 ? `0${minutes}` : minutes}`;
+  };
   return (
     <section className="recipe-card-detailed">
       <div>
@@ -42,7 +57,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
           <span>{recipe.price && "€".repeat(recipe.price)}</span>
 
-          <span>&#60; {recipe.duration} min</span>
+          <span>&#60; {formatDuration(recipe.duration)}</span>
 
           {/* Ranking details */}
 

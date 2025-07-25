@@ -135,6 +135,7 @@ class RecipesRepository {
     r.nutrition_average,
     r.eco_average,
     r.duration,
+    AVG(rating.mark) as user_ratings,
     JSON_ARRAYAGG(
         JSON_OBJECT(
             'id', i.id,
@@ -170,11 +171,9 @@ LEFT JOIN unit u ON q.unit_id = u.id
 LEFT JOIN rating ON rating.recipe_id = r.id
 
 WHERE r.id = ?
-
 GROUP BY r.id
-HAVING COALESCE(AVG(rating.mark),0) >= ?
 `,
-      [id, 2],
+      [id],
     );
     return rows[0] || null;
   }
