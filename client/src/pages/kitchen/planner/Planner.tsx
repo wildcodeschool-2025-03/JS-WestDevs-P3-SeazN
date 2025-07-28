@@ -61,8 +61,8 @@ const Planner = () => {
   }));
 
   return (
-    <main className="calendar">
-      <header className="month-header">
+    <section className="calendar">
+      <article className="month-header">
         <button
           type="button"
           onClick={handlePreviousMonth}
@@ -76,7 +76,7 @@ const Planner = () => {
         <button type="button" onClick={handleNextMonth} aria-label="Next month">
           ▶
         </button>
-      </header>
+      </article>
 
       <section className="calendar-grid">
         {weekdays.map((day) => (
@@ -93,7 +93,7 @@ const Planner = () => {
           </article>
         ))}
       </section>
-    </main>
+    </section>
   );
 };
 
