@@ -9,7 +9,9 @@ import authActions from "./modules/auth/authActions";
 import recipesActions from "./modules/recipes/recipesActions";
 import auth from "./utils/auth";
 import validation from "./utils/validation";
+import favoriteActions from "./modules/favorite/favoriteActions";
 
+/* Login */
 router.post(
   "/api/login",
   validation.authValidation,
@@ -26,9 +28,33 @@ router.post(
 );
 router.get("/api/refresh", auth.refreshToken);
 
+/* Recipes */
+
 router.get("/api/last-recipes", recipesActions.browseLastRecipes);
 router.get("/api/recipes", recipesActions.browseSearchRecipes);
 router.get("/api/recipes/:id", recipesActions.readRecipeDetailed);
+
+/* Favorite Recipes */
+
+router.post(
+  "api/user/:userId/favorites/:recipeId/",
+  favoriteActions.addFavorite,
+);
+
+router.get(
+  "api/user/:userId/favorites/",
+  favoriteActions.browseFavoritesByUser,
+);
+
+router.get(
+  "api/user/:userId/favorites/:recipeId",
+  favoriteActions.readSingleFavorite,
+);
+
+router.patch(
+  "api/user/:userId/favorites/:recipeId/",
+  favoriteActions.removeFavorite,
+);
 
 /* ************************************************************************* */
 
