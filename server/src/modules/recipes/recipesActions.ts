@@ -41,8 +41,6 @@ const browseLastRecipes: RequestHandler = async (req, res, next) => {
 
 const addRecipes: RequestHandler = async (req, res, next) => {
   try {
-    console.warn("JE SUIS DANS ACTION");
-
     const newRecipes = await recipesRepository.createRecipes(req.body);
 
     if (newRecipes) {

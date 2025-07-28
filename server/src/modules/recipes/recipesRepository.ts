@@ -92,8 +92,8 @@ class RecipesRepository {
 
     /* Displayed recipes request */
     let dataSql = `SELECT recipe.id, recipe.name, recipe.image
-    ${sqlBaseFrom} 
-    WHERE ${whereFilters.join(" AND ")} 
+    ${sqlBaseFrom}
+    WHERE ${whereFilters.join(" AND ")}
     ${sqlBaseGroupBy} `;
 
     if (havingFilters.length > 0) {
@@ -132,7 +132,6 @@ class RecipesRepository {
 
     try {
       await connection.beginTransaction();
-      console.log("JE SUIS DANS LE TRY DU REPOSITORY")
 
       const [recipeResult] = await connection.query<Result>(
         `INSERT INTO recipe (name, image, guest_number, duration, user_id, price, is_validated, nutrition_average, eco_average)
@@ -148,36 +147,40 @@ class RecipesRepository {
           body.eco_average || null,
         ],
       );
-      console.log("JE SUIS APRES LA PREMIERE REQUETE")
+
       const recipeId = recipeResult.insertId;
 
-      if (body.ingredients && body.ingredients.length > 0) {
-        const ingredientValues = body.ingredients.map((ing) => [
-          ing.ingredient_id,
-          recipeId,
-          ing.quantity || null,
-          ing.unit_id || null,
-        ]);
-
+      const ingredients = JSON.parse(String(body.ingredients));
+      if (ingredients && ingredients.length > 0) {
+        const ingredientValues = ingredients.map(
+          (ing: { id: string; quantity: number; unit: number }) => [
+            String(ing.id),
+            recipeId,
+            ing.quantity || null,
+            ing.unit || null,
+          ],
+        );
         await connection.query(
           "INSERT INTO quantity (ingredient_id, recipe_id, quantity, unit_id) VALUES ?",
           [ingredientValues],
         );
       }
-      console.log("JE SUIS APRES LA DEUXIEME REQUETE")
-      if (body.instructions && body.instructions.length > 0) {
-        const instructionValues = body.instructions.map((inst) => [
-          inst.step_order,
-          inst.content,
-          recipeId,
-        ]);
+
+      const instructions = JSON.parse(String(body.instructions));
+      if (instructions && instructions.length > 0) {
+        const instructionValues = instructions.map(
+          (inst: { step_order: number; content: string }) => [
+            inst.step_order,
+            inst.content,
+            recipeId,
+          ],
+        );
 
         await connection.query(
           "INSERT INTO instruction (step_order, content, recipe_id) VALUES ?",
           [instructionValues],
         );
       }
-      console.log("JE SUIS APRES LA TROISIEME REQUETE")
       await connection.commit();
 
       return recipeResult.affectedRows;

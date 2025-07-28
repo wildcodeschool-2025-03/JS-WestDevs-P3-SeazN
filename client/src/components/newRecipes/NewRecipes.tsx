@@ -1,14 +1,11 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { useEffect, useRef, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "./NewRecipes.css";
 
 const NewRecipes = () => {
   const [imageSrc, setImageSrc] = useState("");
-  const [imageFile, setImageFile] = useState<File | undefined>();
-  const [guestNumber, setGuestNumber] = useState(0);
-  const [duration, setDuration] = useState("00:00");
   const [selectedIngredient, setSelectedIngredient] = useState("");
   const [availableIngredients, setAvailableIngredients] = useState<
     Ingredient[]
@@ -16,75 +13,38 @@ const NewRecipes = () => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [currentQuantity, setCurrentQuantity] = useState("");
   const [currentUnit, setCurrentUnit] = useState("");
-  const [availableUnit, setAvailableUnit] = useState<{ name: string }[]>([]);
+  const [availableUnit, setAvailableUnit] = useState<
+    { name: string; id: number }[]
+  >([]);
   const [steps, setSteps] = useState([{ id: 1, content: "" }]);
-  const apiUrl = import.meta.env.VITE_API_URL;
-  // const formRef = useRef<HTMLFormElement>(null);
-  // console.log("Je suis formRef", formRef);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
   const guestOptions = [2, 4, 6, 8, 10, 12];
 
   const success = () =>
     toast.success("Bravo, vous avez réussi à créer une nouvelle recette 🎉");
   const error = () => toast.error("La création de la recette a échoué 😩");
 
-  const handleSubmit = (formData: FormData) => {
-    const formObj = Object.fromEntries(formData);
-    const formRecipe = JSON.parse(JSON.stringify(formObj));
+  useEffect(() => {
+    fetch(`${apiUrl}/api/ingredients`)
+      .then((res) => res.json())
+      .then((data) => setAvailableIngredients(data))
+      .catch((error) =>
+        console.error("Erreur lors du chargement des ingrédients:", error),
+      );
 
-    const instructions = [];
-    let stepOrder = 1;
-    for (const key of Object.keys(formObj)) {
-      if (key.startsWith("instruction")) {
-        const content = formObj[key];
-        if (typeof content === "string" && content.trim() !== "") {
-          instructions.push({
-            step_order: stepOrder,
-            content: content.trim(),
-          });
-          stepOrder++;
-        }
-      }
-    }
-
-    for (const key of Object.keys(formRecipe)) {
-      if (key.startsWith("instruction ")) {
-        delete formRecipe[key];
-      }
-    }
-
-    setImageSrc("");
-    formRecipe.image = imageFile;
-    if (!imageFile || !instructions) {
-      return;
-    }
-    formData.append("instructions", JSON.stringify(instructions));
-    formData.append("image", imageFile);
-    setImageFile(undefined);
-    setGuestNumber(0);
-    setDuration("00:00");
-    formRecipe.duration += ":00";
-    setIngredients([]);
-    formRecipe.ingrédient = ingredients;
-    setSteps([{ id: 1, content: "" }]);
-
-    fetch(`${apiUrl}/api/newRecipes`, {
-      method: "POST",
-      // headers: {
-      //   "Content-Type": "multipart/form-data",
-      // },
-      body: formData,
-    }).then((res) => (res.ok ? success() : error()));
-
-    // formRef.current?.reset();
-
-    console.log("je suis la recette", formRecipe);
-  };
+    fetch(`${apiUrl}/api/unit`)
+      .then((res) => res.json())
+      .then((data) => setAvailableUnit(data))
+      .catch((error) =>
+        console.error("Erreur lors du chargement des unités:", error),
+      );
+  }, []);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.target.files &&
       setImageSrc(URL.createObjectURL(event.target.files[0]));
-    event.target.files && setImageFile(event.target.files[0]);
+    event.target.files;
   };
 
   const handleIngredientChange = (
@@ -104,17 +64,28 @@ const NewRecipes = () => {
   };
 
   const addIngredient = () => {
-    if (selectedIngredient && currentQuantity && currentUnit) {
-      const newIngredient = {
-        id: Date.now(),
-        name: selectedIngredient,
-        quantity: currentQuantity,
-        unit: currentUnit,
-      };
-      setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
-      setSelectedIngredient("");
-      setCurrentQuantity("");
-      setCurrentUnit("");
+    try {
+      if (selectedIngredient && currentQuantity && currentUnit) {
+        const ingredientId = availableIngredients.find(
+          (ing) => ing.name === selectedIngredient,
+        );
+        if (!ingredientId) throw new Error("L'ingrédient n'héxite pas ouesh");
+        const newIngredient = {
+          id: ingredientId.id,
+          name: selectedIngredient,
+          quantity: currentQuantity,
+          unit: currentUnit,
+        };
+        setIngredients((prevIngredients) => [
+          ...prevIngredients,
+          newIngredient,
+        ]);
+        setSelectedIngredient("");
+        setCurrentQuantity("");
+        setCurrentUnit("");
+      }
+    } catch (err) {
+      toast.error(err as string);
     }
   };
 
@@ -137,25 +108,55 @@ const NewRecipes = () => {
     }
   };
 
-  useEffect(() => {
-    fetch(`${apiUrl}/api/ingredients`)
-      .then((res) => res.json())
-      .then((data) => setAvailableIngredients(data))
-      .catch((error) =>
-        console.error("Erreur lors du chargement des ingrédients:", error),
-      );
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const formObj = Object.fromEntries(formData);
 
-    fetch(`${apiUrl}/api/unit`)
-      .then((res) => res.json())
-      .then((data) => setAvailableUnit(data))
-      .catch((error) =>
-        console.error("Erreur lors du chargement des unités:", error),
-      );
-  }, []);
+    const instructions = [];
+    let stepOrder = 1;
+    for (const key of Object.keys(formObj)) {
+      if (key.startsWith("instruction")) {
+        const content = formObj[key];
+        if (typeof content === "string" && content.trim() !== "") {
+          formData.delete(`instruction ${stepOrder}`);
+          instructions.push({
+            step_order: stepOrder,
+            content: content.trim(),
+          });
+          stepOrder++;
+        }
+      }
+    }
+
+    if (!instructions) return;
+    formData.append("instructions", JSON.stringify(instructions));
+    formData.append("ingredients", JSON.stringify(ingredients));
+
+    fetch(`${apiUrl}/api/newRecipes`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => {
+        if (res.ok) {
+          setImageSrc("");
+          setIngredients([]);
+          setSteps([{ id: 1, content: "" }]);
+          e.currentTarget.reset();
+          success();
+        } else {
+          error();
+        }
+      })
+      .catch((err) => {
+        console.error("Erreur réseau:", err);
+        error();
+      });
+  };
 
   return (
     <article className="new-recipes">
-       <form action={handleSubmit}> {/* ref={formRef} > */}
+      <form onSubmit={handleSubmit}>
         <h2>Poster une recette</h2>
 
         <label htmlFor="recipeName">
@@ -165,6 +166,7 @@ const NewRecipes = () => {
             id="recipeName"
             name="name"
             placeholder="Nom de la recette"
+            required
           />
         </label>
 
@@ -186,12 +188,7 @@ const NewRecipes = () => {
         <div className="guest-duration">
           <label htmlFor="guestNumber">
             <h3>Nombre de personnes</h3>
-            <select
-              name="guest_number"
-              id="guestNumber"
-              value={guestNumber}
-              onChange={(e) => setGuestNumber(Number(e.target.value))}
-            >
+            <select name="guest_number" id="guestNumber" required>
               <option value={0}>Sélectionnez le nombre de personnes</option>
               {guestOptions.map((number) => (
                 <option key={number} value={number}>
@@ -207,8 +204,7 @@ const NewRecipes = () => {
               type="time"
               name="duration"
               id="duration"
-              value={duration}
-              onChange={(e) => setDuration(e.target.value)}
+              defaultValue={"00:00"}
             />
           </label>
         </div>
@@ -253,7 +249,7 @@ const NewRecipes = () => {
           >
             <option value="">Sélectionnez une unité</option>
             {availableUnit.map((unit) => (
-              <option key={unit.name} value={unit.name}>
+              <option key={unit.name} value={unit.id}>
                 {unit.name}
               </option>
             ))}
@@ -267,18 +263,23 @@ const NewRecipes = () => {
         {ingredients.length > 0 && (
           <fieldset name="ingredients">
             <legend>Ingrédients ajoutés</legend>
-            {ingredients.map((ingredient) => (
-              <p key={ingredient.id}>
-                {ingredient.quantity} {ingredient.unit} de {ingredient.name}
-                <button
-                  type="button"
-                  onClick={() => removeIngredient(ingredient.id)}
-                  className="remove-ingredient-btn"
-                >
-                  Supprimer
-                </button>
-              </p>
-            ))}
+            {ingredients.map((ingredient) => {
+              const ingUnit = availableUnit.find(
+                (unit) => unit.id === Number(ingredient.unit),
+              );
+              return (
+                <p key={ingredient.id}>
+                  {ingredient.quantity} {ingUnit?.name} de {ingredient.name}
+                  <button
+                    type="button"
+                    onClick={() => removeIngredient(ingredient.id)}
+                    className="remove-ingredient-btn"
+                  >
+                    Supprimer
+                  </button>
+                </p>
+              );
+            })}
           </fieldset>
         )}
 

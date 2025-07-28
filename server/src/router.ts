@@ -35,8 +35,8 @@ router.get("/api/recipes", recipesActions.browseSearchRecipes);
 router.get("/api/last-recipes", recipesActions.browseLastRecipes);
 router.post(
   "/api/newRecipes",
-  // files.imageUpload,
-  // files.recipesImage,
+  files.imageUpload,
+  files.recipesImage,
   recipesActions.addRecipes,
 );
 

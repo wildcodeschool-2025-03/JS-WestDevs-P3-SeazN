@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 import "./App.css";
 import AppLayout from "./components/layouts/AppLayout/AppLayout";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <AppLayout>
         <Outlet />
       </AppLayout>
+      <ToastContainer />
     </>
   );
 }
