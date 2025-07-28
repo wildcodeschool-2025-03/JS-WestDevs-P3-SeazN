@@ -5,10 +5,11 @@ import type { RecipeBase } from "../../../src/components/ui/recipeCard/data/reci
 import RecipeCard from "../../components/ui/recipeCard/RecipeCard";
 
 const Home = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [lastRecipes, setLastRecipes] = useState<RecipeBase[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3310/api/last-recipes")
+    fetch(`${apiUrl}/api/last-recipes`)
       .then((res) => res.json())
       .then((data) => setLastRecipes(data));
   }, []);
