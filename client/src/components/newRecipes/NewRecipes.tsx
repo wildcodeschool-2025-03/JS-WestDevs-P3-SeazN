@@ -7,8 +7,8 @@ import "./NewRecipes.css";
 const NewRecipes = () => {
   const [imageSrc, setImageSrc] = useState("");
   const [imageFile, setImageFile] = useState<File | undefined>();
-  // const [guestNumber, setGuestNumber] = useState(0);
-  // const [duration, setDuration] = useState("00:00");
+  const [guestNumber, setGuestNumber] = useState(0);
+  const [duration, setDuration] = useState("00:00");
   const [selectedIngredient, setSelectedIngredient] = useState("");
   const [availableIngredients, setAvailableIngredients] = useState<
     Ingredient[]
@@ -19,7 +19,8 @@ const NewRecipes = () => {
   const [availableUnit, setAvailableUnit] = useState<{ name: string }[]>([]);
   const [steps, setSteps] = useState([{ id: 1, content: "" }]);
   const apiUrl = import.meta.env.VITE_API_URL;
-  const formRef = useRef<HTMLFormElement>(null);
+  // const formRef = useRef<HTMLFormElement>(null);
+  // console.log("Je suis formRef", formRef);
 
   const guestOptions = [2, 4, 6, 8, 10, 12];
 
@@ -53,17 +54,17 @@ const NewRecipes = () => {
     }
 
     setImageSrc("");
-    // formRecipe.image = imageFile;
+    formRecipe.image = imageFile;
     if (!imageFile || !instructions) {
       return;
     }
     formData.append("instructions", JSON.stringify(instructions));
-    // formData.append("image", imageFile);
-    // setImageFile(undefined);
-    // setGuestNumber(0);
-    // setDuration("00:00");
+    formData.append("image", imageFile);
+    setImageFile(undefined);
+    setGuestNumber(0);
+    setDuration("00:00");
     formRecipe.duration += ":00";
-    // setIngredients([]);
+    setIngredients([]);
     formRecipe.ingrédient = ingredients;
     setSteps([{ id: 1, content: "" }]);
 
@@ -75,7 +76,7 @@ const NewRecipes = () => {
       body: formData,
     }).then((res) => (res.ok ? success() : error()));
 
-    formRef.current?.reset();
+    // formRef.current?.reset();
 
     console.log("je suis la recette", formRecipe);
   };
@@ -154,7 +155,7 @@ const NewRecipes = () => {
 
   return (
     <article className="new-recipes">
-      <form action={handleSubmit} ref={formRef}>
+       <form action={handleSubmit}> {/* ref={formRef} > */}
         <h2>Poster une recette</h2>
 
         <label htmlFor="recipeName">
@@ -188,8 +189,8 @@ const NewRecipes = () => {
             <select
               name="guest_number"
               id="guestNumber"
-              // value={guestNumber}
-              // onChange={(e) => setGuestNumber(Number(e.target.value))}
+              value={guestNumber}
+              onChange={(e) => setGuestNumber(Number(e.target.value))}
             >
               <option value={0}>Sélectionnez le nombre de personnes</option>
               {guestOptions.map((number) => (
@@ -206,8 +207,8 @@ const NewRecipes = () => {
               type="time"
               name="duration"
               id="duration"
-              // value={duration}
-              // onChange={(e) => setDuration(e.target.value)}
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
             />
           </label>
         </div>
@@ -226,8 +227,8 @@ const NewRecipes = () => {
               const valueName = typeof value === "string" ? value : value.name;
               return optionName === valueName;
             }}
-            // value={selectedIngredient}
-            // onChange={handleIngredientChange}
+            value={selectedIngredient}
+            onChange={handleIngredientChange}
             renderInput={(params) => (
               <TextField {...params} label="ingrédients" />
             )}
@@ -240,14 +241,14 @@ const NewRecipes = () => {
             id="quantity"
             placeholder="quantité ex: 200"
             min="0"
-            // value={currentQuantity}
-            // onChange={(e) => setCurrentQuantity(e.target.value)}
+            value={currentQuantity}
+            onChange={(e) => setCurrentQuantity(e.target.value)}
           />
 
           <select
             id="unit"
-            // value={currentUnit}
-            // onChange={(e) => setCurrentUnit(e.target.value)}
+            value={currentUnit}
+            onChange={(e) => setCurrentUnit(e.target.value)}
             aria-label="Sélectionnez l'unité"
           >
             <option value="">Sélectionnez une unité</option>

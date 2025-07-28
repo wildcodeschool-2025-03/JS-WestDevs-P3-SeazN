@@ -51,6 +51,7 @@ const addRecipes: RequestHandler = async (req, res, next) => {
       res.status(404).json("There was an error while adding your recipe.");
     }
   } catch (err) {
+    res.status(500).json("Internal server error");
     next(err);
   }
 };

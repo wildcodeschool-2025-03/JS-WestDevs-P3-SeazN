@@ -132,6 +132,7 @@ class RecipesRepository {
 
     try {
       await connection.beginTransaction();
+      console.log("JE SUIS DANS LE TRY DU REPOSITORY")
 
       const [recipeResult] = await connection.query<Result>(
         `INSERT INTO recipe (name, image, guest_number, duration, user_id, price, is_validated, nutrition_average, eco_average)
@@ -147,7 +148,7 @@ class RecipesRepository {
           body.eco_average || null,
         ],
       );
-
+      console.log("JE SUIS APRES LA PREMIERE REQUETE")
       const recipeId = recipeResult.insertId;
 
       if (body.ingredients && body.ingredients.length > 0) {
@@ -163,7 +164,7 @@ class RecipesRepository {
           [ingredientValues],
         );
       }
-
+      console.log("JE SUIS APRES LA DEUXIEME REQUETE")
       if (body.instructions && body.instructions.length > 0) {
         const instructionValues = body.instructions.map((inst) => [
           inst.step_order,
@@ -176,7 +177,7 @@ class RecipesRepository {
           [instructionValues],
         );
       }
-
+      console.log("JE SUIS APRES LA TROISIEME REQUETE")
       await connection.commit();
 
       return recipeResult.affectedRows;
