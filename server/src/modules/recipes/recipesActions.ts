@@ -39,7 +39,6 @@ const browseLastRecipes: RequestHandler = async (req, res, next) => {
   }
 };
 const readRecipeDetailed: RequestHandler = async (req, res, next) => {
-  console.log(req.params);
   try {
     const recipeId = Number(req.params.id);
     const recipe = await recipesRepository.readById(recipeId);
