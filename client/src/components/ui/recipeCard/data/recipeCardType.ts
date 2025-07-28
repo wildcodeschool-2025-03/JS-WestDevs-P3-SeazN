@@ -38,14 +38,14 @@ export interface RecipeDetailed {
   name: string;
   image: string | null;
   price: number | null;
-  guestNumber: number;
+  guest_number: number;
   usersAverage?: number | null;
-  nutritionAverage?: number | null;
-  ecoAverage?: number | null;
+  nutrition_average?: number | null;
+  eco_average?: number | null;
   ingredients: RecipeIngredient[];
   instructions: RecipeInstruction[];
   userId: number | null;
-  duration: number;
+  duration: string; // format "HH:MM:SS"
 }
 
 export interface RecipeCardBase {

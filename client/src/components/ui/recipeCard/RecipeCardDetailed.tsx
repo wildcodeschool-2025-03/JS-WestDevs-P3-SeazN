@@ -5,10 +5,25 @@ import "./recipeCardDetailed.css";
 
 const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
   const starIndex = [1, 2, 3, 4, 5];
-  recipe.instructions.sort((a, b) => a.stepOrder - b.stepOrder);
+  recipe.instructions?.sort((a, b) => a.stepOrder - b.stepOrder);
 
   const [isFavorite, setIsFavorite] = useState<boolean>();
 
+  const formatDuration = (duration: string): string => {
+    if (!duration) return "";
+
+    const [hours, minutes] = duration.split(":").map(Number);
+
+    if (hours === 0) {
+      return `${minutes} min`;
+    }
+
+    if (minutes === 0) {
+      return `${hours}h`;
+    }
+
+    return `${hours}h${minutes < 10 ? `0${minutes}` : minutes}`;
+  };
   return (
     <section className="recipe-card-detailed">
       <div>
@@ -34,16 +49,15 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
             <HeartIcon fill={isFavorite ? "var(--light-secondary)" : "none"} />
           </button>
         </div>
-
         <div>
           <div>
             <GuestsIcon />
-            <span>{recipe.guestNumber}</span>
+            <span>{recipe.guest_number}</span>
           </div>
 
           <span>{recipe.price && "€".repeat(recipe.price)}</span>
 
-          <span>&#60; {recipe.duration} min</span>
+          <span>&#60; {formatDuration(recipe.duration)}</span>
 
           {/* Ranking details */}
 
@@ -72,8 +86,8 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
             {/* Filled stars */}
             <div
               style={{
-                width: recipe.ecoAverage
-                  ? `${(recipe.ecoAverage / 5) * 100}%`
+                width: recipe.eco_average
+                  ? `${(recipe.eco_average / 5) * 100}%`
                   : 0,
               }}
             >
@@ -93,8 +107,8 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
             {/* Filled stars */}
             <div
               style={{
-                width: recipe.nutritionAverage
-                  ? `${(recipe.nutritionAverage / 5) * 100}%`
+                width: recipe.nutrition_average
+                  ? `${(recipe.nutrition_average / 5) * 100}%`
                   : 0,
               }}
             >
@@ -114,7 +128,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
         <div>
           <h3>Ingrédients</h3>
           <ul>
-            {recipe.ingredients.map((ingredient) => {
+            {recipe.ingredients?.map((ingredient) => {
               const { id, quantity, unit, name } = ingredient;
               const displayedQuantity = quantity != null ? quantity : "";
               const displayedUnit =
@@ -135,7 +149,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
       <div>
         <h3>Préparation</h3>
         <ul>
-          {recipe.instructions.map((instruction) => {
+          {recipe.instructions?.map((instruction) => {
             return (
               <li key={instruction.id}>
                 <h4>Étape {instruction.stepOrder}</h4>
