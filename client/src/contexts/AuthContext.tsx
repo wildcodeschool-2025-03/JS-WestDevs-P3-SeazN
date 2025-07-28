@@ -29,8 +29,9 @@ export const AuthProvider = ({ children }: Children) => {
         return res.json();
       })
       .then((data) => {
-        if (data?.email && data.username) {
+        if (data.id && data.email && data.username) {
           setUser({
+            id: data.id,
             email: data.email,
             username: data.username,
           });
