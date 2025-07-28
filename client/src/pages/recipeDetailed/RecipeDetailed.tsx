@@ -14,7 +14,6 @@ const RecipeDetailedComplet = () => {
     fetch(`${apiUrl}/api/recipes/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         const transformedData = {
           ...data,
           usersAverage: Number(data.user_ratings),

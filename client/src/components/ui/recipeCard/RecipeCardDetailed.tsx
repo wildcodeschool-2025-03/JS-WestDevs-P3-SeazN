@@ -4,7 +4,6 @@ import type { RecipeDetailed } from "./data/recipeCardType";
 import "./recipeCardDetailed.css";
 
 const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
-  console.log("Instructions dans le composant:", recipe.instructions);
   const starIndex = [1, 2, 3, 4, 5];
   recipe.instructions?.sort((a, b) => a.stepOrder - b.stepOrder);
 
