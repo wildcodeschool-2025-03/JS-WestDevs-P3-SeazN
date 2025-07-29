@@ -58,6 +58,7 @@ const login: RequestHandler = async (req, res) => {
     });
 
     res.status(200).json({
+      id: user.id,
       email: user.email,
       username: user.username,
     });
