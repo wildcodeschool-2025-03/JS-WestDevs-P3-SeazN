@@ -37,22 +37,22 @@ router.get("/api/recipes/:id", recipesActions.readRecipeDetailed);
 /* Favorite Recipes */
 
 router.post(
-  "api/user/:userId/favorites/:recipeId/",
+  "/api/user/:userId/favorites/:recipeId/",
   favoriteActions.addFavorite,
 );
 
 router.get(
-  "api/user/:userId/favorites/",
+  "/api/user/:userId/favorites/",
   favoriteActions.browseFavoritesByUser,
 );
 
 router.get(
-  "api/user/:userId/favorites/:recipeId",
+  "/api/user/:userId/favorites/:recipeId",
   favoriteActions.readSingleFavorite,
 );
 
 router.patch(
-  "api/user/:userId/favorites/:recipeId/",
+  "/api/user/:userId/favorites/:recipeId/",
   favoriteActions.removeFavorite,
 );
 

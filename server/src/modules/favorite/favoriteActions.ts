@@ -75,7 +75,6 @@ const removeFavorite: RequestHandler = async (req, res, next) => {
     const updatedFavorite = await favoriteRepository.updateFavorite(
       userId,
       recipeId,
-      false,
     );
 
     if (updatedFavorite) {

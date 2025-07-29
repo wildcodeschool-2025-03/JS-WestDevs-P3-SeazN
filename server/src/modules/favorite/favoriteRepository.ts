@@ -30,27 +30,27 @@ class FavoriteRepository {
     return rows;
   }
 
-  async createFavorite(userId: number, recipeId: number, isFavorite: boolean) {
+  async createFavorite(userId: number, recipeId: number) {
     const [result] = await databaseClient.query<Result>(
       `
       INSERT INTO save (user_id, recipe_id, is_favorite)
       VALUES (?,?,?)
       ON DUPLICATE KEY UPDATE is_favorite = ?
       `,
-      [userId, recipeId, true],
+      [userId, recipeId, true, true],
     );
 
     return result.affectedRows;
   }
 
-  async updateFavorite(userId: number, recipeId: number, isFavorite: boolean) {
+  async updateFavorite(userId: number, recipeId: number) {
     const [result] = await databaseClient.query<Result>(
       `
       UPDATE save
       SET is_favorite = ?
       WHERE user_id = ? AND recipe_id = ?
       `,
-      [isFavorite, userId, recipeId],
+      [false, userId, recipeId],
     );
 
     return result.affectedRows;
