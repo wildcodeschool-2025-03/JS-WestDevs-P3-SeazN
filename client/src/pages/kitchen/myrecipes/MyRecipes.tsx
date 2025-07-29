@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import NewRecipes from "../../../components/newRecipes/NewRecipes";
-import { useAuth } from "../../../contexts/AuthContext";
-import "./MyRecipes.css";
 import RecipeCard from "../../../components/ui/recipeCard/RecipeCard";
 import type { RecipeBase } from "../../../components/ui/recipeCard/data/recipeCardType";
+import { useAuth } from "../../../contexts/AuthContext";
+import "./MyRecipes.css";
 
 const MyRecipes = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
