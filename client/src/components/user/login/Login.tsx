@@ -8,42 +8,42 @@ import "../login/Login.css";
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [isPending, startTransition] = useTransition();
+  const [isPending] = useTransition();
 
   async function handleSubmit(formData: FormData) {
     const data = Object.fromEntries(formData);
-    startTransition(async () => {
-      try {
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${apiUrl}/api/login`, {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
 
-        const result: LoginResponse = await response.json();
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${apiUrl}/api/login`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-        if (!response.ok) {
-          toast.error(result.message || "Erreur de connexion.");
-          return;
-        }
+      const result: LoginResponse = await response.json();
 
-        login({
-          email: result.email,
-          username: result.username,
-        });
-
-        toast.success("Connexion réussie !");
-        toast.success("Vous allez être redirigé.e vers la page recettes. ");
-        setTimeout(() => {
-          navigate("/recipes");
-        }, 3000);
-      } catch (error) {
-        console.error("Erreur serveur :", error);
-        toast.error("Erreur lors de la connexion.");
+      if (!response.ok) {
+        toast.error(result.message || "Erreur de connexion.");
+        return;
       }
-    });
+
+      login({
+        id: result.id,
+        email: result.email,
+        username: result.username,
+      });
+
+      toast.success("Connexion réussie !");
+      toast.success("Vous allez être redirigé.e vers la page recettes.");
+      setTimeout(() => {
+        navigate("/recipes");
+      }, 3000);
+    } catch (error) {
+      console.error("Erreur serveur :", error);
+      toast.error("Erreur lors de la connexion.");
+    }
   }
 
   return (

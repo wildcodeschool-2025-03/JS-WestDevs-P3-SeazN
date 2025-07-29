@@ -19,12 +19,12 @@ export interface RecipeIngredient {
   name: string;
   quantity: number | null;
   unit: MeasureUnits;
-  is_vegan: 0 | 1;
-  is_vegetarian: 0 | 1;
-  is_glutenfree: 0 | 1;
-  is_expensive: 0 | 1;
-  nutrition_score?: number;
-  eco_score?: number;
+  isVegan: 0 | 1;
+  isVegetarian: 0 | 1;
+  isGlutenFree: 0 | 1;
+  isExpensive: 0 | 1;
+  nutritionScore?: number;
+  ecoScore?: number;
 }
 
 export interface RecipeInstruction {
@@ -39,13 +39,12 @@ export interface RecipeDetailed {
   image: string | null;
   price: number | null;
   guestNumber: number;
+  duration: string;
   usersAverage?: number | null;
   nutritionAverage?: number | null;
   ecoAverage?: number | null;
   ingredients: RecipeIngredient[];
   instructions: RecipeInstruction[];
-  userId: number | null;
-  duration: number;
 }
 
 export interface RecipeCardBase {

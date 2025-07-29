@@ -57,6 +57,7 @@
         padding: 8px;
         border: none;
         background-color: transparent;
+        cursor: pointer;
 
         svg {
           height: 24px;
@@ -124,11 +125,11 @@
           }
 
           .star-filled-eco {
-            fill: var(--light-primary);
+            fill: rgb(202, 105, 70);
           }
 
           .star-filled-nut {
-            fill: #add8e6;
+            fill: #65c9eb;
           }
         }
 

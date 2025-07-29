@@ -1,40 +1,104 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../../contexts/AuthContext";
 import { GuestsIcon, HeartIcon, StarIcon } from "../Icons/Icons";
 import type { RecipeDetailed } from "./data/recipeCardType";
 import "./recipeCardDetailed.css";
 
 const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const { user } = useAuth();
+
   const starIndex = [1, 2, 3, 4, 5];
-  recipe.instructions.sort((a, b) => a.stepOrder - b.stepOrder);
+  recipe.instructions?.sort((a, b) => a.stepOrder - b.stepOrder);
 
   const [isFavorite, setIsFavorite] = useState<boolean>();
+  const [isLoading, setIsLoading] = useState<boolean>();
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    const fetchFavoriteStatus = async () => {
+      try {
+        setIsLoading(true);
+        const statusRes = await fetch(
+          `${apiUrl}/api/user/${user?.id}/favorites/${recipe.id}`,
+        );
+        const status = await statusRes.json();
+        setIsFavorite(status);
+      } catch (err) {
+        console.log("Erreur de chargement du statut favoris : ", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFavoriteStatus();
+  }, [user, recipe.id]);
+
+  const handleFavorite = async () => {
+    const newStatus = !isFavorite;
+    setIsFavorite(newStatus);
+
+    try {
+      await fetch(`${apiUrl}/api/user/${user?.id}/favorites/${recipe.id}`, {
+        method: newStatus ? "POST" : "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      console.log("Erreur de mise à jour du statut favoris : ", err);
+      setIsFavorite(!newStatus);
+    }
+  };
+
+  const formatDuration = (duration: string): string => {
+    if (!duration) return "";
+
+    const [hours, minutes] = duration.split(":").map(Number);
+
+    if (hours === 0) {
+      return `${minutes} min`;
+    }
+
+    if (minutes === 0) {
+      return `${hours}h`;
+    }
+
+    return `${hours}h${minutes < 10 ? `0${minutes}` : minutes}`;
+  };
 
   return (
     <section className="recipe-card-detailed">
       <div>
         <figure>
-          <img
-            src={recipe.image ? recipe.image : undefined}
-            alt={recipe.name}
-          />
+          <img src={recipe.image ?? undefined} alt={recipe.name} />
         </figure>
 
         <div>
           <h2>{recipe.name}</h2>
-          <button
-            type="button"
-            onClick={() => setIsFavorite(!isFavorite)}
-            aria-label={
-              isFavorite
-                ? "Retirer des recettes favorites"
-                : "Ajouter aux recettes favorites"
-            }
-            aria-pressed={isFavorite}
-          >
-            <HeartIcon fill={isFavorite ? "var(--light-secondary)" : "none"} />
-          </button>
+          {user &&
+            (isLoading ? (
+              <span>Chargement des favoris</span>
+            ) : (
+              <button
+                type="button"
+                onClick={() => handleFavorite()}
+                aria-label={
+                  isFavorite
+                    ? "Retirer des recettes favorites"
+                    : "Ajouter aux recettes favorites"
+                }
+                aria-pressed={isFavorite}
+              >
+                <HeartIcon
+                  fill={isFavorite ? "var(--light-secondary)" : "none"}
+                />
+              </button>
+            ))}
         </div>
-
         <div>
           <div>
             <GuestsIcon />
@@ -42,13 +106,9 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
           </div>
 
           <span>{recipe.price && "€".repeat(recipe.price)}</span>
-
-          <span>&#60; {recipe.duration} min</span>
-
-          {/* Ranking details */}
+          <span>&#60; {formatDuration(recipe.duration)}</span>
 
           <div>
-            {/* Filled stars */}
             <div
               style={{
                 width: recipe.usersAverage
@@ -56,20 +116,18 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                   : 0,
               }}
             >
-              {starIndex.map((i) => {
-                return <StarIcon key={i} className="star-filled-users" />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} className="star-filled-users" />
+              ))}
             </div>
-            {/* Empty stars */}
             <div>
-              {starIndex.map((i) => {
-                return <StarIcon key={i} />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} />
+              ))}
             </div>
           </div>
 
           <div>
-            {/* Filled stars */}
             <div
               style={{
                 width: recipe.ecoAverage
@@ -77,20 +135,18 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                   : 0,
               }}
             >
-              {starIndex.map((i) => {
-                return <StarIcon key={i} className="star-filled-eco" />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} className="star-filled-eco" />
+              ))}
             </div>
-            {/* Empty stars */}
             <div>
-              {starIndex.map((i) => {
-                return <StarIcon key={i} />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} />
+              ))}
             </div>
           </div>
 
           <div>
-            {/* Filled stars */}
             <div
               style={{
                 width: recipe.nutritionAverage
@@ -98,15 +154,14 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                   : 0,
               }}
             >
-              {starIndex.map((i) => {
-                return <StarIcon key={i} className="star-filled-nut" />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} className="star-filled-nut" />
+              ))}
             </div>
-            {/* Empty stars */}
             <div>
-              {starIndex.map((i) => {
-                return <StarIcon key={i} />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} />
+              ))}
             </div>
           </div>
         </div>
@@ -114,13 +169,10 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
         <div>
           <h3>Ingrédients</h3>
           <ul>
-            {recipe.ingredients.map((ingredient) => {
-              const { id, quantity, unit, name } = ingredient;
-              const displayedQuantity = quantity != null ? quantity : "";
-              const displayedUnit =
-                unit != null && unit !== "pièce(s)" ? unit : "";
-              const needsLink =
-                unit && unit !== null && unit !== "pièce(s)" ? "de " : "";
+            {recipe.ingredients?.map(({ id, quantity, unit, name }) => {
+              const displayedQuantity = quantity ?? "";
+              const displayedUnit = unit && unit !== "pièce(s)" ? unit : "";
+              const needsLink = unit && unit !== "pièce(s)" ? "de " : "";
 
               return (
                 <li key={id}>
@@ -135,14 +187,12 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
       <div>
         <h3>Préparation</h3>
         <ul>
-          {recipe.instructions.map((instruction) => {
-            return (
-              <li key={instruction.id}>
-                <h4>Étape {instruction.stepOrder}</h4>
-                <p>{instruction.content}</p>
-              </li>
-            );
-          })}
+          {recipe.instructions?.map(({ id, stepOrder, content }) => (
+            <li key={id}>
+              <h4>Étape {stepOrder}</h4>
+              <p>{content}</p>
+            </li>
+          ))}
         </ul>
       </div>
     </section>

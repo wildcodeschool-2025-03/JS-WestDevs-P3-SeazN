@@ -39,6 +39,21 @@ const browseLastRecipes: RequestHandler = async (req, res, next) => {
   }
 };
 
+const readRecipeDetailed: RequestHandler = async (req, res, next) => {
+  try {
+    const recipeId = Number(req.params.id);
+    const recipe = await recipesRepository.readById(recipeId);
+
+    if (recipe == null) {
+      res.sendStatus(404);
+    } else {
+      res.json(recipe);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 const addRecipes: RequestHandler = async (req, res, next) => {
   try {
     const newRecipes = await recipesRepository.createRecipes(req.body);
@@ -50,8 +65,12 @@ const addRecipes: RequestHandler = async (req, res, next) => {
     }
   } catch (err) {
     res.status(500).json("Internal server error");
-    next(err);
   }
 };
 
-export default { browseLastRecipes, browseSearchRecipes, addRecipes };
+export default {
+  browseSearchRecipes,
+  browseLastRecipes,
+  readRecipeDetailed,
+  addRecipes,
+};

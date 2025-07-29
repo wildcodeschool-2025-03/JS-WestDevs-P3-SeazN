@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 export type User = {
+  id?: number;
   email: string;
   username: string;
 };
@@ -18,6 +19,7 @@ export interface Children {
 }
 
 export interface LoginResponse {
+  id: number;
   username: string;
   email: string;
   firstName: string;
