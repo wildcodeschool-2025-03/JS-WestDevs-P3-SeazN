@@ -79,24 +79,25 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
         <div>
           <h2>{recipe.name}</h2>
-          {user && (isLoading ? (
-            <span>Chargement des favoris</span>
-          ) : (
-            <button
-              type="button"
-              onClick={() => handleFavorite()}
-              aria-label={
-                isFavorite
-                  ? "Retirer des recettes favorites"
-                  : "Ajouter aux recettes favorites"
-              }
-              aria-pressed={isFavorite}
-            >
-              <HeartIcon
-                fill={isFavorite ? "var(--light-secondary)" : "none"}
-              />
-            </button>
-          ))}
+          {user &&
+            (isLoading ? (
+              <span>Chargement des favoris</span>
+            ) : (
+              <button
+                type="button"
+                onClick={() => handleFavorite()}
+                aria-label={
+                  isFavorite
+                    ? "Retirer des recettes favorites"
+                    : "Ajouter aux recettes favorites"
+                }
+                aria-pressed={isFavorite}
+              >
+                <HeartIcon
+                  fill={isFavorite ? "var(--light-secondary)" : "none"}
+                />
+              </button>
+            ))}
         </div>
         <div>
           <div>
