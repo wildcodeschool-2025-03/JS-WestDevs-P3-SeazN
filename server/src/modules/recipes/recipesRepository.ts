@@ -135,7 +135,7 @@ class RecipesRepository {
 
       const [recipeResult] = await connection.query<Result>(
         `INSERT INTO recipe (name, image, guest_number, duration, user_id, price, is_validated, nutrition_average, eco_average)
-       VALUES (?, ?, ?, ?, ?, ?, TRUE, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           body.name,
           body.image || null,
@@ -143,6 +143,7 @@ class RecipesRepository {
           body.duration,
           body.user_id || null,
           body.price || null,
+          true,
           body.nutrition_average || null,
           body.eco_average || null,
         ],

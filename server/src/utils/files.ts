@@ -1,7 +1,7 @@
-import multer from "multer";
-import path from "node:path";
 import crypto from "node:crypto";
+import path from "node:path";
 import type { RequestHandler } from "express";
+import multer from "multer";
 
 const storage = multer.diskStorage({
   destination(req, file, callback) {
@@ -19,15 +19,13 @@ const upload = multer({ storage: storage });
 const imageUpload = upload.single("image");
 
 const recipesImage: RequestHandler = (req, res, next) => {
+  const apiUrl = process.env.SERVER_URL;
   try {
     if (req.file) {
-      req.body.image = `/assets/images/${req.file.filename}`;
+      req.body.image = `${apiUrl}/assets/images/${req.file.filename}`;
       console.log(req.file.filename);
-
-      next();
-    } else {
-      res.status(400).json("File problem");
     }
+    next();
   } catch (err) {
     next(err);
   }

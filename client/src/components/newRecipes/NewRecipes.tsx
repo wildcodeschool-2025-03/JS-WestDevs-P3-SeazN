@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 import { type FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "./NewRecipes.css";
+import { useAuth } from "../../contexts/AuthContext";
 
 const NewRecipes = () => {
   const [imageSrc, setImageSrc] = useState("");
@@ -19,6 +20,7 @@ const NewRecipes = () => {
   const [steps, setSteps] = useState([{ id: 1, content: "" }]);
 
   const apiUrl = import.meta.env.VITE_API_URL;
+  const {user} = useAuth();
   const guestOptions = [2, 4, 6, 8, 10, 12];
 
   const success = () =>
@@ -112,6 +114,7 @@ const NewRecipes = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const formObj = Object.fromEntries(formData);
+    const formElement = e.currentTarget;
 
     const instructions = [];
     let stepOrder = 1;
@@ -133,7 +136,7 @@ const NewRecipes = () => {
     formData.append("instructions", JSON.stringify(instructions));
     formData.append("ingredients", JSON.stringify(ingredients));
 
-    fetch(`${apiUrl}/api/newRecipes`, {
+    fetch(`${apiUrl}/api/user/${user.id}/newRecipes`, {
       method: "POST",
       body: formData,
     })
@@ -142,7 +145,7 @@ const NewRecipes = () => {
           setImageSrc("");
           setIngredients([]);
           setSteps([{ id: 1, content: "" }]);
-          e.currentTarget.reset();
+          formElement.reset();
           success();
         } else {
           error();
@@ -152,6 +155,9 @@ const NewRecipes = () => {
         console.error("Erreur réseau:", err);
         error();
       });
+
+    console.log("je suis la recette", formObj);
+    console.log("je suis imageSRC", imageSrc);
   };
 
   return (
@@ -166,6 +172,8 @@ const NewRecipes = () => {
             id="recipeName"
             name="name"
             placeholder="Nom de la recette"
+            min={5}
+            max={200}
             required
           />
         </label>
@@ -237,6 +245,7 @@ const NewRecipes = () => {
             id="quantity"
             placeholder="quantité ex: 200"
             min="0"
+            max={5000}
             value={currentQuantity}
             onChange={(e) => setCurrentQuantity(e.target.value)}
           />
@@ -301,6 +310,8 @@ const NewRecipes = () => {
               name={`instruction ${index + 1}`}
               id={`step-${step.id}`}
               placeholder={`Saisissez la préparation de l'étape ${index + 1}`}
+              minLength={5}
+              maxLength={1000}
             />
           </fieldset>
         ))}
