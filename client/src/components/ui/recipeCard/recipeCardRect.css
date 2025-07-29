@@ -2,7 +2,6 @@
   width: 224px;
   height: 80px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 8px;
   background-color: var(--text-light);
@@ -33,7 +32,9 @@
   }
 
   figcaption {
+    padding-right: 0.25rem;
     font-size: 12px;
+    font-weight: 500;
     color: var(--text-dark);
   }
 }

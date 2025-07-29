@@ -44,11 +44,9 @@ const MyRecipes = () => {
             isLoadingFav ? (
               <span>Chargement des favoris</span>
             ) : favoriteList && favoriteList.length > 0 ? (
-
               favoriteList?.map((recipe) => (
                 <RecipeCard key={recipe.id} variant="rect" recipe={recipe} />
               ))
-
             ) : (
               <span>Aucune recette favorite</span>
             )
@@ -66,7 +64,6 @@ const MyRecipes = () => {
             isLoadingFav ? (
               <span>Chargement des recettes ajoutées</span>
             ) : addedList && addedList.length > 0 ? (
-
               addedList?.map((recipe) => (
                 <RecipeCard key={recipe.id} variant="rect" recipe={recipe} />
               ))
