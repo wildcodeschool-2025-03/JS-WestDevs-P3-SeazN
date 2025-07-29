@@ -6,11 +6,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: Children) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLogged, setIsLogged] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const hasToken = document.cookie.includes("token=");
-
+    setIsLoading(true);
     if (!hasToken) {
       setIsLoading(false);
       console.info("Pas de token détecté — aucun refresh effectué.");
@@ -39,9 +39,6 @@ export const AuthProvider = ({ children }: Children) => {
         } else {
           setIsLogged(false);
         }
-      })
-      .catch(() => {
-        setIsLogged(false);
       })
       .finally(() => {
         setIsLoading(false);
