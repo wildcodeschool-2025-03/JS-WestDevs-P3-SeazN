@@ -17,8 +17,14 @@ const RecipeDetailedComplet = () => {
         const transformedData = {
           ...data,
           usersAverage: Number(data.user_ratings),
-          nutrition_average: Number(data.nutrition_average),
-          eco_average: Number(data.eco_average),
+          nutritionAverage: Number(data.nutrition_average),
+          ecoAverage: Number(data.eco_average),
+          instructions: data.instructions.map(
+            (instruction: { step_order: number; content: string }) => ({
+              stepOrder: instruction.step_order,
+              content: instruction.content,
+            }),
+          ),
         };
 
         setRecipeDetailed(transformedData);

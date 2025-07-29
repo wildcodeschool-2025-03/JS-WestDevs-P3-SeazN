@@ -69,14 +69,12 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
     return `${hours}h${minutes < 10 ? `0${minutes}` : minutes}`;
   };
+
   return (
     <section className="recipe-card-detailed">
       <div>
         <figure>
-          <img
-            src={recipe.image ? recipe.image : undefined}
-            alt={recipe.name}
-          />
+          <img src={recipe.image ?? undefined} alt={recipe.name} />
         </figure>
 
         <div>
@@ -103,17 +101,13 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
         <div>
           <div>
             <GuestsIcon />
-            <span>{recipe.guest_number}</span>
+            <span>{recipe.guestNumber}</span>
           </div>
 
           <span>{recipe.price && "€".repeat(recipe.price)}</span>
-
           <span>&#60; {formatDuration(recipe.duration)}</span>
 
-          {/* Ranking details */}
-
           <div>
-            {/* Filled stars */}
             <div
               style={{
                 width: recipe.usersAverage
@@ -121,57 +115,52 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                   : 0,
               }}
             >
-              {starIndex.map((i) => {
-                return <StarIcon key={i} className="star-filled-users" />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} className="star-filled-users" />
+              ))}
             </div>
-            {/* Empty stars */}
             <div>
-              {starIndex.map((i) => {
-                return <StarIcon key={i} />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} />
+              ))}
             </div>
           </div>
 
           <div>
-            {/* Filled stars */}
             <div
               style={{
-                width: recipe.eco_average
-                  ? `${(recipe.eco_average / 5) * 100}%`
+                width: recipe.ecoAverage
+                  ? `${(recipe.ecoAverage / 5) * 100}%`
                   : 0,
               }}
             >
-              {starIndex.map((i) => {
-                return <StarIcon key={i} className="star-filled-eco" />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} className="star-filled-eco" />
+              ))}
             </div>
-            {/* Empty stars */}
             <div>
-              {starIndex.map((i) => {
-                return <StarIcon key={i} />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} />
+              ))}
             </div>
           </div>
 
           <div>
-            {/* Filled stars */}
             <div
               style={{
-                width: recipe.nutrition_average
-                  ? `${(recipe.nutrition_average / 5) * 100}%`
+                width: recipe.nutritionAverage
+                  ? `${(recipe.nutritionAverage / 5) * 100}%`
                   : 0,
               }}
             >
-              {starIndex.map((i) => {
-                return <StarIcon key={i} className="star-filled-nut" />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} className="star-filled-nut" />
+              ))}
             </div>
-            {/* Empty stars */}
             <div>
-              {starIndex.map((i) => {
-                return <StarIcon key={i} />;
-              })}
+              {starIndex.map((i) => (
+                <StarIcon key={i} />
+              ))}
             </div>
           </div>
         </div>
@@ -179,13 +168,10 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
         <div>
           <h3>Ingrédients</h3>
           <ul>
-            {recipe.ingredients?.map((ingredient) => {
-              const { id, quantity, unit, name } = ingredient;
-              const displayedQuantity = quantity != null ? quantity : "";
-              const displayedUnit =
-                unit != null && unit !== "pièce(s)" ? unit : "";
-              const needsLink =
-                unit && unit !== null && unit !== "pièce(s)" ? "de " : "";
+            {recipe.ingredients?.map(({ id, quantity, unit, name }) => {
+              const displayedQuantity = quantity ?? "";
+              const displayedUnit = unit && unit !== "pièce(s)" ? unit : "";
+              const needsLink = unit && unit !== "pièce(s)" ? "de " : "";
 
               return (
                 <li key={id}>
@@ -200,14 +186,12 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
       <div>
         <h3>Préparation</h3>
         <ul>
-          {recipe.instructions?.map((instruction) => {
-            return (
-              <li key={instruction.id}>
-                <h4>Étape {instruction.stepOrder}</h4>
-                <p>{instruction.content}</p>
-              </li>
-            );
-          })}
+          {recipe.instructions?.map(({ id, stepOrder, content }) => (
+            <li key={id}>
+              <h4>Étape {stepOrder}</h4>
+              <p>{content}</p>
+            </li>
+          ))}
         </ul>
       </div>
     </section>
