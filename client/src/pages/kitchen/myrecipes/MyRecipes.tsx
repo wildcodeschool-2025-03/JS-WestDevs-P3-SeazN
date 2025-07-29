@@ -9,6 +9,7 @@ const MyRecipes = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const { user } = useAuth();
   const [favoriteList, setFavoriteList] = useState<RecipeBase[]>();
+  const [addedList, setAddedList] = useState<RecipeBase[]>();
   const [isLoadingFav, setIsLoadingFav] = useState<boolean>();
 
   useEffect(() => {
@@ -38,29 +39,46 @@ const MyRecipes = () => {
     <section className="my-recipes">
       <article>
         <h2>Mes recettes favorites</h2>
-        {user ? (
-          isLoadingFav ? (
-            <span>Chargement des favoris</span>
+        <div>
+          {user ? (
+            isLoadingFav ? (
+              <span>Chargement des favoris</span>
+            ) : favoriteList && favoriteList.length > 0 ? (
+
+              favoriteList?.map((recipe) => (
+                <RecipeCard key={recipe.id} variant="rect" recipe={recipe} />
+              ))
+
+            ) : (
+              <span>Aucune recette favorite</span>
+            )
           ) : (
-            favoriteList?.map((recipe) => (
-              <RecipeCard key={recipe.id} variant="rect" recipe={recipe} />
-            ))
-          )
-        ) : (
-          <span>
-            Veuillez vous connecter pour visualiser vos recettes favorites
-          </span>
-        )}
+            <span>
+              Veuillez vous connecter pour visualiser vos recettes favorites
+            </span>
+          )}
+        </div>
       </article>
       <article>
         <h2>Mes recettes ajoutées</h2>
-        {user ? (
-          <></>
-        ) : (
-          <span>
-            Veuillez vous connecter pour visualiser vos recettes ajoutées
-          </span>
-        )}
+        <div>
+          {user ? (
+            isLoadingFav ? (
+              <span>Chargement des recettes ajoutées</span>
+            ) : addedList && addedList.length > 0 ? (
+
+              addedList?.map((recipe) => (
+                <RecipeCard key={recipe.id} variant="rect" recipe={recipe} />
+              ))
+            ) : (
+              <span>Aucune recette ajoutée</span>
+            )
+          ) : (
+            <span>
+              Veuillez vous connecter pour visualiser vos recettes ajoutées
+            </span>
+          )}
+        </div>
       </article>
       <NewRecipes />
     </section>
