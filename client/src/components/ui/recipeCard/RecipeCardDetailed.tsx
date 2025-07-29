@@ -1,13 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../../contexts/AuthContext";
 import { GuestsIcon, HeartIcon, StarIcon } from "../Icons/Icons";
 import type { RecipeDetailed } from "./data/recipeCardType";
 import "./recipeCardDetailed.css";
 
 const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const { user } = useAuth();
+
   const starIndex = [1, 2, 3, 4, 5];
   recipe.instructions?.sort((a, b) => a.stepOrder - b.stepOrder);
 
   const [isFavorite, setIsFavorite] = useState<boolean>();
+  const [isLoading, setIsLoading] = useState<boolean>();
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    const fetchFavoriteStatus = async () => {
+      try {
+        setIsLoading(true);
+        const statusRes = await fetch(`${apiUrl}/api/user/${user?.id}/favorites/${recipe.id}`);
+        const status = await statusRes.json();
+        setIsFavorite(status);
+      } catch (err) {
+        console.log("Erreur de chargement du statut favoris : ", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFavoriteStatus();
+  }, [user, recipe.id])
+
+  const handleFavorite = async () => {
+    const newStatus = !isFavorite;
+    setIsFavorite(newStatus);
+
+    try {
+      await fetch(`${apiUrl}/api/user/${user?.id}/favorites/${recipe.id}`, {
+        method: newStatus ? "POST" : "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+
+    } catch (err) {
+      console.log("Erreur de mise à jour du statut favoris : ", err);
+      setIsFavorite(!newStatus);
+    }
+  }
 
   const formatDuration = (duration: string): string => {
     if (!duration) return "";
@@ -36,18 +80,21 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
         <div>
           <h2>{recipe.name}</h2>
-          <button
-            type="button"
-            onClick={() => setIsFavorite(!isFavorite)}
-            aria-label={
-              isFavorite
-                ? "Retirer des recettes favorites"
-                : "Ajouter aux recettes favorites"
-            }
-            aria-pressed={isFavorite}
-          >
-            <HeartIcon fill={isFavorite ? "var(--light-secondary)" : "none"} />
-          </button>
+          {isLoading ? <span>Chargement des favoris</span> :
+            <button
+              type="button"
+              onClick={() => handleFavorite()}
+              aria-label={
+                isFavorite
+                  ? "Retirer des recettes favorites"
+                  : "Ajouter aux recettes favorites"
+              }
+              aria-pressed={isFavorite}
+            >
+              <HeartIcon fill={isFavorite ? "var(--light-secondary)" : "none"} />
+            </button>
+          }
+
         </div>
         <div>
           <div>
