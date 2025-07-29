@@ -79,7 +79,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
         <div>
           <h2>{recipe.name}</h2>
-          {isLoading ? (
+          {user && (isLoading ? (
             <span>Chargement des favoris</span>
           ) : (
             <button
@@ -96,7 +96,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
                 fill={isFavorite ? "var(--light-secondary)" : "none"}
               />
             </button>
-          )}
+          ))}
         </div>
         <div>
           <div>
