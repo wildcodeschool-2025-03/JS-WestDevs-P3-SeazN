@@ -201,6 +201,13 @@ CREATE TABLE save (
     ON DELETE CASCADE
 );
 
+INSERT INTO save (user_id, recipe_id, is_favorite)
+VALUES  (1, 1, 1),
+        (1, 3, 1),
+        (2, 2, 1),
+        (2, 3, 1)
+;
+
 CREATE TABLE quantity (
   ingredient_id INT NOT NULL,
   recipe_id INT NOT NULL,
