@@ -22,7 +22,9 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
     const fetchFavoriteStatus = async () => {
       try {
         setIsLoading(true);
-        const statusRes = await fetch(`${apiUrl}/api/user/${user?.id}/favorites/${recipe.id}`);
+        const statusRes = await fetch(
+          `${apiUrl}/api/user/${user?.id}/favorites/${recipe.id}`,
+        );
         const status = await statusRes.json();
         setIsFavorite(status);
       } catch (err) {
@@ -33,7 +35,7 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
     };
 
     fetchFavoriteStatus();
-  }, [user, recipe.id])
+  }, [user, recipe.id]);
 
   const handleFavorite = async () => {
     const newStatus = !isFavorite;
@@ -44,14 +46,13 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
         method: newStatus ? "POST" : "PATCH",
         headers: {
           "Content-Type": "application/json",
-        }
-      })
-
+        },
+      });
     } catch (err) {
       console.log("Erreur de mise à jour du statut favoris : ", err);
       setIsFavorite(!newStatus);
     }
-  }
+  };
 
   const formatDuration = (duration: string): string => {
     if (!duration) return "";
@@ -80,7 +81,9 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
 
         <div>
           <h2>{recipe.name}</h2>
-          {isLoading ? <span>Chargement des favoris</span> :
+          {isLoading ? (
+            <span>Chargement des favoris</span>
+          ) : (
             <button
               type="button"
               onClick={() => handleFavorite()}
@@ -91,10 +94,11 @@ const RecipeCardDetailed = ({ recipe }: { recipe: RecipeDetailed }) => {
               }
               aria-pressed={isFavorite}
             >
-              <HeartIcon fill={isFavorite ? "var(--light-secondary)" : "none"} />
+              <HeartIcon
+                fill={isFavorite ? "var(--light-secondary)" : "none"}
+              />
             </button>
-          }
-
+          )}
         </div>
         <div>
           <div>

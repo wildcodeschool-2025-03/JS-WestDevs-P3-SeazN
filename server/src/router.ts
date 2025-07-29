@@ -6,10 +6,10 @@ const router = express.Router();
 // Define Your API Routes Here
 /* ************************************************************************* */
 import authActions from "./modules/auth/authActions";
+import favoriteActions from "./modules/favorite/favoriteActions";
 import recipesActions from "./modules/recipes/recipesActions";
 import auth from "./utils/auth";
 import validation from "./utils/validation";
-import favoriteActions from "./modules/favorite/favoriteActions";
 
 /* Login */
 router.post(

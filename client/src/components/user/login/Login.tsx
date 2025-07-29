@@ -44,7 +44,6 @@ export default function Login() {
       console.error("Erreur serveur :", error);
       toast.error("Erreur lors de la connexion.");
     }
-
   }
 
   return (
