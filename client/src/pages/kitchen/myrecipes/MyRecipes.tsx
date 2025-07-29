@@ -11,6 +11,7 @@ const MyRecipes = () => {
   const [favoriteList, setFavoriteList] = useState<RecipeBase[]>();
   const [addedList, setAddedList] = useState<RecipeBase[]>();
   const [isLoadingFav, setIsLoadingFav] = useState<boolean>();
+  const [isLoadingAdded, setIsLoadingAdded] = useState<boolean>();
 
   useEffect(() => {
     if (!user) {
@@ -32,6 +33,22 @@ const MyRecipes = () => {
       }
     };
 
+    const fetchAdded = async () => {
+      try {
+        setIsLoadingAdded(true);
+        const addedListRes = await fetch(
+          `${apiUrl}/api/user/${user.id}/my-recipes`,
+        );
+        const addedList = await addedListRes.json();
+        setAddedList(addedList);
+      } catch (err) {
+        console.log("Erreur de chargement des recettes ajoutées : ", err);
+      } finally {
+        setIsLoadingAdded(false);
+      }
+    };
+
+    fetchAdded();
     fetchFavorites();
   }, [user]);
 
@@ -61,7 +78,7 @@ const MyRecipes = () => {
         <h2>Mes recettes ajoutées</h2>
         <div>
           {user ? (
-            isLoadingFav ? (
+            isLoadingAdded ? (
               <span>Chargement des recettes ajoutées</span>
             ) : addedList && addedList.length > 0 ? (
               addedList?.map((recipe) => (
