@@ -8,7 +8,7 @@ import "../login/Login.css";
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [isPending, startTransition] = useTransition();
+  const [isPending] = useTransition();
 
   async function handleSubmit(formData: FormData) {
     const data = Object.fromEntries(formData);
