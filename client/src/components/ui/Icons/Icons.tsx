@@ -60,8 +60,8 @@ export const LanguageIcon = ({ className }: IconProps) => (
     className={`${className} transition-theme fill-none stroke-current motion-reduce:transition-none`}
     viewBox="0 0 24 24"
     strokeWidth={2}
-    stroke-linecap="round"
-    stroke-linejoin="round"
+    strokeLinecap="round"
+    strokeLinejoin="round"
     aria-hidden="true"
     focusable="false"
   >
