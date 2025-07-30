@@ -102,6 +102,7 @@ class RecipesRepository {
     );
     return rows;
   }
+
   async readById(id: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 
@@ -159,6 +160,20 @@ GROUP BY r.id
       [id],
     );
     return rows[0] || null;
+  }
+
+  async readAddedByUser(userId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `
+      SELECT 
+        id, name, image
+      FROM recipe
+      WHERE user_id = ?
+      `,
+      [userId],
+    );
+
+    return rows;
   }
 }
 

@@ -1,6 +1,7 @@
 import type { RequestHandler } from "express";
 import type {
   AvailableFilters,
+  RecipeBase,
   RecipesParams,
 } from "../../types/express/recipe";
 import recipesRepository from "./recipesRepository";
@@ -39,6 +40,7 @@ const browseLastRecipes: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+
 const readRecipeDetailed: RequestHandler = async (req, res, next) => {
   try {
     const recipeId = Number(req.params.id);
@@ -54,4 +56,25 @@ const readRecipeDetailed: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browseSearchRecipes, browseLastRecipes, readRecipeDetailed };
+const browseAddedRecipesByUser: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.params.userId);
+
+    if (Number.isNaN(userId)) {
+      return res.status(400).send("Invalid userId");
+    }
+
+    const addedRecipes = await recipesRepository.readAddedByUser(userId);
+
+    res.json(addedRecipes as RecipeBase[]);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default {
+  browseSearchRecipes,
+  browseLastRecipes,
+  readRecipeDetailed,
+  browseAddedRecipesByUser,
+};
