@@ -1,18 +1,20 @@
-import { useTransition } from "react";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../../contexts/AuthContext";
 import type { LoginResponse } from "../../../types/Auth";
 import "../login/Login.css";
 
-export default function Login() {
+interface LoginProps {
+  setIsPending: (bool: boolean) => void;
+  isPending: boolean;
+}
+
+export default function Login({ setIsPending, isPending }: LoginProps) {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [isPending] = useTransition();
 
   async function handleSubmit(formData: FormData) {
     const data = Object.fromEntries(formData);
-
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
       const response = await fetch(`${apiUrl}/api/login`, {
@@ -21,6 +23,7 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
+      setIsPending(false);
 
       const result: LoginResponse = await response.json();
 
@@ -36,39 +39,48 @@ export default function Login() {
       });
 
       toast.success("Connexion réussie !");
-      toast.success("Vous allez être redirigé.e vers la page recettes.");
-      setTimeout(() => {
-        navigate("/recipes");
-      }, 3000);
+      toast.success("Vous allez être redirigé.e vers la page recettes.", {
+        autoClose: 2000,
+        onClose: () => {
+          navigate("/recipes");
+        },
+      });
     } catch (error) {
       console.error("Erreur serveur :", error);
       toast.error("Erreur lors de la connexion.");
+    } finally {
+      setIsPending(false);
     }
   }
 
   return (
     <div className="login_container">
       <h2>Se connecter</h2>
-      <form action={handleSubmit} className="login-form">
+      <form
+        action={(formData) => {
+          setIsPending(true);
+          handleSubmit(formData);
+        }}
+        id="login-form"
+        className="login-form"
+      >
         <input
           type="email"
           name="email"
           placeholder="Entrez votre e-mail"
           required
-          disabled={isPending}
         />
         <input
           type="password"
           name="password"
           placeholder="Entrez votre mot de passe"
           required
-          disabled={isPending}
         />
         <button type="submit" disabled={isPending}>
-          {isPending ? "Connexion en cours" : "Connexion"}
+          {isPending ? "Connexion en cours..." : "Se connecter"}
         </button>
       </form>
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
     </div>
   );
 }
