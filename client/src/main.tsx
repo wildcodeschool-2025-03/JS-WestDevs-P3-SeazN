@@ -19,6 +19,7 @@ import Nutrition from "./pages/nutrition/Nutrition";
 import Products from "./pages/products/Products";
 import Analysis from "./pages/products/analysis/Analysis";
 import Seasonal from "./pages/products/seasonal/Seasonal";
+import RecipeDetailed from "./pages/recipeDetailed/RecipeDetailed";
 import Recipes from "./pages/recipes/Recipes";
 import Register from "./pages/register/Register";
 
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/recipes",
         element: <Recipes />,
+      },
+      {
+        path: "/recipe/:id",
+        element: <RecipeDetailed />,
       },
       {
         path: "/products",

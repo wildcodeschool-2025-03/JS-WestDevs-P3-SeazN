@@ -124,6 +124,64 @@ class RecipesRepository {
     );
     return rows;
   }
+  async readById(id: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT 
+    r.id,
+    r.name,
+    r.image,
+    r.price,
+    r.guest_number,
+    r.nutrition_average,
+    r.eco_average,
+    r.duration,
+   
+     (
+        SELECT AVG(rating.mark) 
+        FROM rating 
+        WHERE rating.recipe_id = r.id
+      ) as user_ratings,
+
+    JSON_ARRAYAGG(
+        JSON_OBJECT(
+            'id', i.id,
+            'name', i.name,
+            'quantity', q.quantity,
+            'unit', u.name,
+            'is_vegan', i.is_vegan,
+            'is_vegetarian', i.is_vegetarian,
+            'is_glutenfree', i.is_glutenfree,
+            'nutrition_score', i.nutrition_score
+        )
+    ) AS ingredients,
+    
+    (
+        SELECT JSON_ARRAYAGG(
+            JSON_OBJECT(
+                'step_order', sub.step_order,
+                'content', sub.content
+            )
+        )
+        FROM (
+            SELECT inst.step_order, inst.content
+            FROM instruction inst
+            WHERE inst.recipe_id = r.id
+            ORDER BY inst.step_order
+        ) AS sub
+    ) AS instructions
+
+FROM recipe r
+LEFT JOIN quantity q ON r.id = q.recipe_id
+LEFT JOIN ingredient i ON q.ingredient_id = i.id
+LEFT JOIN unit u ON q.unit_id = u.id
+
+WHERE r.id = ?
+GROUP BY r.id
+`,
+      [id],
+    );
+    return rows[0] || null;
+  }
 }
 
 export default new RecipesRepository();

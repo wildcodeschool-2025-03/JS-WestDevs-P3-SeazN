@@ -35,6 +35,11 @@ export default function Login({ setIsPending, isPending }: LoginProps) {
       }
 
       login({
+        id: result.id,
+        email: result.email,
+        username: result.username,
+      });
+      login({
         email: result.email,
         username: result.username,
       });
