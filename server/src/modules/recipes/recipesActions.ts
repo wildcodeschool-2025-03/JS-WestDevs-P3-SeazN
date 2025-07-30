@@ -1,8 +1,9 @@
 import type { RequestHandler } from "express";
-import recipesRepository, {
-  type AvailableFilters,
-  type RecipesParams,
-} from "./recipesRepository";
+import type {
+  AvailableFilters,
+  RecipesParams,
+} from "../../types/express/recipe";
+import recipesRepository from "./recipesRepository";
 
 const browseSearchRecipes: RequestHandler = async (req, res, next) => {
   try {

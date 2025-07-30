@@ -7,9 +7,11 @@ class FavoriteRepository {
   async readAll(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `
-      SELECT user_id, recipe_id, is_favorite
-      FROM save
-      WHERE user_id = ? AND is_favorite = ?
+      SELECT 
+        r.id as id, r.name, r.image
+      FROM recipe as r
+      LEFT JOIN save as s ON id = s.recipe_id
+      WHERE s.user_id = ? AND s.is_favorite = ?
       `,
       [userId, true],
     );

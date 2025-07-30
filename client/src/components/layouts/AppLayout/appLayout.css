@@ -11,6 +11,7 @@
     grid-area: 1 / 2 / 2 / 3;
   }
   main {
+    height: calc(100dvh - 60px - 60px);
     grid-area: 2 / 2 / 3 / 3;
     padding: 16px;
   }
@@ -33,6 +34,7 @@
     }
 
     main {
+      height: initial;
       padding: 8px;
       margin-bottom: 70px;
     }
