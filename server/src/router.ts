@@ -43,7 +43,7 @@ router.get("/api/recipes/:id", recipesActions.readRecipeDetailed);
 router.get("/api/ingredients", ingredientsActions.browseIngredient);
 router.get("/api/unit", unitActions.browseUnit);
 router.post(
-  "/api/newRecipes",
+  "/api/user/:userId/newRecipes",
   files.imageUpload,
   files.recipesImage,
   recipesActions.addRecipes,

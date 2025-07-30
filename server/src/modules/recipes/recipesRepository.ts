@@ -186,7 +186,7 @@ class RecipesRepository {
     return rows[0] || null;
   }
 
-  async createRecipes(body: AddRecipes) {
+  async createRecipes(body: AddRecipes, userId: number) {
     const connection = await databaseClient.getConnection();
 
     try {
@@ -200,7 +200,7 @@ class RecipesRepository {
           body.image || null,
           body.guest_number,
           body.duration,
-          body.user_id || null,
+          userId,
           body.price || null,
           true,
           body.nutrition_average || null,

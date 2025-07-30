@@ -19,6 +19,7 @@ const RecipeDetailedComplet = () => {
           usersAverage: Number(data.user_ratings),
           nutritionAverage: Number(data.nutrition_average),
           ecoAverage: Number(data.eco_average),
+          guestNumber: Number(data.guest_number),
           instructions: data.instructions.map(
             (instruction: { step_order: number; content: string }) => ({
               stepOrder: instruction.step_order,

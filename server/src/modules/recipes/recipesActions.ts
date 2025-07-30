@@ -56,7 +56,8 @@ const readRecipeDetailed: RequestHandler = async (req, res, next) => {
 
 const addRecipes: RequestHandler = async (req, res, next) => {
   try {
-    const newRecipes = await recipesRepository.createRecipes(req.body);
+    const userId = Number(req.params.userId);
+    const newRecipes = await recipesRepository.createRecipes(req.body, userId);
 
     if (newRecipes) {
       res.status(201).json("Congratulations, your recipe has been added.");
