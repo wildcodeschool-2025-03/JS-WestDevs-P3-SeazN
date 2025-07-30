@@ -46,6 +46,12 @@ export default function SignUp({ setIsPending, isPending }: SignUpProps) {
       return;
     }
 
+    if (!payload.email) {
+      toast.error("Un email est requis.");
+      setIsPending(false);
+      return;
+    }
+
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
       const response = await fetch(`${apiUrl}/api/signup`, {
@@ -61,7 +67,6 @@ export default function SignUp({ setIsPending, isPending }: SignUpProps) {
           result.message ||
             "Certains champs semblent incorrects, vérifiez votre saisie.",
         );
-        setIsPending(false);
         return;
       }
 
@@ -81,7 +86,14 @@ export default function SignUp({ setIsPending, isPending }: SignUpProps) {
   return (
     <div className="login_container">
       <h2>Créer un compte</h2>
-      <form id="signup-form" className="login-form">
+      <form
+        action={(formData) => {
+          setIsPending(true);
+          handleSubmit(formData);
+        }}
+        id="signup-form"
+        className="login-form"
+      >
         <input
           type="text"
           name="username"
@@ -143,17 +155,7 @@ export default function SignUp({ setIsPending, isPending }: SignUpProps) {
           <input type="checkbox" name="is_major" />
           <label htmlFor="isMajor">Je suis majeur</label>
         </div>
-        <button
-          type="button"
-          disabled={isPending}
-          onClick={() => {
-            const form = document.getElementById(
-              "signup-form",
-            ) as HTMLFormElement;
-            const formData = new FormData(form);
-            handleSubmit(formData);
-          }}
-        >
+        <button type="submit" disabled={isPending}>
           {isPending ? "Création du compte..." : "S'inscrire"}
         </button>
       </form>

@@ -14,7 +14,6 @@ export default function Login({ setIsPending, isPending }: LoginProps) {
   const navigate = useNavigate();
 
   async function handleSubmit(formData: FormData) {
-    setIsPending(true);
     const data = Object.fromEntries(formData);
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
@@ -30,16 +29,11 @@ export default function Login({ setIsPending, isPending }: LoginProps) {
 
       if (!response.ok) {
         toast.error(result.message || "Erreur de connexion.");
-        setIsPending(false);
         return;
       }
 
       login({
         id: result.id,
-        email: result.email,
-        username: result.username,
-      });
-      login({
         email: result.email,
         username: result.username,
       });
@@ -52,7 +46,6 @@ export default function Login({ setIsPending, isPending }: LoginProps) {
         },
       });
     } catch (error) {
-      setIsPending(false);
       console.error("Erreur serveur :", error);
       toast.error("Erreur lors de la connexion.");
     } finally {
@@ -63,7 +56,14 @@ export default function Login({ setIsPending, isPending }: LoginProps) {
   return (
     <div className="login_container">
       <h2>Se connecter</h2>
-      <form id="login-form" className="login-form">
+      <form
+        action={(formData) => {
+          setIsPending(true);
+          handleSubmit(formData);
+        }}
+        id="login-form"
+        className="login-form"
+      >
         <input
           type="email"
           name="email"
@@ -76,17 +76,7 @@ export default function Login({ setIsPending, isPending }: LoginProps) {
           placeholder="Entrez votre mot de passe"
           required
         />
-        <button
-          type="button"
-          disabled={isPending}
-          onClick={() => {
-            const form = document.getElementById(
-              "login-form",
-            ) as HTMLFormElement;
-            const formData = new FormData(form);
-            handleSubmit(formData);
-          }}
-        >
+        <button type="submit" disabled={isPending}>
           {isPending ? "Connexion en cours..." : "Se connecter"}
         </button>
       </form>
