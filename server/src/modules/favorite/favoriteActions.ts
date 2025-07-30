@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import type { Favorite } from "../../types/express/favorite";
+import type { RecipeBase } from "../../types/express/recipe";
 import favoriteRepository from "./favoriteRepository";
 
 const browseFavoritesByUser: RequestHandler = async (req, res, next) => {
@@ -12,7 +12,7 @@ const browseFavoritesByUser: RequestHandler = async (req, res, next) => {
 
     const favorites = await favoriteRepository.readAll(userId);
 
-    res.json(favorites as Favorite[]);
+    res.json(favorites as RecipeBase[]);
   } catch (err) {
     next(err);
   }

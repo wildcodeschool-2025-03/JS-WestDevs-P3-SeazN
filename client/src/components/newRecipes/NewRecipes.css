@@ -13,7 +13,7 @@
     grid-area: 1 / 1 / 2 / 2;
     text-align: center;
     font-size: 1.5rem;
-    font-weight: 200;
+    font-weight: 400;
   }
 
   h3 {
@@ -227,10 +227,7 @@
 
 @media screen and (min-width: 900px) {
   .new-recipes {
-    width: 560px;
-    height: 700px;
-    overflow-y: scroll;
-    scrollbar-width: none;
+    overflow-y: auto;
 
     form {
       row-gap: 16px;
