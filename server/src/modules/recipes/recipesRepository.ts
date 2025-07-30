@@ -1,29 +1,9 @@
-import databaseClient from "../../../database/client";
-import type { Result, Rows } from "../../../database/client";
+import databaseClient, {
+  type Result,
+  type Rows,
+} from "../../../database/client";
+import type { RecipeBase, RecipesParams } from "../../types/express/recipe";
 import type { AddRecipes } from "../../types/recipes";
-
-interface RecipeBase {
-  id: number;
-  name: string;
-  image: string;
-}
-
-export type AvailableFilters =
-  | "name"
-  | "price"
-  | "duration"
-  | "usersRanking"
-  | "ecoRanking"
-  | "page";
-
-export interface RecipesParams {
-  name?: string;
-  price?: string;
-  duration?: string;
-  usersRanking?: string;
-  ecoRanking?: string;
-  page?: string;
-}
 
 class RecipesRepository {
   async readSearchRecipes(recipesParams: RecipesParams) {
@@ -184,6 +164,20 @@ class RecipesRepository {
       [id],
     );
     return rows[0] || null;
+  }
+
+  async readAddedByUser(userId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `
+      SELECT 
+        id, name, image
+      FROM recipe
+      WHERE user_id = ?
+      `,
+      [userId],
+    );
+
+    return rows;
   }
 
   async createRecipes(body: AddRecipes, userId: number) {

@@ -38,6 +38,10 @@ router.get("/api/refresh", auth.refreshToken);
 router.get("/api/last-recipes", recipesActions.browseLastRecipes);
 router.get("/api/recipes", recipesActions.browseSearchRecipes);
 router.get("/api/recipes/:id", recipesActions.readRecipeDetailed);
+router.get(
+  "/api/user/:userId/my-recipes/",
+  recipesActions.browseAddedRecipesByUser,
+);
 
 /* Recipes Creation*/
 

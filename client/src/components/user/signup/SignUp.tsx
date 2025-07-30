@@ -1,19 +1,21 @@
 import { Autocomplete } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
-import { useAuth } from "../../../contexts/AuthContext";
 import type { signUpResponse } from "../../../types/Auth";
 import "../login/Login.css";
 import type { CountryType } from "../signup/data/countries";
 import countries from "../signup/data/countries";
 
-export default function SignUp() {
+interface SignUpProps {
+  setIsPending: (bool: boolean) => void;
+  isPending: boolean;
+}
+
+export default function SignUp({ setIsPending, isPending }: SignUpProps) {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const [isPending, startTransition] = useTransition();
   const [selectedCountry, setSelectedCountry] = useState("");
 
   const handleChange = (
@@ -24,6 +26,7 @@ export default function SignUp() {
   };
 
   async function handleSubmit(formData: FormData) {
+    setIsPending(true);
     const data = Object.fromEntries(formData);
     const payload = JSON.parse(JSON.stringify(data));
 
@@ -39,66 +42,75 @@ export default function SignUp() {
 
     if (payload.password !== payload.confirmPassword) {
       toast.error("Les mots de passe ne correspondent pas.");
+      setIsPending(false);
       return;
     }
 
-    startTransition(async () => {
-      try {
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${apiUrl}/api/signup`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+    if (!payload.email) {
+      toast.error("Un email est requis.");
+      setIsPending(false);
+      return;
+    }
 
-        const result: signUpResponse = await response.json();
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${apiUrl}/api/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      setIsPending(false);
+      const result: signUpResponse = await response.json();
 
-        if (!response.ok) {
-          toast.error(
-            result.message ||
-              "Certains champs semblent incorrects, vérifiez votre saisie.",
-          );
-          return;
-        }
-
-        toast.success("Compte créé avec succès !");
-        login({ email: result.email, username: result.username });
-        toast.success("Vous allez être redirigé.e vers la page recettes. ");
-
-        setTimeout(() => {
-          navigate("/recipes");
-        }, 3000);
-      } catch (err) {
-        console.error(err);
-        toast.error("Erreur serveur, réessayez plus tard.");
+      if (!response.ok) {
+        toast.error(
+          result.message ||
+            "Certains champs semblent incorrects, vérifiez votre saisie.",
+        );
+        return;
       }
-    });
+
+      toast.success("Compte créé avec succès !");
+      toast.success("Vous allez être redirigé.e vers la page recettes.", {
+        autoClose: 2000,
+        onClose: () => navigate("/recipes"),
+      });
+    } catch (err) {
+      console.error(err);
+      toast.error("Erreur serveur, réessayez plus tard.");
+    } finally {
+      setIsPending(false);
+    }
   }
 
   return (
     <div className="login_container">
       <h2>Créer un compte</h2>
-      <form action={handleSubmit} className="login-form">
+      <form
+        action={(formData) => {
+          setIsPending(true);
+          handleSubmit(formData);
+        }}
+        id="signup-form"
+        className="login-form"
+      >
         <input
           type="text"
           name="username"
           placeholder="Nom d'utilisateur"
           required
-          disabled={isPending}
         />
         <input
           type="email"
           name="email"
           placeholder="Adresse e-mail"
           required
-          disabled={isPending}
         />
         <input
           type="password"
           name="password"
           placeholder="Mot de passe"
           required
-          disabled={isPending}
         />
         <small>
           Le mot de passe doit contenir au moins 8 caractères, 1 majuscule, 1
@@ -109,9 +121,7 @@ export default function SignUp() {
           name="confirmPassword"
           placeholder="Confirmer le mot de passe"
           required
-          disabled={isPending}
         />
-
         <Autocomplete
           className="autocomplete"
           options={countries}
@@ -138,24 +148,18 @@ export default function SignUp() {
             );
           }}
           renderInput={(params) => (
-            <TextField
-              {...params}
-              placeholder="Sélectionner votre pays"
-              label=""
-            />
+            <TextField {...params} placeholder="Sélectionner votre pays" />
           )}
         />
-
         <div className="checkbox-group">
-          <input type="checkbox" name="is_major" disabled={isPending} />
+          <input type="checkbox" name="is_major" />
           <label htmlFor="isMajor">Je suis majeur</label>
         </div>
-
         <button type="submit" disabled={isPending}>
           {isPending ? "Création du compte..." : "S'inscrire"}
         </button>
       </form>
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
     </div>
   );
 }
