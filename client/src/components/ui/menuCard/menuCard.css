@@ -1,0 +1,39 @@
+.menu-card {
+  display: grid;
+  grid-template-rows: 1fr auto 1fr;
+  height: 140px;
+  width: 210px;
+  border-radius: 1rem;
+  color: var(--text-light);
+
+  > span {
+    place-self: center;
+  }
+
+  > :nth-child(1) {
+    grid-row: 2 / 3;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  > :nth-child(2) {
+    grid-row: 3 / 4;
+    font-size: 0.75rem;
+  }
+}
+
+.menu-card.available {
+  background-color: var(--light-primary);
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.menu-card.not-available {
+  background-color: var(--light-primary);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
