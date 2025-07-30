@@ -13,6 +13,7 @@ import recipesActions from "./modules/recipes/recipesActions";
 import unitActions from "./modules/unit/unitActions";
 import auth from "./utils/auth";
 import validation from "./utils/validation";
+import validateRecipeForm from "./utils/checkForm";
 
 /* Login */
 
@@ -46,6 +47,7 @@ router.post(
   "/api/user/:userId/newRecipes",
   files.imageUpload,
   files.recipesImage,
+  validateRecipeForm,
   recipesActions.addRecipes,
 );
 

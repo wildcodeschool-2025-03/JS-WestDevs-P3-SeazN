@@ -2,8 +2,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { type FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import "./NewRecipes.css";
 import { useAuth } from "../../contexts/AuthContext";
+import "./NewRecipes.css";
 
 const NewRecipes = () => {
   const [imageSrc, setImageSrc] = useState("");
@@ -23,24 +23,18 @@ const NewRecipes = () => {
   const { user } = useAuth();
   const guestOptions = [2, 4, 6, 8, 10, 12];
 
-  const success = () =>
-    toast.success("Bravo, vous avez réussi à créer une nouvelle recette 🎉");
-  const error = () => toast.error("La création de la recette a échoué 😩");
+  // const success = () =>
+  //   toast.success("Bravo, vous avez réussi à créer une nouvelle recette 🎉");
+  // const error = () => toast.error("La création de la recette a échoué 😩");
 
   useEffect(() => {
     fetch(`${apiUrl}/api/ingredients`)
       .then((res) => res.json())
-      .then((data) => setAvailableIngredients(data))
-      .catch((error) =>
-        console.error("Erreur lors du chargement des ingrédients:", error),
-      );
+      .then((data) => setAvailableIngredients(data));
 
     fetch(`${apiUrl}/api/unit`)
       .then((res) => res.json())
-      .then((data) => setAvailableUnit(data))
-      .catch((error) =>
-        console.error("Erreur lors du chargement des unités:", error),
-      );
+      .then((data) => setAvailableUnit(data));
   }, []);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,30 +61,59 @@ const NewRecipes = () => {
 
   const addIngredient = () => {
     try {
-      if (selectedIngredient && currentQuantity && currentUnit) {
-        const ingredientId = availableIngredients.find(
-          (ing) => ing.name === selectedIngredient,
-        );
-        if (!ingredientId) throw new Error("L'ingrédient n'héxite pas ouesh");
-        const newIngredient = {
-          id: ingredientId.id,
-          name: selectedIngredient,
-          quantity: currentQuantity,
-          unit: currentUnit,
-        };
-        setIngredients((prevIngredients) => [
-          ...prevIngredients,
-          newIngredient,
-        ]);
-        setSelectedIngredient("");
-        setCurrentQuantity("");
-        setCurrentUnit("");
+      console.log("Etape 0");
+      if (!selectedIngredient || !currentQuantity || !currentUnit) {
+        toast.error("Tous les champs de l'ingrédient sont obligatoires");
+        return;
       }
+      console.log("Etape 1");
+
+      const quantity = Number(currentQuantity);
+      if (Number.isNaN(quantity)) {
+        toast.error("La quantité doit être un nombre valide");
+        return;
+      }
+
+      if (quantity < 0) {
+        toast.error("La quantité ne peut pas être négative");
+        return;
+      }
+
+      if (quantity > 5000) {
+        toast.error("La quantité ne peut pas dépasser 5000");
+        return;
+      }
+      console.log("Etape 2");
+      const ingredientId = availableIngredients.find(
+        (ing) => ing.name === selectedIngredient,
+      );
+
+      if (!ingredientId) {
+        toast.error("L'ingrédient sélectionné n'existe pas");
+        return;
+      }
+      console.log("Etape 3");
+
+      const newIngredient = {
+        id: ingredientId.id,
+        name: selectedIngredient,
+        quantity: currentQuantity,
+        unit: currentUnit,
+      };
+      console.log("Etape 4");
+
+      setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
+
+      setSelectedIngredient("");
+      setCurrentQuantity("");
+      setCurrentUnit("");
+
+      toast.success("Ingrédient ajouté avec succès");
+      console.log("Etape 5");
     } catch (err) {
-      toast.error(err as string);
+      toast.error("Erreur lors de l'ajout de l'ingrédient");
     }
   };
-
   const removeIngredient = (ingredientId: number) => {
     setIngredients((prevIngredients) =>
       prevIngredients.filter((ingredient) => ingredient.id !== ingredientId),
@@ -112,6 +135,8 @@ const NewRecipes = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("User object:", user);
+    if (!user) return;
     const formData = new FormData(e.currentTarget);
     const formObj = Object.fromEntries(formData);
     const formElement = e.currentTarget;
@@ -132,8 +157,6 @@ const NewRecipes = () => {
       }
     }
 
-    if (!instructions) return;
-    if (!user) return;
     formData.append("instructions", JSON.stringify(instructions));
     formData.append("ingredients", JSON.stringify(ingredients));
 
@@ -141,24 +164,44 @@ const NewRecipes = () => {
       method: "POST",
       body: formData,
     })
-      .then((res) => {
+      .then(async (res) => {
+        const data = await res.json();
+
         if (res.ok) {
           setImageSrc("");
           setIngredients([]);
           setSteps([{ id: 1, content: "" }]);
           formElement.reset();
-          success();
+          toast.success(
+            "Bravo, vous avez réussi à créer une nouvelle recette 🎉",
+          );
+          if (!instructions.length) {
+            toast.error("Au moins une instruction est requise");
+            return;
+          }
+        } else if (res.status === 400 && data.errors) {
+          for (const error of data.errors as {
+            field: string;
+            message: string;
+          }[]) {
+            toast.error(error.message);
+          }
         } else {
-          error();
+          toast.error("La création de la recette a échoué 😩");
         }
       })
       .catch((err) => {
         console.error("Erreur réseau:", err);
-        error();
+        toast.error("La création de la recette a échoué 😩");
       });
 
     console.log("je suis la recette", formObj);
   };
+
+  // const testToast = () => {
+  //   console.log("Test toast triggered");
+  //   toast.success("Test toast!");
+  // };
 
   return (
     <article className="new-recipes">
@@ -328,6 +371,9 @@ const NewRecipes = () => {
       ) : (
         <span>Veuillez vous connecter pour ajouter une recette</span>
       )}
+      {/* <button type="button" onClick={testToast}>
+        Test Toast
+      </button> */}
     </article>
   );
 };

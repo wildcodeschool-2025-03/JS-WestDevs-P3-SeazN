@@ -14,16 +14,72 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+  fileFilter: (req, file, callback) => {
+    const allowedTypes = [".png", ".jpg", ".jpeg", ".webp"];
+    const fileExtension = path.extname(file.originalname.toLowerCase());
 
-const imageUpload = upload.single("image");
+    if (allowedTypes.includes(fileExtension)) {
+      callback(null, true);
+    } else {
+      callback(new Error("INVALID_FILE_TYPE"));
+    }
+  },
+});
+
+const imageUpload: RequestHandler = (req, res, next) => {
+  const uploadSingle = upload.single("image");
+
+  uploadSingle(req, res, (err) => {
+    if (err) {
+      if (err.code === "LIMIT_FILE_SIZE") {
+        return res.status(400).json({
+          success: false,
+          errors: [
+            {
+              field: "image",
+              message: "L'image ne peut pas dépasser 5MB",
+            },
+          ],
+        });
+      }
+      if (err.message === "INVALID_FILE_TYPE") {
+        return res.status(400).json({
+          success: false,
+          errors: [
+            {
+              field: "image",
+              message:
+                "Format d'image non autorisé. Utilisez PNG, JPG, JPEG ou WEBP",
+            },
+          ],
+        });
+      }
+      return res.status(500).json({
+        success: false,
+        errors: [
+          {
+            field: "image",
+            message: "Erreur lors de l'upload de l'image",
+          },
+        ],
+      });
+    }
+    next();
+  });
+};
 
 const recipesImage: RequestHandler = (req, res, next) => {
   const apiUrl = process.env.SERVER_URL;
   try {
     if (req.file) {
       req.body.image = `${apiUrl}/assets/images/${req.file.filename}`;
-      console.log(req.file.filename);
+    } else {
+      req.body.image = `${apiUrl}/assets/images/default_dish.jpg`;
     }
     next();
   } catch (err) {

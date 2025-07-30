@@ -18,3 +18,20 @@ export interface AddRecipes {
     content: string;
   }>;
 }
+
+interface ValidationError {
+  field: string;
+  message: string;
+}
+
+interface Ingredient {
+  id: number;
+  name: string;
+  quantity: string;
+  unit: string;
+}
+
+interface Instruction {
+  step_order: number;
+  content: string;
+}
