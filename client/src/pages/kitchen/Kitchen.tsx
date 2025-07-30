@@ -1,6 +1,6 @@
 import MenuCard from "../../components/ui/menuCard/MenuCard";
-import { kitchenMenuList } from "./kitchenMenuData";
 import "./kitchen.css";
+import { kitchenMenuList } from "./kitchenMenuData";
 
 const Kitchen = () => {
   return (

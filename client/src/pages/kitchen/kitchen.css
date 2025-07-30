@@ -18,11 +18,10 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: space-around;
+    align-content: center;
     gap: 1rem;
 
     li {
-      place-self: center;
       list-style: none;
     }
   }

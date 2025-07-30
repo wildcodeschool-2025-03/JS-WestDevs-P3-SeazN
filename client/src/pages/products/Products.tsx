@@ -1,6 +1,6 @@
 import MenuCard from "../../components/ui/menuCard/MenuCard";
-import { productsMenuList } from "./productsMenuData";
 import "./products.css";
+import { productsMenuList } from "./productsMenuData";
 
 const Products = () => {
   return (
