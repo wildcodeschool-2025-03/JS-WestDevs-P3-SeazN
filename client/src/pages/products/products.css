@@ -1,0 +1,45 @@
+.products {
+  height: 100%;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    color: var(--light-primary);
+    padding: 1rem 0;
+    font-size: 2rem;
+  }
+
+  ul {
+    height: 100%;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-around;
+    gap: 1rem;
+
+    li {
+      place-self: center;
+      list-style: none;
+    }
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .products {
+    ul {
+      gap: 2rem;
+    }
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .products {
+    ul {
+      gap: 3rem;
+    }
+  }
+}

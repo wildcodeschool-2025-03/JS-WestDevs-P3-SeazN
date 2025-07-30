@@ -1,18 +1,21 @@
-import { Link } from "react-router";
+import MenuCard from "../../components/ui/menuCard/MenuCard";
+import { productsMenuList } from "./productsMenuData";
+import "./products.css";
 
 const Products = () => {
   return (
-    <div>
-      Products :
+    <section className="products">
+      <h2>Produits</h2>
       <ul>
-        <li>
-          <Link to="/products/seasonnal">Seasonnal</Link>
-        </li>
-        <li>
-          <Link to="/products/analysis">Analysis</Link>
-        </li>
+        {productsMenuList.map((menuItem) => {
+          return (
+            <li key={menuItem.id}>
+              <MenuCard item={menuItem} />
+            </li>
+          );
+        })}
       </ul>
-    </div>
+    </section>
   );
 };
 
