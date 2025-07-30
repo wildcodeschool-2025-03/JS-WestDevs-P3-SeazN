@@ -7,8 +7,12 @@ const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [openedSubmenu, setOpenedSubmenu] = useState<string | null>(null);
 
-  const toggleSubmenu = (label: string) =>
+  const toggleSubmenu = (label: string) => {
+    if (!isExpanded) {
+      setIsExpanded(true);
+    }
     setOpenedSubmenu((prev) => (prev === label ? null : label));
+  };
 
   useEffect(() => {
     if (!isExpanded) setOpenedSubmenu(null);
