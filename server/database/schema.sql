@@ -35,10 +35,11 @@ CREATE TABLE recipe (
    ON DELETE SET NULL
 );
 
-INSERT INTO recipe (name, image, price, is_validated, guest_number, nutrition_average, eco_average, duration)
-VALUES ("Riz au curry haricots coco et champignons", "https://img.cuisineaz.com/660x495/2015/10/22/i100924-riz-champignons.webp", 1, true, 5, 4.6, 4.3, "000:25:00"),
-       ("Biscuits sans farine au cacao parfumé", "https://resize.elle.fr/portrait_320_webp/var/plain_site/storage/images/elle-a-table/recettes-de-cuisine/biscuits-sans-farine-au-cacao-parfume-3593609/85388120-1-fre-FR/Biscuits-sans-farine-au-cacao-parfume.jpg", 1, true, 6, 4.2, 3.9, "000:25:00"),
-       ("Blanquette de veau", "https://assets.afcdn.com/recipe/20190529/93191_w600.jpg", 2, true, 4, 4.2, 3.9, "002:15:00");
+INSERT INTO recipe (name, image, price, is_validated, guest_number, nutrition_average, eco_average, duration, user_id)
+VALUES 
+    ("Riz au curry haricots coco et champignons", "https://img.cuisineaz.com/660x495/2015/10/22/i100924-riz-champignons.webp", 1, true, 5, 4.6, 4.3, "000:25:00", 1),
+    ("Biscuits sans farine au cacao parfumé", "https://resize.elle.fr/portrait_320_webp/var/plain_site/storage/images/elle-a-table/recettes-de-cuisine/biscuits-sans-farine-au-cacao-parfume-3593609/85388120-1-fre-FR/Biscuits-sans-farine-au-cacao-parfume.jpg", 1, true, 6, 4.2, 3.9, "000:25:00", 1),
+    ("Blanquette de veau", "https://assets.afcdn.com/recipe/20190529/93191_w600.jpg", 2, true, 4, 4.2, 3.9, "002:15:00", 2);
 
 CREATE TABLE eco_score (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
