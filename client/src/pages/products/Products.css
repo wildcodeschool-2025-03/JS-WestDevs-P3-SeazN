@@ -1,0 +1,25 @@
+.products {
+  text-align: center;
+
+  h2 {
+    font-size: 1.8rem;
+    color: var(--light-secondary);
+    margin-bottom: 1.5rem;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+    background-color: var(--light-secondary);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+  }
+
+  p {
+    margin: 15px;
+  }
+}

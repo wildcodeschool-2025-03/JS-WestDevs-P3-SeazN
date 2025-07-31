@@ -1,15 +1,24 @@
 import { Link } from "react-router";
+import "./Products.css";
 
 const Products = () => {
   return (
-    <div>
-      Products :
+    <div className="products">
+      <h2>Les produits</h2>
       <ul>
         <li>
-          <Link to="/products/seasonnal">Seasonnal</Link>
+          <Link to="/products/seasonal">Produits de saison</Link>
+          <p>
+            Manger selon les saisons, c’est renouer avec le rythme naturel des
+            saveurs.
+          </p>
         </li>
         <li>
-          <Link to="/products/analysis">Analysis</Link>
+          <Link to="/products/analysis">Analyses des produits</Link>
+          <p>
+            Décortiquer chaque ingrédient pour mieux comprendre ce que nous
+            consommons au quotidien.
+          </p>
         </li>
       </ul>
     </div>
