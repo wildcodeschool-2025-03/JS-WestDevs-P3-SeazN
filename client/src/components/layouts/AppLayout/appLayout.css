@@ -15,10 +15,9 @@
     height: calc(100dvh - 60px - 60px);
     grid-area: 2 / 2 / 3 / 3;
     padding: 16px;
-    background-image: url("/public/icones-logo/bcg-opacity.svg") ;
+    background-image: url("/public/icones-logo/bcg-opacity.svg");
     background-size: cover;
     background-repeat: no-repeat;
-    
   }
   .footer {
     grid-area: 3 / 2 / 4 / 3;
