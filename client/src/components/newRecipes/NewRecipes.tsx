@@ -104,7 +104,7 @@ const NewRecipes = () => {
       toast.error("Erreur lors de l'ajout de l'ingrédient");
     }
   };
-  
+
   const removeIngredient = (ingredientId: number) => {
     setIngredients((prevIngredients) =>
       prevIngredients.filter((ingredient) => ingredient.id !== ingredientId),
