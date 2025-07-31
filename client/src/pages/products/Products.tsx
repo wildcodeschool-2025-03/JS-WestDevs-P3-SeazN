@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import "./Products.css";
+import "./products.css";
 
 const Products = () => {
   return (
