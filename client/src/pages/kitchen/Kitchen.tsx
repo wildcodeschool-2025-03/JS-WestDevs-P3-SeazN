@@ -1,27 +1,21 @@
-import { Link } from "react-router";
+import MenuCard from "../../components/ui/menuCard/MenuCard";
+import "./kitchen.css";
+import { kitchenMenuList } from "./kitchenMenuData";
 
 const Kitchen = () => {
   return (
-    <div>
-      <h2>Kitchen :</h2>
+    <section className="my-kitchen">
+      <h2>Ma Cuisine</h2>
       <ul>
-        <li>
-          <Link to="/kitchen/myrecipes">My Recipes</Link>
-        </li>
-        <li>
-          <Link to="/kitchen/fridge">Fridge</Link>
-        </li>
-        <li>
-          <Link to="/kitchen/shoppinglist">Shopping List</Link>
-        </li>
-        <li>
-          <Link to="/kitchen/settings">Settings</Link>
-        </li>
-        <li>
-          <Link to="/kitchen/planner">Planner</Link>
-        </li>
+        {kitchenMenuList.map((menuItem) => {
+          return (
+            <li key={menuItem.id}>
+              <MenuCard item={menuItem} />
+            </li>
+          );
+        })}
       </ul>
-    </div>
+    </section>
   );
 };
 
