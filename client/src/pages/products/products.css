@@ -1,29 +1,25 @@
 .products {
-  height: 100%;
-  padding-bottom: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
 
   h2 {
+    font-size: 1.8rem;
     color: var(--light-primary);
-    padding: 1rem 0;
-    font-size: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   ul {
-    height: 100%;
-    width: 100%;
-    max-width: 900px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    gap: 1rem;
+    list-style: none;
+  }
 
-    li {
-      list-style: none;
-    }
+  a {
+    text-decoration: none;
+    color: var(--text-light);
+    background-color: var(--light-secondary);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+  }
+  p {
+    margin: 15px;
   }
 }
 
