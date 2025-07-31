@@ -1,0 +1,53 @@
+.seasonal {
+  h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    color: var(--light-secondary);
+  }
+
+  .months-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+
+    .month {
+      background-color: var(--light-primary);
+      border-radius: 12px;
+      padding: 1rem;
+
+      h2 {
+        text-align: center;
+        text-transform: uppercase;
+        color: var(--text-light);
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      h3 {
+        font-size: 1rem;
+        color: var(--text-light);
+        border-bottom: 1px solid white;
+        padding-bottom: 0.3rem;
+        margin-top: 1rem;
+      }
+
+      ul {
+        list-style: none;
+
+        li {
+          background-color: white;
+          color: var(--light-primary);
+          font-size: 0.9rem;
+          padding: 0.4rem 0.6rem;
+          margin: 0.3rem 0;
+          border-radius: 6px;
+
+          &:hover {
+            background-color: #d3e2c6;
+          }
+        }
+      }
+    }
+  }
+}

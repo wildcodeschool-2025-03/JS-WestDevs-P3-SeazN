@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import type { signUpResponse } from "../../../types/Auth";
 import "../login/Login.css";
 import type { CountryType } from "../signup/data/countries";
@@ -159,7 +159,6 @@ export default function SignUp({ setIsPending, isPending }: SignUpProps) {
           {isPending ? "Création du compte..." : "S'inscrire"}
         </button>
       </form>
-      <ToastContainer position="bottom-right" />
     </div>
   );
 }

@@ -1,21 +1,27 @@
-import MenuCard from "../../components/ui/menuCard/MenuCard";
+import { Link } from "react-router";
 import "./products.css";
-import { productsMenuList } from "./productsMenuData";
 
 const Products = () => {
   return (
-    <section className="products">
-      <h2>Produits</h2>
+    <div className="products">
+      <h2>Les produits</h2>
       <ul>
-        {productsMenuList.map((menuItem) => {
-          return (
-            <li key={menuItem.id}>
-              <MenuCard item={menuItem} />
-            </li>
-          );
-        })}
+        <li>
+          <Link to="/products/seasonal">Produits de saison</Link>
+          <p>
+            Manger selon les saisons, c’est renouer avec le rythme naturel des
+            saveurs.
+          </p>
+        </li>
+        <li>
+          <Link to="/products/analysis">Analyses des produits</Link>
+          <p>
+            Décortiquer chaque ingrédient pour mieux comprendre ce que nous
+            consommons au quotidien.
+          </p>
+        </li>
       </ul>
-    </section>
+    </div>
   );
 };
 

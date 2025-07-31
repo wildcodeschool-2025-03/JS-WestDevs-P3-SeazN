@@ -27,7 +27,7 @@ const MyRecipes = () => {
         const favList = await favListRes.json();
         setFavoriteList(favList);
       } catch (err) {
-        console.log("Erreur de chargement des recettes favorites : ", err);
+        console.error("Erreur de chargement des recettes favorites : ", err);
       } finally {
         setIsLoadingFav(false);
       }
