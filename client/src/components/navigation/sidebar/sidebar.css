@@ -197,6 +197,9 @@
         > a.active {
           background-color: #c7d9bf;
         }
+        > a:disabled {
+          background-color: red;
+        }
       }
     }
   }

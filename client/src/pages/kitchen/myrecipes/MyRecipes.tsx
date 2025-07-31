@@ -4,6 +4,7 @@ import RecipeCard from "../../../components/ui/recipeCard/RecipeCard";
 import type { RecipeBase } from "../../../components/ui/recipeCard/data/recipeCardType";
 import { useAuth } from "../../../contexts/AuthContext";
 import "./MyRecipes.css";
+import { Link } from "react-router";
 
 const MyRecipes = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -62,7 +63,9 @@ const MyRecipes = () => {
               <span>Chargement des favoris</span>
             ) : favoriteList && favoriteList.length > 0 ? (
               favoriteList?.map((recipe) => (
-                <RecipeCard key={recipe.id} variant="rect" recipe={recipe} />
+                <Link key={recipe.id} to={`/recipe/${recipe.id}`}>
+                  <RecipeCard variant="rect" recipe={recipe} />
+                </Link>
               ))
             ) : (
               <span>Aucune recette favorite</span>
@@ -82,7 +85,9 @@ const MyRecipes = () => {
               <span>Chargement des recettes ajoutées</span>
             ) : addedList && addedList.length > 0 ? (
               addedList?.map((recipe) => (
-                <RecipeCard key={recipe.id} variant="rect" recipe={recipe} />
+                <Link key={recipe.id} to={`/recipe/${recipe.id}`}>
+                  <RecipeCard variant="rect" recipe={recipe} />
+                </Link>
               ))
             ) : (
               <span>Aucune recette ajoutée</span>

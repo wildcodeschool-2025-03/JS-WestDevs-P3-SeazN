@@ -37,6 +37,7 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      padding-bottom: 3rem;
 
       > div {
         position: relative;
@@ -44,7 +45,6 @@
         span {
           visibility: hidden;
           position: absolute;
-          top: 110%;
           left: 50%;
           background: var(--light-primary);
           color: white;
@@ -100,7 +100,8 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        gap: 4rem;
+        row-gap: 4rem;
+        column-gap: 2rem;
         flex-wrap: wrap;
       }
     }
