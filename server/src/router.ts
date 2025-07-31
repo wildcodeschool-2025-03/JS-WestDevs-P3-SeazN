@@ -12,8 +12,8 @@ import ingredientsActions from "./modules/ingredients/ingredientsActions";
 import recipesActions from "./modules/recipes/recipesActions";
 import unitActions from "./modules/unit/unitActions";
 import auth from "./utils/auth";
-import validation from "./utils/validation";
 import validateRecipeForm from "./utils/checkForm";
+import validation from "./utils/validation";
 
 /* Login */
 
