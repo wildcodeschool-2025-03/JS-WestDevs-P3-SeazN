@@ -77,17 +77,17 @@ const NewRecipes = () => {
         toast.error("La quantité ne peut pas dépasser 5000");
         return;
       }
-      const ingredientRow = availableIngredients.find(
+      const ingredientRaw = availableIngredients.find(
         (ing) => ing.name === selectedIngredient,
       );
 
-      if (!ingredientRow) {
+      if (!ingredientRaw) {
         toast.error("L'ingrédient sélectionné n'existe pas");
         return;
       }
 
       const newIngredient = {
-        id: ingredientRow.id,
+        id: ingredientRaw.id,
         name: selectedIngredient,
         quantity: currentQuantity,
         unit: currentUnit,
