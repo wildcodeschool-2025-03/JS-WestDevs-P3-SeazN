@@ -61,7 +61,7 @@ const browseAddedRecipesByUser: RequestHandler = async (req, res, next) => {
     const userId = Number(req.params.userId);
 
     if (Number.isNaN(userId)) {
-      return res.status(400).send("Invalid userId");
+      res.status(400).send("Invalid userId");
     }
 
     const addedRecipes = await recipesRepository.readAddedByUser(userId);

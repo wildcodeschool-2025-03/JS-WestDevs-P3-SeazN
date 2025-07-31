@@ -77,17 +77,17 @@ const NewRecipes = () => {
         toast.error("La quantité ne peut pas dépasser 5000");
         return;
       }
-      const ingredientId = availableIngredients.find(
+      const ingredientRow = availableIngredients.find(
         (ing) => ing.name === selectedIngredient,
       );
 
-      if (!ingredientId) {
+      if (!ingredientRow) {
         toast.error("L'ingrédient sélectionné n'existe pas");
         return;
       }
 
       const newIngredient = {
-        id: ingredientId.id,
+        id: ingredientRow.id,
         name: selectedIngredient,
         quantity: currentQuantity,
         unit: currentUnit,
@@ -104,6 +104,7 @@ const NewRecipes = () => {
       toast.error("Erreur lors de l'ajout de l'ingrédient");
     }
   };
+  
   const removeIngredient = (ingredientId: number) => {
     setIngredients((prevIngredients) =>
       prevIngredients.filter((ingredient) => ingredient.id !== ingredientId),

@@ -7,7 +7,7 @@ const browseFavoritesByUser: RequestHandler = async (req, res, next) => {
     const userId = Number(req.params.userId);
 
     if (Number.isNaN(userId)) {
-      return res.status(400).send("Invalid userId");
+      res.status(400).send("Invalid userId");
     }
 
     const favorites = await favoriteRepository.readAll(userId);
@@ -24,7 +24,7 @@ const readSingleFavorite: RequestHandler = async (req, res, next) => {
     const recipeId = Number(req.params.recipeId);
 
     if (Number.isNaN(userId) || Number.isNaN(recipeId)) {
-      return res.status(400).send("Invalid userId or recipeId");
+      res.status(400).send("Invalid userId or recipeId");
     }
 
     const rows = await favoriteRepository.readSingleFavorite(userId, recipeId);
@@ -45,7 +45,7 @@ const addFavorite: RequestHandler = async (req, res, next) => {
     const recipeId = Number(req.params.recipeId);
 
     if (Number.isNaN(userId) || Number.isNaN(recipeId)) {
-      return res.status(400).send("Invalid userId or recipeId");
+      res.status(400).send("Invalid userId or recipeId");
     }
 
     const newFavorite = await favoriteRepository.createFavorite(
@@ -69,7 +69,7 @@ const removeFavorite: RequestHandler = async (req, res, next) => {
     const recipeId = Number(req.params.recipeId);
 
     if (Number.isNaN(userId) || Number.isNaN(recipeId)) {
-      return res.status(400).send("Invalid userId or recipeId");
+      res.status(400).send("Invalid userId or recipeId");
     }
 
     const updatedFavorite = await favoriteRepository.updateFavorite(
