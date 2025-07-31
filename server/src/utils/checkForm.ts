@@ -27,30 +27,6 @@ const validateRecipeForm: RequestHandler = (req, res, next) => {
     });
   }
 
-  // const allowedImageTypes = [".png", ".jpg", ".jpeg", ".webp"];
-  // const maxImageSize = 5 * 1024 * 1024;
-
-  // if (req.file) {
-  //   const fileExtension = path.extname(req.file.originalname.toLowerCase());
-
-  //   if (!allowedImageTypes.includes(fileExtension)) {
-  //     errors.push({
-  //       field: "image",
-  //       message: "Format d'image non autorisé. Utilisez PNG, JPG, JPEG ou WEBP",
-  //     });
-  //   }
-
-  //   if (req.file.size > maxImageSize) {
-  //     errors.push({
-  //       field: "image",
-  //       message: "L'image ne peut pas dépasser 5MB",
-  //     });
-  //   }
-  // } else {
-  //   const defaultImageUrl = `${process.env.SERVER_URL}/assets/images/default_dish.jpg`;
-  //   req.body.image = defaultImageUrl;
-  // }
-
   const guestNumber = Number(guest_number);
   if (!guest_number || Number.isNaN(guestNumber)) {
     errors.push({

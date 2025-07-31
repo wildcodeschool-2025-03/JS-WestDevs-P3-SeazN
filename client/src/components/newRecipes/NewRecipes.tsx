@@ -23,10 +23,6 @@ const NewRecipes = () => {
   const { user } = useAuth();
   const guestOptions = [2, 4, 6, 8, 10, 12];
 
-  // const success = () =>
-  //   toast.success("Bravo, vous avez réussi à créer une nouvelle recette 🎉");
-  // const error = () => toast.error("La création de la recette a échoué 😩");
-
   useEffect(() => {
     fetch(`${apiUrl}/api/ingredients`)
       .then((res) => res.json())
@@ -61,12 +57,10 @@ const NewRecipes = () => {
 
   const addIngredient = () => {
     try {
-      console.log("Etape 0");
       if (!selectedIngredient || !currentQuantity || !currentUnit) {
         toast.error("Tous les champs de l'ingrédient sont obligatoires");
         return;
       }
-      console.log("Etape 1");
 
       const quantity = Number(currentQuantity);
       if (Number.isNaN(quantity)) {
@@ -83,7 +77,6 @@ const NewRecipes = () => {
         toast.error("La quantité ne peut pas dépasser 5000");
         return;
       }
-      console.log("Etape 2");
       const ingredientId = availableIngredients.find(
         (ing) => ing.name === selectedIngredient,
       );
@@ -92,7 +85,6 @@ const NewRecipes = () => {
         toast.error("L'ingrédient sélectionné n'existe pas");
         return;
       }
-      console.log("Etape 3");
 
       const newIngredient = {
         id: ingredientId.id,
@@ -100,7 +92,6 @@ const NewRecipes = () => {
         quantity: currentQuantity,
         unit: currentUnit,
       };
-      console.log("Etape 4");
 
       setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
 
@@ -109,7 +100,6 @@ const NewRecipes = () => {
       setCurrentUnit("");
 
       toast.success("Ingrédient ajouté avec succès");
-      console.log("Etape 5");
     } catch (err) {
       toast.error("Erreur lors de l'ajout de l'ingrédient");
     }
@@ -135,7 +125,6 @@ const NewRecipes = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("User object:", user);
     if (!user) return;
     const formData = new FormData(e.currentTarget);
     const formObj = Object.fromEntries(formData);
@@ -194,14 +183,7 @@ const NewRecipes = () => {
         console.error("Erreur réseau:", err);
         toast.error("La création de la recette a échoué 😩");
       });
-
-    console.log("je suis la recette", formObj);
   };
-
-  // const testToast = () => {
-  //   console.log("Test toast triggered");
-  //   toast.success("Test toast!");
-  // };
 
   return (
     <article className="new-recipes">
@@ -369,11 +351,11 @@ const NewRecipes = () => {
           </div>
         </form>
       ) : (
-        <span>Veuillez vous connecter pour ajouter une recette</span>
+        <div>
+          <h2>Poster une recette</h2>
+          <span>Veuillez vous connecter pour ajouter une recette</span>
+        </div>
       )}
-      {/* <button type="button" onClick={testToast}>
-        Test Toast
-      </button> */}
     </article>
   );
 };

@@ -37,7 +37,7 @@ const imageUpload: RequestHandler = (req, res, next) => {
   uploadSingle(req, res, (err) => {
     if (err) {
       if (err.code === "LIMIT_FILE_SIZE") {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           errors: [
             {
@@ -46,9 +46,10 @@ const imageUpload: RequestHandler = (req, res, next) => {
             },
           ],
         });
+        return;
       }
       if (err.message === "INVALID_FILE_TYPE") {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           errors: [
             {
@@ -58,8 +59,9 @@ const imageUpload: RequestHandler = (req, res, next) => {
             },
           ],
         });
+        return;
       }
-      return res.status(500).json({
+      res.status(500).json({
         success: false,
         errors: [
           {
@@ -68,6 +70,7 @@ const imageUpload: RequestHandler = (req, res, next) => {
           },
         ],
       });
+      return;
     }
     next();
   });
