@@ -61,7 +61,7 @@ const browseAddedRecipesByUser: RequestHandler = async (req, res, next) => {
     const userId = Number(req.params.userId);
 
     if (Number.isNaN(userId)) {
-      return res.status(400).send("Invalid userId");
+      res.status(400).send("Invalid userId");
     }
 
     const addedRecipes = await recipesRepository.readAddedByUser(userId);
@@ -72,9 +72,25 @@ const browseAddedRecipesByUser: RequestHandler = async (req, res, next) => {
   }
 };
 
+const addRecipes: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.params.userId);
+    const newRecipes = await recipesRepository.createRecipes(req.body, userId);
+
+    if (newRecipes) {
+      res.status(201).json("Congratulations, your recipe has been added.");
+    } else {
+      res.status(404).json("There was an error while adding your recipe.");
+    }
+  } catch (err) {
+    res.status(500).json("Internal server error");
+  }
+};
+
 export default {
   browseSearchRecipes,
   browseLastRecipes,
   readRecipeDetailed,
   browseAddedRecipesByUser,
+  addRecipes,
 };

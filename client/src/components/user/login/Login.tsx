@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useAuth } from "../../../contexts/AuthContext";
 import type { LoginResponse } from "../../../types/Auth";
 import "../login/Login.css";
@@ -80,7 +80,6 @@ export default function Login({ setIsPending, isPending }: LoginProps) {
           {isPending ? "Connexion en cours..." : "Se connecter"}
         </button>
       </form>
-      <ToastContainer position="bottom-right" />
     </div>
   );
 }
