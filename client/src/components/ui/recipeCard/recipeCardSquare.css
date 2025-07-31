@@ -10,6 +10,7 @@
   margin-top: 40px;
   background-color: var(--light-primary);
   border-radius: 16px;
+  cursor: pointer;
 
   figcaption {
     min-height: 54px;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import { menuItems } from "../data/menu-Items";
 import "./sidebar.css";
 
@@ -34,18 +34,20 @@ const Sidebar = () => {
           </label>
         </div>
 
-        <div className="logo-wrapper">
-          <img
-            src="/icones-logo/N vert et orange.webp"
-            alt="Logo court"
-            className="logo-short"
-          />
-          <img
-            src="/icones-logo/logo SeazN.webp"
-            alt="Logo complet"
-            className="logo-full"
-          />
-        </div>
+        <Link to="/">
+          <div className="logo-wrapper">
+            <img
+              src="/icones-logo/N vert et orange.webp"
+              alt="Logo court"
+              className="logo-short"
+            />
+            <img
+              src="/icones-logo/logo SeazN.webp"
+              alt="Logo complet"
+              className="logo-full"
+            />
+          </div>
+        </Link>
       </section>
 
       <ul className="sidebar-menu">
@@ -66,7 +68,13 @@ const Sidebar = () => {
               <ul>
                 {subItems.map((item) => (
                   <li key={item.label}>
-                    <NavLink to={item.path}>{item.label}</NavLink>
+                    {item.path ? (
+                      <NavLink to={item.path}>{item.label}</NavLink>
+                    ) : (
+                      <NavLink to={item.path} aria-disabled>
+                        {item.label}
+                      </NavLink>
+                    )}
                   </li>
                 ))}
               </ul>
